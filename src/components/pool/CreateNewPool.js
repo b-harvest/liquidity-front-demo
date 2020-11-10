@@ -88,8 +88,8 @@ const TokenSelector = styled.select`
     border-radius: 8px;
     height: 32px;
     width: 326px;
+    font-weight: 700;
     line-height: 32px;
-    color: gray;
     border: 1px solid gray;
     margin-bottom: 20px;
     &:hover {
@@ -103,8 +103,8 @@ const DepositInput = styled.input`
     border-radius: 8px;
     height: 32px;
     width: 300px;
+    font-weight: 700;
     line-height: 32px;
-    color: gray;
     border: 1px solid gray;
 `
 const Divider = styled.div`

@@ -7,6 +7,7 @@ import {
 import BasicLayout from './components/layouts/BasicLayout'
 import PoolList from './components/pool/PoolList'
 import CreateNewPool from './components/pool/CreateNewPool'
+import Deposit from './components/pool/Deposit'
 
 const myTokenData = [
   {
@@ -41,6 +42,22 @@ const tokenList = [
   'Token Z'
 ]
 
+const poolInfo = {
+  reserveTokenX: {
+    denom: 'USDT',
+    balance: 4520,
+  },
+  reserveTokenY: {
+    denom: 'ATOM',
+    balance: 1000,
+  },
+  latestSwapPrice: {
+    XY: 0.2212,
+    YX: 0.2217
+  },
+  poolTokenSupply: 100
+}
+
 
 
 
@@ -56,6 +73,9 @@ function App() {
           </Route>
           <Route exact path="/create-new-pool">
             <CreateNewPool tokenList={tokenList} />
+          </Route>
+          <Route exact path="/deposit">
+            <Deposit tokenList={tokenList} poolInfo={poolInfo} />
           </Route>
         </Switch>
       </Router>

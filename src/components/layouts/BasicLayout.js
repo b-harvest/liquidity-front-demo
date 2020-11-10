@@ -13,6 +13,7 @@ class BasicLayout extends Component {
 
 const Layout = styled.div`
 width: 740px;
+padding-top: 120px;
 margin: 0 auto;
 text-align: center;
 `

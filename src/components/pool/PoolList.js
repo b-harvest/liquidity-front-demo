@@ -27,7 +27,7 @@ class PoolList extends Component {
                     <div>My Token</div>
                     <div>Action</div>
                 </TableHeader>
-                {this.createRows(this.props.tokenData)}
+                {this.createRows(this.props.myTokenData)}
             </PoolTable>
         )
     }
