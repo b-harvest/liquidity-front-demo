@@ -1,14 +1,25 @@
 import { Component } from 'react';
 import styled from 'styled-components';
 
-class Withdraw extends Component {
+class Swap extends Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            tokenX: props.tokenList[0],
+            tokenY: props.tokenList[1],
+        }
+
+    }
 
     // 로직 함수 시작
-    withdraw() {
-        const amountX = document.getElementById('ReserveTokenX').innerText
-        const amountY = document.getElementById('ReserveTokenY').innerText
+    swap() {
+        const tokenX = document.getElementById('tokenX').value
+        const tokenY = document.getElementById('tokenY').value
+        const amountX = document.getElementById('tokenXAmount').value
+        const amountY = document.getElementById('tokenYAmount').value
 
-        alert(`출금량\nTokenX: ${amountX}\nTokenY: ${amountY}`)
+        alert(`TokenX: ${tokenX} / ${amountX}\nTokenY: ${tokenY} / ${amountY}`)
         //여기서 작업하시면 됩니다 😄
 
     }
@@ -16,11 +27,14 @@ class Withdraw extends Component {
 
     componentDidMount() {
         setInterval(() => {
-            const myPoolTokenWidrawAmount = Number(document.getElementById('withdrawAmount').value)
-            if (myPoolTokenWidrawAmount) {
-                const myShare = myPoolTokenWidrawAmount / this.props.poolInfo.poolTokenSupply
-                document.getElementById('ReserveTokenX').innerText = this.props.poolInfo.reserveTokenX.balance * myShare
-                document.getElementById('ReserveTokenY').innerText = this.props.poolInfo.reserveTokenY.balance * myShare
+            const amountX = Number(document.getElementById('tokenXAmount').value)
+            if (amountX) {
+                const tokenShare = (amountX / this.props.poolInfo.reserveTokenX.balance).toFixed(4)
+                const curretPoolPriceYX = this.props.poolInfo.reserveTokenY.balance / this.props.poolInfo.reserveTokenX.balance
+                document.getElementById('tokenYAmount').value = amountX * curretPoolPriceYX
+                document.getElementById('poolTokenReceivable').innerText = Math.round(tokenShare * this.props.poolInfo.poolTokenSupply * 10000) / 10000
+                document.getElementById('poolTokenShare').innerText = Math.round(tokenShare * 10000) / 100 + '%'
+
             }
         }, 1000)
     }
@@ -42,21 +56,27 @@ class Withdraw extends Component {
             <div>
                 <Wrapper>
                     <CustomSection>
-                        <ReserveTokenCard>
-                            <TokenTitle>Pool Token</TokenTitle>
+                        <FromToTokenCard>
+                            <TokenTitle>From Token X</TokenTitle>
                             {/* {this.state.tokenX} {this.state.tokenY} */}
                             <TokenSelector id="tokenX">
-                                {this.createOptions(this.props.withdrawInfo.pools)}
+                                {this.createOptions(this.props.tokenList)}
                             </TokenSelector>
-                            <TokenTitle>Withdraw Amount </TokenTitle>
-                            <WithdrawInput id="withdrawAmount" placeholder="1.000"></WithdrawInput>
-                            <PoolTokenInfo>
-                                <div>Your Balance:</div>
-                                <div>{this.props.withdrawInfo.myPoolToken}</div>
-                            </PoolTokenInfo>
-                        </ReserveTokenCard>
+                            <TokenTitle>Swap Amount </TokenTitle>
+                            <SwapInput id="tokenXAmount" placeholder="1.000"></SwapInput>
+                        </FromToTokenCard>
 
+                        <Divider />
 
+                        <FromToTokenCard>
+                            <TokenTitle>To Token Y</TokenTitle>
+                            {/* {this.state.tokenX} {this.state.tokenY} */}
+                            <TokenSelector id="tokenY">
+                                {this.createOptions(this.props.tokenList)}
+                            </TokenSelector>
+                            <TokenTitle>Deposit Amount </TokenTitle>
+                            <SwapInput style={{ backgroundColor: '#efefef' }} readOnly id="tokenYAmount" placeholder="1.000"></SwapInput>
+                        </FromToTokenCard>
 
 
                     </CustomSection>
@@ -65,52 +85,61 @@ class Withdraw extends Component {
                         <PoolInfoCard>
                             <PoolInfoRow>
                                 <PoolInfoCell>
-                                    <div>Reserve Token X</div>
+                                    <div>Current Pool Price Y/X</div>
                                     <div>{`${this.props.poolInfo.reserveTokenX.balance} ${this.props.poolInfo.reserveTokenX.denom}`}</div>
                                 </PoolInfoCell>
                                 <PoolInfoCell>
-                                    <div>Reserve Token Y</div>
+                                    <div>Letest Pool Price Y/X</div>
                                     <div>{`${this.props.poolInfo.reserveTokenY.balance} ${this.props.poolInfo.reserveTokenY.denom}`}</div>
                                 </PoolInfoCell>
                             </PoolInfoRow>
                             <PoolInfoRow>
                                 <PoolInfoCell>
-                                    <div>Current Pool Price Y/X</div>
+                                    <div>Current Pool Price X/X</div>
                                     <div>{Math.round((this.props.poolInfo.reserveTokenY.balance / this.props.poolInfo.reserveTokenX.balance) * 100) / 100}</div>
                                 </PoolInfoCell>
                                 <PoolInfoCell>
-                                    <div>Latest Swap Price Y/X</div>
+                                    <div>Latest Swap Price X/Y</div>
                                     <div>{this.props.poolInfo.latestSwapPrice.YX}</div>
                                 </PoolInfoCell>
                             </PoolInfoRow>
                             <PoolInfoRow>
                                 <PoolInfoCell>
-                                    <div>Current Pool Price X/Y</div>
+                                    <div>Swap Order Price Y/X</div>
                                     <div>{Math.round((this.props.poolInfo.reserveTokenX.balance / this.props.poolInfo.reserveTokenY.balance) * 100) / 100}</div>
                                 </PoolInfoCell>
                                 <PoolInfoCell>
-                                    <div>Latest Swap Price X/Y</div>
+                                    <div>Order Price Difference</div>
                                     <div>{this.props.poolInfo.latestSwapPrice.XY}</div>
                                 </PoolInfoCell>
                             </PoolInfoRow>
                             <PoolInfoRow>
                                 <PoolInfoCell>
-                                    <div>Pool Token Supply</div>
+                                    <div>Swap Order Price X/Y</div>
                                     <div>{this.props.poolInfo.poolTokenSupply}</div>
                                 </PoolInfoCell>
                                 <PoolInfoCell>
 
                                 </PoolInfoCell>
                             </PoolInfoRow>
-                            <PoolTokenH2>{`Expected Reserve Token Receivalble`} </PoolTokenH2>
                             <PoolInfoRow>
                                 <PoolInfoCell>
-                                    <div></div>
-                                    <div id="ReserveTokenX">0</div>
+                                    <div>Expected Swap Price</div>
+                                    <div>{Math.round((this.props.poolInfo.reserveTokenX.balance / this.props.poolInfo.reserveTokenY.balance) * 100) / 100}</div>
                                 </PoolInfoCell>
                                 <PoolInfoCell>
-                                    <div></div>
-                                    <div id="ReserveTokenY">0</div>
+                                    <div>Expected Slippage</div>
+                                    <div>{this.props.poolInfo.latestSwapPrice.XY}</div>
+                                </PoolInfoCell>
+                            </PoolInfoRow>
+                            <PoolInfoRow>
+                                <PoolInfoCell>
+                                    <div>Expected Pool Fee</div>
+                                    <div>{Math.round((this.props.poolInfo.reserveTokenX.balance / this.props.poolInfo.reserveTokenY.balance) * 100) / 100}</div>
+                                </PoolInfoCell>
+                                <PoolInfoCell>
+                                    <div>Exp. Receive Token</div>
+                                    <div>{this.props.poolInfo.latestSwapPrice.XY}</div>
                                 </PoolInfoCell>
                             </PoolInfoRow>
 
@@ -119,28 +148,11 @@ class Withdraw extends Component {
 
 
                 </Wrapper>
-                <CreateNewPoolButton onClick={this.withdraw}>Withdraw</CreateNewPoolButton>
+                <CreateNewPoolButton onClick={this.deposit}>Deposit</CreateNewPoolButton>
             </div>
         )
     }
 }
-
-const PoolTokenInfo = styled.div`
-display:flex;
-margin-top: 12px;
-div {
-    display:inline-block;
-    flex: 1;
-}
-
-div:nth-child(2) {
-    color:#ffb100;
-    text-align: right;
-    padding-right: 6px;
-    font-weight: bold;
-    
-}
-`
 
 const CustomSection = styled.section`
    flex:1;
@@ -157,19 +169,12 @@ border: 1px solid gray;
 border-radius: 8px;
 text-align:left;
 padding: 20px 20px 20px 0;
-height: 350px;
 `
 const PoolInfoRow = styled.div`
 display:flex;
 margin-bottom: 20px;
 `
 
-const PoolTokenH2 = styled.div`
-padding-left: 20px;
-font-size: 12px;
-font-weight: bold;
-margin-bottom: 4px;
-`
 
 const PoolInfoCell = styled.div`
 flex: 1;
@@ -194,7 +199,7 @@ div:nth-child(2) {
 `
 
 
-const ReserveTokenCard = styled.section`
+const FromToTokenCard = styled.section`
 width: 330px;
 display:inline-block;
 border: 1px solid gray;
@@ -223,7 +228,7 @@ const TokenSelector = styled.select`
     }
 `
 
-const WithdrawInput = styled.input`
+const SwapInput = styled.input`
     padding: 0 12px;
     cursor: pointer;
     border-radius: 8px;
@@ -232,6 +237,11 @@ const WithdrawInput = styled.input`
     line-height: 32px;
     border: 1px solid gray;
     font-weight:700;
+`
+const Divider = styled.div`
+    height: 20px;
+    width: 50%;
+    border-right: 1px solid gray;
 `
 
 const CreateNewPoolButton = styled.div`
@@ -247,4 +257,4 @@ background-color: #ffb100;
 `
 
 
-export default Withdraw
+export default Swap

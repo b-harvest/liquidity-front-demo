@@ -9,6 +9,7 @@ import PoolList from './components/pool/PoolList'
 import CreateNewPool from './components/pool/CreateNewPool'
 import Deposit from './components/pool/Deposit'
 import Withdraw from './components/pool/Withdraw'
+import Swap from './components/pool/Swap'
 
 const myTokenData = [
   {
@@ -68,8 +69,8 @@ const withdrawInfo = {
 
 
 
-
 function App() {
+
   return (
     <BasicLayout>
       <Router>
@@ -85,6 +86,9 @@ function App() {
           </Route>
           <Route exact path="/withdraw">
             <Withdraw tokenList={tokenList} withdrawInfo={withdrawInfo} poolInfo={poolInfo} />
+          </Route>
+          <Route exact path="/swap">
+            <Swap tokenList={tokenList} poolInfo={poolInfo} />
           </Route>
         </Switch>
       </Router>

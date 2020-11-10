@@ -18,7 +18,7 @@ class CreateNewPool extends Component {
         const tokenY = document.getElementById('tokenY').value
         const amountX = document.getElementById('tokenXAmount').value
         const amountY = document.getElementById('tokenYAmount').value
-
+        
         alert(`TokenX: ${tokenX} / ${amountX}\nTokenY: ${tokenY} / ${amountY}`)
         //여기서 작업하시면 됩니다 😄
 
