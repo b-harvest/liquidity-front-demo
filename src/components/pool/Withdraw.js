@@ -5,8 +5,8 @@ class Withdraw extends Component {
 
     // 로직 함수 시작
     withdraw() {
-        const amountX = document.getElementById('ReserveTokenX').value
-        const amountY = document.getElementById('ReserveTokenY').value
+        const amountX = document.getElementById('ReserveTokenX').innerText
+        const amountY = document.getElementById('ReserveTokenY').innerText
 
         alert(`출금량\nTokenX: ${amountX}\nTokenY: ${amountY}`)
         //여기서 작업하시면 됩니다 😄
