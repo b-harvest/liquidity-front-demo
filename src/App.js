@@ -8,6 +8,7 @@ import BasicLayout from './components/layouts/BasicLayout'
 import PoolList from './components/pool/PoolList'
 import CreateNewPool from './components/pool/CreateNewPool'
 import Deposit from './components/pool/Deposit'
+import Withdraw from './components/pool/Withdraw'
 
 const myTokenData = [
   {
@@ -58,6 +59,11 @@ const poolInfo = {
   poolTokenSupply: 100
 }
 
+const withdrawInfo = {
+  pools: ['ATOM-USDT', "ATOM-USDC"],
+  myPoolToken: 10
+}
+
 
 
 
@@ -76,6 +82,9 @@ function App() {
           </Route>
           <Route exact path="/deposit">
             <Deposit tokenList={tokenList} poolInfo={poolInfo} />
+          </Route>
+          <Route exact path="/withdraw">
+            <Withdraw tokenList={tokenList} withdrawInfo={withdrawInfo} poolInfo={poolInfo} />
           </Route>
         </Switch>
       </Router>
