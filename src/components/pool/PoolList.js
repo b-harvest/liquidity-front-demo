@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import styled from 'styled-components';
 
-class DepositTable extends Component {
+class PoolList extends Component {
 
     createRows(data) {
         return (
@@ -68,4 +68,4 @@ const TableHeader = styled(Row)`
 `
 
 
-export default DepositTable
+export default PoolList

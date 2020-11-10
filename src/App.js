@@ -5,10 +5,10 @@ import {
   // Link
 } from "react-router-dom";
 import BasicLayout from './components/layouts/BasicLayout'
-import Deposit from './components/pool/Deposit'
+import PoolList from './components/pool/PoolList'
+import CreateNewPool from './components/pool/CreateNewPool'
 
-
-const tokenData = [
+const myTokenData = [
   {
     reserveOne: 'TKNA',
     reserveTwo: 'TKNB',
@@ -35,6 +35,13 @@ const tokenData = [
   }
 ]
 
+const tokenList = [
+  'Token X',
+  'Token Y',
+  'Token Z'
+]
+
+
 
 
 
@@ -45,7 +52,10 @@ function App() {
       <Router>
         <Switch>
           <Route exact path="/">
-            <Deposit tokenData={tokenData} />
+            <PoolList myTokenData={myTokenData} />
+          </Route>
+          <Route exact path="/create-new-pool">
+            <CreateNewPool tokenList={tokenList} />
           </Route>
         </Switch>
       </Router>
