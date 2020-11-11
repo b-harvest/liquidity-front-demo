@@ -1,85 +1,71 @@
 import { Component } from 'react';
 import styled from 'styled-components';
-import { SigningCosmosClient } from '@cosmjs/launchpad'
+import Axios from "axios";
+import { action, observable } from "mobx";
+import { actionAsync, task } from "mobx-utils";
+import { GaiaApi } from "@chainapsis/cosmosjs/gaia/api";
+import { Coin } from "@chainapsis/cosmosjs/common/coin";
+import { chainInfo } from "../config"
 
 class BasicLayout extends Component {
     constructor(props) {
         super(props);
         this.state = {};
     }
+
     componentDidMount() {
         window.onload = async () => {
-            if (!window.getOfflineSigner || !window.keplr) {
-                alert("Please install keplr extension");
-            } else {
-                if (window.keplr.experimentalSuggestChain) {
-                    try {
-                        await window.keplr.experimentalSuggestChain({
-                            chainId: "HarvestAMM",
-                            chainName: "HarvestAMM",
-                            rpc: "https://dev.bharvest.io/rpc",
-                            rest: "https://dev.bharvest.io/rest",
-                            stakeCurrency: {
-                                coinDenom: "stake",
-                                coinMinimalDenom: "ustake",
-                                coinDecimals: 6,
-                            },
-                            bip44: {
-                                coinType: 118,
-                            },
-                            bech32Config: {
-                                bech32PrefixAccAddr: "cosmos",
-                                bech32PrefixAccPub: "cosmospub",
-                                bech32PrefixValAddr: "cosmosvaloper",
-                                bech32PrefixValPub: "cosmosvaloperpub",
-                                bech32PrefixConsAddr: "cosmosvalcons",
-                                bech32PrefixConsPub: "cosmosvalconspub"
-                            },
-                            currencies: [{
-                                coinDenom: "stake",
-                                coinMinimalDenom: "ustake",
-                                coinDecimals: 6,
-                            }],
-                            feeCurrencies: [{
-                                coinDenom: "stake",
-                                coinMinimalDenom: "ustake",
-                                coinDecimals: 6,
-                            }],
-                            coinType: 118,
-                            gasPriceStep: {
-                                low: 0.01,
-                                average: 0.025,
-                                high: 0.04
-                            }
-                        });
-                    } catch {
-                        alert("Failed to suggest the chain");
-                    }
-                } else {
-                    alert("Please use the recent version of keplr extension");
-                }
-                const chainId = "HarvestAMM";
-        
-                await window.keplr.enable(chainId);
-            
-                const offlineSigner = window.getOfflineSigner(chainId);
-            
-                const accounts = await offlineSigner.getAccounts();
-            
-                const cosmJS = new SigningCosmosClient(
-                    "https://dev.bharvest.io/rest",
-                    accounts[0].address,
-                    offlineSigner,
-                );
-            
-                this.setState({ 
-                    cosmJS,
-                    address: accounts[0].address, 
-                });
+            if (!window.cosmosJSWalletProvider) {
+                alert("Please install the Keplr extension");
+                return;
             }
-        
+          
+            if (!window.keplr?.experimentalSuggestChain) {
+                alert("Please use the latest version of Keplr extension");
+                return;
+            } 
+            
+            await window.keplr.experimentalSuggestChain(chainInfo);
+            
+            const cosmosJS = new GaiaApi({
+                chainId: chainInfo.chainId,
+                rpc: chainInfo.rpc,
+                rest: chainInfo.rest,
+                walletProvider: window.cosmosJSWalletProvider
+            });
+            
+            await cosmosJS.enable();
+
+            const keys = await cosmosJS.getKeys();
+            
+            if (keys.length === 0) {
+                throw new Error("there is no key");
+            }
+            this.bech32Address = keys[0].bech32Address;
+
+            const restInstance = Axios.create({
+                baseURL: chainInfo.rest
+            });
+
+            const result = await restInstance.get(`/bank/balances/${this.bech32Address}`)
+            console.log(result)
+            if (result.status !== 200) {
+                throw new Error(result.statusText);
+            }
+            const assets = [];
+            for (const asset of result.data.result) {
+                const coin = new Coin(asset.denom, asset.amount);
+                assets.push(coin);
+            }
+
+            this.setState({ 
+                cosmosJS,
+                address: this.bech32Address, 
+                assets
+            });
         };
     }
+
     render() {
         return (
             <Layout>
