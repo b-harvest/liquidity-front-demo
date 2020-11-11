@@ -3,14 +3,24 @@ import { defaultBech32Config } from "@chainapsis/cosmosjs/core/bech32Config";
 export const currencies = [
   {
     coinDenom: "SCRT",
-    coinMinimalDenom: "scrt",
+    coinMinimalDenom: "uscrt",
     coinDecimals: 6
   },
   {
     coinDenom: "ATOM",
-    coinMinimalDenom: "atom",
+    coinMinimalDenom: "uatom",
     coinDecimals: 6
-  }
+  },
+  {
+    coinDenom: "IRIS",
+    coinMinimalDenom: "uiris",
+    coinDecimals: 6
+  },
+  {
+    coinDenom: "AMM",
+    coinMinimalDenom: "uamm",
+    coinDecimals: 6
+  },
 ];
 
 export const stakingCurrency = {
@@ -33,7 +43,7 @@ export const chainInfo = {
   feeCurrencies: [
     {
       coinDenom: "STAKE",
-      coinMinimalDenom: "ustake",
+      coinMinimalDenom: "stake",
       coinDecimals: 6
     }
   ],
