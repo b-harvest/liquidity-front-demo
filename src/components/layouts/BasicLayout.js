@@ -1,10 +1,6 @@
 import { Component } from 'react';
 import styled from 'styled-components';
-import Axios from "axios";
-import { action, observable } from "mobx";
-import { actionAsync, task } from "mobx-utils";
 import { GaiaApi } from "@chainapsis/cosmosjs/gaia/api";
-import { Coin } from "@chainapsis/cosmosjs/common/coin";
 import { chainInfo } from "../config"
 
 class BasicLayout extends Component {
@@ -43,25 +39,9 @@ class BasicLayout extends Component {
             }
             this.bech32Address = keys[0].bech32Address;
 
-            const restInstance = Axios.create({
-                baseURL: chainInfo.rest
-            });
-
-            const result = await restInstance.get(`/bank/balances/${this.bech32Address}`)
-            console.log(result)
-            if (result.status !== 200) {
-                throw new Error(result.statusText);
-            }
-            const assets = [];
-            for (const asset of result.data.result) {
-                const coin = new Coin(asset.denom, asset.amount);
-                assets.push(coin);
-            }
-
             this.setState({ 
                 cosmosJS,
                 address: this.bech32Address, 
-                assets
             });
         };
     }
