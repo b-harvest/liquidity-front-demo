@@ -58,7 +58,8 @@ class BasicLayout extends Component {
                     <a href="/withdraw">Withdraw</a>
                     <a href="/swap">Swap</a>
                 </Header>
-                {this.state.address}
+                <h1 style={{ marginTop: "0px" }}>POOL LIST</h1>
+                <div style={{ margin: '10px 0 40px' }}>My Address : {this.state.address}</div>
                 {this.props.children}
             </Layout>)
     }
@@ -77,15 +78,17 @@ width: 100%;
 position:fixed;
 top: 0;
 left:0;
-background-color:#06031b;
+background-color:#252734;
+-webkit-box-shadow: 0px 5px 11px -1px #252734; 
+box-shadow: 0px 5px 11px -1px #252734;
 
 a {
     text-decoration: none;
-    color: #fff;
+    color: #ffaf29;
     width: 160px;
     display:inline-block;
     margin-top: 18px;
-    border: 1px solid #fff;
+    border: 1px solid #ffaf29;
     padding: 12px;
     &:not(:last-child) {
         margin-right: 8px;
