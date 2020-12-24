@@ -11,22 +11,78 @@ class PoolList extends Component {
     }
 
     componentDidMount() {
-        Axios.get('https://dev.bharvest.io/rest/liquidity/pools').then(response => {
-            let poolListData = response.data.pools
+        Axios.get('https://dev.bharvest.io/rest/liquidity/pools')
+            .then(response => {
+                const poolListData = response.data.pools
 
-            Axios.get(`https://dev.bharvest.io/rest/bank/balances/${localStorage.getItem('walletAddress')}`).then(response => {
-                console.table('wallet own tokens', response.data.result)
-                this.setState({ poolData: poolListData })
-                console.log('poolList', this.state.poolData)
+                Axios.get(`https://dev.bharvest.io/rest/bank/balances/${localStorage.getItem('walletAddress')}`)
+                    .then(response => {
+                        const walletTokens = response.data.result
+                        const result = setWallettokenDataToPoolListData(poolListData, walletTokens)
+
+                        console.log("TEST:result", result)
+
+                        this.setState({ poolData: result })
+                        // this.setState({ poolData: result })
+                        console.log('poolList', this.state.poolData)
+                        console.log('walletTokens', walletTokens)
+                    }).catch(error => {
+                        console.error('getWalletTokenData', error)
+                    })
+
             }).catch(error => {
-                console.log('getPoolListError', error)
+                console.error('getPoolList', error)
             })
 
 
+        //helper
+        function setWallettokenDataToPoolListData(poolListData, walletTokens) {
+            let pd = [...poolListData]
+            const wt = walletTokens
 
-        }).catch(error => {
-            console.log('getPoolListError', error)
-        })
+            pd.forEach((pool, index) => {
+                let poolTokenTotalSupply;
+                let myPoolTokenAmount;
+                let myPoolTokenRatio;
+
+                wt.some(isToken)
+                function isToken(td) {
+                    if (pool.liquidity_pool.pool_coin_denom === td.denom) {
+                        poolTokenTotalSupply = pool.liquidity_pool_metadata.pool_coin_total_supply.amount
+                        myPoolTokenAmount = td.amount
+                        myPoolTokenRatio = (myPoolTokenAmount / poolTokenTotalSupply)
+                        console.log(`
+                            PoolTokendenom : ${td.denom}
+                            myPoolTokenAmount : ${myPoolTokenAmount}
+                            poolTokenTotalSupply : ${poolTokenTotalSupply}
+                            ratio : ${myPoolTokenRatio}
+                            `)
+                        // pd[index].liquidity_pool.reserve_coin_denoms[denomIndex] = `${td.amount / 1000000}${denom}`
+                        return true
+                    }
+                }
+            });
+            return pd
+        }
+
+        //helper
+        // function setWallettokenDataToPoolListData(poolListData, walletTokens) {
+        //     let pd = [...poolListData]
+        //     const wt = walletTokens
+
+        //     pd.forEach((pool, index) => {
+        //         pool.liquidity_pool.reserve_coin_denoms.forEach((denom, denomIndex) => {
+        //             wt.some(isToken)
+        //             function isToken(td) {
+        //                 if (td.denom === denom) {
+        //                     pd[index].liquidity_pool.reserve_coin_denoms[denomIndex] = `${td.amount / 1000000}${denom}`
+        //                     return true
+        //                 }
+        //             }
+        //         })
+        //     });
+        //     return pd
+        // }
 
 
 
