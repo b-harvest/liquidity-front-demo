@@ -1,0 +1,33 @@
+{
+    "body": {
+        "messages": [
+            {
+                "@type": "/tendermint.liquidity.MsgSwap",
+                "swap_requester_address": "cosmos1hug5p0yz8knk25npm65y0ktaf6zrk8glmanr0q",
+                "pool_id": "2",
+                "pool_type_index": 1,
+                "swap_type": 1,
+                "offer_coin": {
+                    "denom": "uiris",
+                    "amount": "1000"
+                },
+                "demand_coin_denom": "uatom",
+                "order_price": "1.150000000000000000"
+            }
+        ],
+        "memo": "",
+        "timeout_height": "0",
+        "extension_options": [],
+        "non_critical_extension_options": []
+    },
+    "auth_info": {
+        "signer_infos": [],
+        "fee": {
+            "amount": [],
+            "gas_limit": "200000",
+            "payer": "",
+            "granter": ""
+        }
+    },
+    "signatures": []
+}

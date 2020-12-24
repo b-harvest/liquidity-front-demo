@@ -9,6 +9,7 @@
     "@testing-library/react": "^11.1.1",
     "@testing-library/user-event": "^12.2.0",
     "axios": "^0.21.1",
+    "google-protobuf": "^3.14.0",
     "install": "^0.13.0",
     "mobx": "^5.15.0",
     "mobx-task": "^2.0.1",
@@ -25,7 +26,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "proto-build": "protoc -I=./src/proto -I=./src/third_party/proto --js_out=import_style=commonjs,binary:./src/proto-js ./src/third_party/proto/protoc-gen-openapiv2/options/openapiv2.proto"
   },
   "eslintConfig": {
     "extends": [
