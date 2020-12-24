@@ -15,33 +15,35 @@ class BasicLayout extends Component {
                 alert("Please install the Keplr extension");
                 return;
             }
-          
+
             if (!window.keplr?.experimentalSuggestChain) {
                 alert("Please use the latest version of Keplr extension");
                 return;
-            } 
-            
+            }
+
             await window.keplr.experimentalSuggestChain(chainInfo);
-            
+
             const cosmosJS = new GaiaApi({
                 chainId: chainInfo.chainId,
                 rpc: chainInfo.rpc,
                 rest: chainInfo.rest,
                 walletProvider: window.cosmosJSWalletProvider
             });
-            
+
             await cosmosJS.enable();
 
             const keys = await cosmosJS.getKeys();
-            
+
             if (keys.length === 0) {
                 throw new Error("there is no key");
             }
             this.bech32Address = keys[0].bech32Address;
 
-            this.setState({ 
+            localStorage.setItem('walletAddress', this.bech32Address)
+
+            this.setState({
                 cosmosJS,
-                address: this.bech32Address, 
+                address: this.bech32Address,
             });
         };
     }

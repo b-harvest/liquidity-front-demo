@@ -12,18 +12,29 @@ class PoolList extends Component {
 
     componentDidMount() {
         Axios.get('https://dev.bharvest.io/rest/liquidity/pools').then(response => {
+            let poolListData = response.data.pools
 
-            this.setState({ poolData: response.data.pools })
-            console.log('poolList', this.state.poolData)
+            Axios.get(`https://dev.bharvest.io/rest/bank/balances/${localStorage.getItem('walletAddress')}`).then(response => {
+                console.table('wallet own tokens', response.data.result)
+                this.setState({ poolData: poolListData })
+                console.log('poolList', this.state.poolData)
+            }).catch(error => {
+                console.log('getPoolListError', error)
+            })
+
+
+
         }).catch(error => {
             console.log('getPoolListError', error)
         })
+
+
 
     }
 
     createRows(data) {
         if (data === null) {
-            return (<div>LOADING</div>)
+            return (<div></div>)
         } else {
             return (
                 data.map((item, index) => {
