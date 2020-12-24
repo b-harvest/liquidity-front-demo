@@ -20,10 +20,7 @@ class PoolList extends Component {
                         const walletTokens = response.data.result
                         const result = setWallettokenDataToPoolListData(poolListData, walletTokens)
 
-                        console.log("TEST:result", result)
-
                         this.setState({ poolData: result })
-                        // this.setState({ poolData: result })
                         console.log('poolList', this.state.poolData)
                         console.log('walletTokens', walletTokens)
                     }).catch(error => {
@@ -45,8 +42,24 @@ class PoolList extends Component {
                 let myPoolTokenAmount;
                 let myPoolTokenRatio;
 
-                wt.some(isToken)
-                function isToken(td) {
+                wt.some(isPoolToken)
+                pool.myPoolToken = {
+                    balance: myPoolTokenRatio,
+                    denom: 'ea'
+                }
+
+                pool.liquidity_pool.reserve_coin_denoms.forEach((denom, denomIndex) => {
+                    wt.some(isReserveToken)
+
+                    function isReserveToken(td) {
+                        if (td.denom === denom) {
+                            pd[index].liquidity_pool.reserve_coin_denoms[denomIndex] = `${td.amount / 1000000 * myPoolTokenRatio}${denom}`
+                            return true
+                        }
+                    }
+                })
+
+                function isPoolToken(td) {
                     if (pool.liquidity_pool.pool_coin_denom === td.denom) {
                         poolTokenTotalSupply = pool.liquidity_pool_metadata.pool_coin_total_supply.amount
                         myPoolTokenAmount = td.amount
@@ -57,35 +70,12 @@ class PoolList extends Component {
                             poolTokenTotalSupply : ${poolTokenTotalSupply}
                             ratio : ${myPoolTokenRatio}
                             `)
-                        // pd[index].liquidity_pool.reserve_coin_denoms[denomIndex] = `${td.amount / 1000000}${denom}`
                         return true
                     }
                 }
             });
             return pd
         }
-
-        //helper
-        // function setWallettokenDataToPoolListData(poolListData, walletTokens) {
-        //     let pd = [...poolListData]
-        //     const wt = walletTokens
-
-        //     pd.forEach((pool, index) => {
-        //         pool.liquidity_pool.reserve_coin_denoms.forEach((denom, denomIndex) => {
-        //             wt.some(isToken)
-        //             function isToken(td) {
-        //                 if (td.denom === denom) {
-        //                     pd[index].liquidity_pool.reserve_coin_denoms[denomIndex] = `${td.amount / 1000000}${denom}`
-        //                     return true
-        //                 }
-        //             }
-        //         })
-        //     });
-        //     return pd
-        // }
-
-
-
     }
 
     createRows(data) {
@@ -99,7 +89,7 @@ class PoolList extends Component {
                         <Row key={index}>
                             <div>{item.liquidity_pool.reserve_coin_denoms[0]}</div>
                             <div>{item.liquidity_pool.reserve_coin_denoms[1]}</div>
-                            <div>{item.myToken ? `${item.myToken.balance} (${item.myToken.percentage}%)` : '-'}</div>
+                            <div>{item.myPoolToken ? `${item.myPoolToken.balance}${item.myPoolToken.denom}` : '-'}</div>
                             <div>SOON </div>
                         </Row>)
                 })
