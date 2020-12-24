@@ -61,7 +61,7 @@ class PoolList extends Component {
                                 }
                             }
 
-                            pd[index].liquidity_pool.reserve_coin_denoms[denomIndex] = `${reserveTokenAmount / 1000000 * myPoolTokenRatio}${denom}`
+                            pd[index].liquidity_pool.reserve_coin_denoms[denomIndex] = `${reserveTokenAmount / 1000000 * myPoolTokenRatio}${denom.substr(1)}`
                             return true
                         }
                     }
