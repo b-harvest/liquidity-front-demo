@@ -2,6 +2,16 @@ import { defaultBech32Config } from "@chainapsis/cosmosjs/core/bech32Config";
 
 export const currencies = [
   {
+    coinDenom: "ATOM/AMMpooltocken",
+    coinMinimalDenom: "cosmos1gph6pt8ymatjdc8vgtg5w20704u5ym08hpz020",
+    coinDecimals: 6
+  },
+  {
+    coinDenom: "ATOM/IRISpooltocken",
+    coinMinimalDenom: "cosmos1a0ruh6svwn893vfpzemv4f7mkvs5at8p333ade",
+    coinDecimals: 6
+  },
+  {
     coinDenom: "SCRT",
     coinMinimalDenom: "uscrt",
     coinDecimals: 6
