@@ -4,6 +4,7 @@ import {
   Route,
   // Link
 } from "react-router-dom";
+import axios from 'axios';
 import BasicLayout from './components/layouts/BasicLayout'
 import PoolList from './components/pool/PoolList'
 import CreateNewPool from './components/pool/CreateNewPool'
