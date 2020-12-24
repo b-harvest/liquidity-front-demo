@@ -45,7 +45,7 @@ class PoolList extends Component {
                 wt.some(isPoolToken)
                 pool.myPoolToken = {
                     balance: myPoolTokenRatio,
-                    denom: 'ea'
+                    denom: '%'
                 }
 
                 pool.liquidity_pool.reserve_coin_denoms.forEach((denom, denomIndex) => {
@@ -53,7 +53,15 @@ class PoolList extends Component {
 
                     function isReserveToken(td) {
                         if (td.denom === denom) {
-                            pd[index].liquidity_pool.reserve_coin_denoms[denomIndex] = `${td.amount / 1000000 * myPoolTokenRatio}${denom}`
+                            let reserveTokenAmount;
+
+                            for (let tokenInfo of pd[index].liquidity_pool_metadata.reserve_coins) {
+                                if (tokenInfo.denom === denom) {
+                                    reserveTokenAmount = tokenInfo.amount
+                                }
+                            }
+
+                            pd[index].liquidity_pool.reserve_coin_denoms[denomIndex] = `${reserveTokenAmount / 1000000 * myPoolTokenRatio}${denom}`
                             return true
                         }
                     }
@@ -89,7 +97,7 @@ class PoolList extends Component {
                         <Row key={index}>
                             <div>{item.liquidity_pool.reserve_coin_denoms[0]}</div>
                             <div>{item.liquidity_pool.reserve_coin_denoms[1]}</div>
-                            <div>{item.myPoolToken ? `${item.myPoolToken.balance}${item.myPoolToken.denom}` : '-'}</div>
+                            <div>{item.myPoolToken ? `${item.myPoolToken.balance * 100}${item.myPoolToken.denom}` : '-'}</div>
                             <div>SOON </div>
                         </Row>)
                 })
