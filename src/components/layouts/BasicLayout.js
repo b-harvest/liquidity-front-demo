@@ -58,8 +58,8 @@ class BasicLayout extends Component {
                     <a href="/withdraw">Withdraw</a>
                     <a href="/swap">Swap</a>
                 </Header>
-                <h1 style={{ marginTop: "0px" }}>POOL LIST</h1>
-                <div style={{ margin: '10px 0 40px' }}>My Address : {this.state.address}</div>
+                <h1 style={{ marginTop: "0px" }}>{window.location.pathname.length > 2 ? window.location.pathname.substr(1).toUpperCase().replaceAll('-', ' ') : 'POOL LIST'}</h1>
+                <div style={{ margin: '10px 0 40px', height: '18px' }}>{this.state.address ? `My Address : ${this.state.address}` : ''} </div>
                 {this.props.children}
             </Layout>)
     }
