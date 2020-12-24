@@ -1,21 +1,43 @@
+import Axios from 'axios';
 import { Component } from 'react';
 import styled from 'styled-components';
 
 class PoolList extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            poolData: null,
+        };
+    }
+
+    componentDidMount() {
+        Axios.get('https://dev.bharvest.io/rest/liquidity/pools').then(response => {
+
+            this.setState({ poolData: response.data.pools })
+            console.log('poolList', this.state.poolData)
+        }).catch(error => {
+            console.log('getPoolListError', error)
+        })
+
+    }
 
     createRows(data) {
-        return (
-            data.map((item, index) => {
-                console.log(item.id)
-                return (
-                    <Row key={index}>
-                        <div>{item.reserveOne}</div>
-                        <div>{item.reserveTwo}</div>
-                        <div>{item.myToken ? `${item.myToken.balance} (${item.myToken.percentage}%)` : '-'}</div>
-                        <div>SOON </div>
-                    </Row>)
-            })
-        )
+        if (data === null) {
+            return (<div>LOADING</div>)
+        } else {
+            return (
+                data.map((item, index) => {
+
+                    return (
+                        <Row key={index}>
+                            <div>{item.liquidity_pool.reserve_coin_denoms[0]}</div>
+                            <div>{item.liquidity_pool.reserve_coin_denoms[1]}</div>
+                            <div>{item.myToken ? `${item.myToken.balance} (${item.myToken.percentage}%)` : '-'}</div>
+                            <div>SOON </div>
+                        </Row>)
+                })
+            )
+        }
     }
 
     render() {
@@ -27,7 +49,7 @@ class PoolList extends Component {
                     <div>My Token</div>
                     <div>Action</div>
                 </TableHeader>
-                {this.createRows(this.props.myTokenData)}
+                {this.createRows(this.state.poolData)}
             </PoolTable>
         )
     }
