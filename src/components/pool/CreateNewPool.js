@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import styled from 'styled-components';
+const { SigningCosmosClient ,coins,coin} = require("@cosmjs/launchpad");
 
 class CreateNewPool extends Component {
 
@@ -16,10 +17,57 @@ class CreateNewPool extends Component {
     createPool() {
         const tokenX = document.getElementById('tokenX').value
         const tokenY = document.getElementById('tokenY').value
-        const amountX = document.getElementById('tokenXAmount').value
-        const amountY = document.getElementById('tokenYAmount').value
+        let amountX = document.getElementById('tokenXAmount').value
+        let amountY = document.getElementById('tokenYAmount').value
         
         alert(`TokenX: ${tokenX} / ${amountX}\nTokenY: ${tokenY} / ${amountY}`)
+        amountX *= 1000000;
+        amountX = Math.floor(amountX);
+        
+        amountY *= 1000000;
+        console.log(amountY);
+        amountY = Math.floor(amountY);
+        console.log(amountY);
+        (async () => {
+            // See above.
+            const chainId = "HarvestAMM";
+            await window.keplr.enable(chainId);
+            const offlineSigner = window.getOfflineSigner(chainId);
+    
+            const accounts = await offlineSigner.getAccounts();
+    
+            // Initialize the gaia api with the offline signer that is injected by Keplr extension.
+            const cosmJS = new SigningCosmosClient(
+                "https://dev.bharvest.io/rest/",
+                accounts[0].address,
+                offlineSigner
+            );
+            const MsgCreateLiquidityPool = {
+                type: "liquidity/MsgCreateLiquidityPool",
+                value: {
+                  pool_creator_address: accounts[0].address,
+                  pool_type_index: 1,
+                  reserve_coin_denoms: ["uiris", "uscrt"],
+                  deposit_coins: [coin(100000000, "uiris"),coin(100000000, "uscrt")]
+                },
+              };
+            const fee = {
+                amount: coins(2000, "uatom"),
+                gas: "180000", 
+              };
+            console.log(MsgCreateLiquidityPool);
+            const result2 = await cosmJS.signAndBroadcast([MsgCreateLiquidityPool],fee)
+
+            console.log(result2);
+    
+            if (result2.code !== undefined &&
+                result2.code !== 0) {
+                alert("Failed to send tx: " + result2.log || result2.rawLog);
+            } else {
+                alert("Succeed to send tx");
+            }
+        })();
+
         //여기서 작업하시면 됩니다 😄
 
     }

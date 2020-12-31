@@ -52,8 +52,8 @@ export const chainInfo = {
   currencies: [stakingCurrency].concat(currencies),
   feeCurrencies: [
     {
-      coinDenom: "STAKE",
-      coinMinimalDenom: "stake",
+      coinDenom: "ATOM",
+      coinMinimalDenom: "uatom",
       coinDecimals: 6
     }
   ],

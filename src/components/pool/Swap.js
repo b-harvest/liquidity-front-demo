@@ -148,7 +148,7 @@ class Swap extends Component {
 
 
                 </Wrapper>
-                <CreateNewPoolButton onClick={this.deposit}>Deposit</CreateNewPoolButton>
+                <CreateNewPoolButton onClick={this.swap}>Swap</CreateNewPoolButton>
             </div>
         )
     }

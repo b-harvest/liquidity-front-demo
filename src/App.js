@@ -41,9 +41,10 @@ const myTokenData = [
 ]
 
 const tokenList = [
-  'Token X',
-  'Token Y',
-  'Token Z'
+  'ATOM',
+  'IRIS',
+  'SCRT',
+  'AMM'
 ]
 
 const poolInfo = {
