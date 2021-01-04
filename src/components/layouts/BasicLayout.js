@@ -2,6 +2,7 @@ import { Component } from 'react';
 import styled from 'styled-components';
 import { GaiaApi } from "@chainapsis/cosmosjs/gaia/api";
 import { chainInfo } from "../config"
+import Axios from 'axios';
 
 class BasicLayout extends Component {
     constructor(props) {
@@ -46,6 +47,27 @@ class BasicLayout extends Component {
                 address: this.bech32Address,
             });
         };
+
+        // axios({
+        //     method: 'get',
+        //     url: 'https://dev.bharvest.io/faucet?address=cosmos1z36q8ddla8zmjyaxmdwpzlj3srwe45d8pzc2ug',
+
+        // }).then((res) => console.log("성공", res)).catch((e) => {
+        //     console.log(e)
+        // }
+        // )
+
+        const test = async () => {
+            // console.log(window.keplr.getKey())
+            try {
+                const response = await Axios.get('https://dev.bharvest.io/faucet/?address=cosmos1z36q8ddla8zmjyaxmdwpzlj3srwe45d8pzc2ug')
+                console.log('response', response)
+            } catch (error) {
+                console.error("getPoolList", error)
+            }
+        }
+        test()
+
     }
 
 
@@ -99,8 +121,8 @@ class BasicLayout extends Component {
                 </Header>
                 <h1 style={{ marginTop: "0px" }}>{window.location.pathname.length > 2 ? window.location.pathname.substr(1).toUpperCase().replaceAll('-', ' ') : 'POOL LIST'}</h1>
                 <div style={{ margin: '10px 0 40px', height: '18px' }}>{this.state.address ? `My Address : ${this.state.address}` : ''} </div>
-                {this.props.children}
-            </Layout>)
+                { this.props.children}
+            </Layout >)
     }
 }
 
