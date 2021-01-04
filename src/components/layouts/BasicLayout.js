@@ -9,43 +9,41 @@ class BasicLayout extends Component {
         this.state = {};
     }
 
-    componentDidMount() {
-        window.onload = async () => {
-            if (!window.cosmosJSWalletProvider) {
-                alert("Please install the Keplr extension");
-                return;
-            }
+    async connectWallet() {
+        if (!window.cosmosJSWalletProvider) {
+            alert("Please install the Keplr extension");
+            return;
+        }
 
-            if (!window.keplr?.experimentalSuggestChain) {
-                alert("Please use the latest version of Keplr extension");
-                return;
-            }
+        if (!window.keplr?.experimentalSuggestChain) {
+            alert("Please use the latest version of Keplr extension");
+            return;
+        }
 
-            await window.keplr.experimentalSuggestChain(chainInfo);
+        await window.keplr.experimentalSuggestChain(chainInfo);
 
-            const cosmosJS = new GaiaApi({
-                chainId: chainInfo.chainId,
-                rpc: chainInfo.rpc,
-                rest: chainInfo.rest,
-                walletProvider: window.cosmosJSWalletProvider
-            });
+        const cosmosJS = new GaiaApi({
+            chainId: chainInfo.chainId,
+            rpc: chainInfo.rpc,
+            rest: chainInfo.rest,
+            walletProvider: window.cosmosJSWalletProvider
+        });
 
-            await cosmosJS.enable();
+        await cosmosJS.enable();
 
-            const keys = await cosmosJS.getKeys();
+        const keys = await cosmosJS.getKeys();
 
-            if (keys.length === 0) {
-                throw new Error("there is no key");
-            }
-            this.bech32Address = keys[0].bech32Address;
+        if (keys.length === 0) {
+            throw new Error("there is no key");
+        }
+        this.bech32Address = keys[0].bech32Address;
 
-            localStorage.setItem('walletAddress', this.bech32Address)
+        localStorage.setItem('walletAddress', this.bech32Address)
 
-            this.setState({
-                cosmosJS,
-                address: this.bech32Address,
-            });
-        };
+        this.setState({
+            cosmosJS,
+            address: this.bech32Address,
+        });
     }
 
     render() {
@@ -57,6 +55,7 @@ class BasicLayout extends Component {
                     <a href="/deposit">Deposit</a>
                     <a href="/withdraw">Withdraw</a>
                     <a href="/swap">Swap</a>
+                    <a onClick={this.connectWallet}>연결</a>
                 </Header>
                 <h1 style={{ marginTop: "0px" }}>{window.location.pathname.length > 2 ? window.location.pathname.substr(1).toUpperCase().replaceAll('-', ' ') : 'POOL LIST'}</h1>
                 <div style={{ margin: '10px 0 40px', height: '18px' }}>{this.state.address ? `My Address : ${this.state.address}` : ''} </div>

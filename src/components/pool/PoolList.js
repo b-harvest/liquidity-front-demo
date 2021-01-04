@@ -14,66 +14,14 @@ class PoolList extends Component {
     componentDidMount() {
         (async () => {
             const poolList = await getPoolList()
-            const walletTokenList = await getWalletTokenList()
+            // const walletTokenList = await getWalletTokenList()
 
-            const result = setWallettokenDataToPoolListData(poolList, walletTokenList)
-            this.setState({ poolData: result })
+            this.setState({ poolData: poolList })
         })()
+    }
 
-
-
-        //helper
-        function setWallettokenDataToPoolListData(poolListData, walletTokens) {
-            let pd = [...poolListData]
-            const wt = walletTokens
-
-            pd.forEach((pool, index) => {
-                let poolTokenTotalSupply;
-                let myPoolTokenAmount;
-                let myPoolTokenRatio;
-
-                wt.some(isPoolToken)
-                pool.myPoolToken = {
-                    balance: myPoolTokenRatio,
-                    denom: '%'
-                }
-
-                pool.liquidity_pool.reserve_coin_denoms.forEach((denom, denomIndex) => {
-                    wt.some(isReserveToken)
-
-                    function isReserveToken(td) {
-                        if (td.denom === denom) {
-                            let reserveTokenAmount;
-
-                            for (let tokenInfo of pd[index].liquidity_pool_metadata.reserve_coins) {
-                                if (tokenInfo.denom === denom) {
-                                    reserveTokenAmount = tokenInfo.amount
-                                }
-                            }
-
-                            pd[index].liquidity_pool.reserve_coin_denoms[denomIndex] = `${reserveTokenAmount / 1000000 * myPoolTokenRatio}${denom.substr(1)}`
-                            return true
-                        }
-                    }
-                })
-
-                function isPoolToken(td) {
-                    if (pool.liquidity_pool.pool_coin_denom === td.denom) {
-                        poolTokenTotalSupply = pool.liquidity_pool_metadata.pool_coin_total_supply.amount
-                        myPoolTokenAmount = td.amount
-                        myPoolTokenRatio = (myPoolTokenAmount / poolTokenTotalSupply)
-                        console.log(`
-                            PoolTokendenom : ${td.denom}
-                            myPoolTokenAmount : ${myPoolTokenAmount}
-                            poolTokenTotalSupply : ${poolTokenTotalSupply}
-                            ratio : ${myPoolTokenRatio}
-                            `)
-                        return true
-                    }
-                }
-            });
-            return pd
-        }
+    setPoolName(item) {
+        return `${item.liquidity_pool.reserve_coin_denoms[0].substr(1).toUpperCase()}-${item.liquidity_pool.reserve_coin_denoms[1].substr(1).toUpperCase()}`
     }
 
     createRows(data) {
@@ -82,13 +30,12 @@ class PoolList extends Component {
         } else {
             return (
                 data.map((item, index) => {
-
                     return (
                         <Row key={index}>
-                            <div>{item.liquidity_pool.reserve_coin_denoms[0]}</div>
+                            <div>{this.setPoolName(item)}</div>
                             <div>{item.liquidity_pool.reserve_coin_denoms[1]}</div>
-                            <div>{item.myPoolToken ? `${item.myPoolToken.balance * 100}${item.myPoolToken.denom}` : '-'}</div>
-                            <div>SOON </div>
+                            {/* <div>{item.myPoolToken ? `${item.myPoolToken.balance * 100}${item.myPoolToken.denom}` : '-'}</div>
+                            <div>SOON </div> */}
                         </Row>)
                 })
             )
@@ -99,10 +46,10 @@ class PoolList extends Component {
         return (
             <PoolTable>
                 <TableHeader>
-                    <div>Reserve 1</div>
-                    <div>Reserve 2</div>
-                    <div>My Token</div>
-                    <div>Action</div>
+                    <div>Pool</div>
+                    <div>Price</div>
+                    {/* <div>My Token</div>
+                    <div>Action</div> */}
                 </TableHeader>
                 {this.createRows(this.state.poolData)}
             </PoolTable>
@@ -123,7 +70,7 @@ const Row = styled.div`
 }
 div {
     display:inline-block;
-    width:180px;
+    width:369px;
     height: 36px;
     line-height: 36px;
     &:not(:last-child) {
@@ -146,3 +93,55 @@ const TableHeader = styled(Row)`
 
 
 export default PoolList
+
+
+//helper
+// function setWallettokenDataToPoolListData(poolListData, walletTokens) {
+//     let pd = [...poolListData]
+//     const wt = walletTokens
+
+//     pd.forEach((pool, index) => {
+//         let poolTokenTotalSupply;
+//         let myPoolTokenAmount;
+//         let myPoolTokenRatio;
+
+//         wt.some(isPoolToken)
+//         pool.myPoolToken = {
+//             balance: myPoolTokenRatio,
+//             denom: '%'
+//         }
+
+//         pool.liquidity_pool.reserve_coin_denoms.forEach((denom, denomIndex) => {
+//             wt.some(isReserveToken)
+
+//             function isReserveToken(td) {
+//                 if (td.denom === denom) {
+//                     let reserveTokenAmount;
+
+//                     for (let tokenInfo of pd[index].liquidity_pool_metadata.reserve_coins) {
+//                         if (tokenInfo.denom === denom) {
+//                             reserveTokenAmount = tokenInfo.amount
+//                         }
+//                     }
+
+//                     pd[index].liquidity_pool.reserve_coin_denoms[denomIndex] = `${reserveTokenAmount / 1000000 * myPoolTokenRatio}${denom.substr(1)}`
+//                     return true
+//                 }
+//             }
+//         })
+
+//         function isPoolToken(td) {
+//             if (pool.liquidity_pool.pool_coin_denom === td.denom) {
+//                 poolTokenTotalSupply = pool.liquidity_pool_metadata.pool_coin_total_supply.amount
+//                 myPoolTokenAmount = td.amount
+//                 myPoolTokenRatio = (myPoolTokenAmount / poolTokenTotalSupply)
+//                 console.log(`
+//                     PoolTokendenom : ${td.denom}
+//                     myPoolTokenAmount : ${myPoolTokenAmount}
+//                     poolTokenTotalSupply : ${poolTokenTotalSupply}
+//                     ratio : ${myPoolTokenRatio}
+//                     `)
+//                 return true
+//             }
+//         }
+//     });
