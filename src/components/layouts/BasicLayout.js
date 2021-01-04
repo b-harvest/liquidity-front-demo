@@ -9,42 +9,82 @@ class BasicLayout extends Component {
         this.state = {};
     }
 
-    async connectWallet() {
-        if (!window.cosmosJSWalletProvider) {
-            alert("Please install the Keplr extension");
-            return;
-        }
+    componentDidMount() {
+        window.onload = async () => {
+            if (!window.cosmosJSWalletProvider) {
+                alert("Please install the Keplr extension");
+                return;
+            }
 
-        if (!window.keplr?.experimentalSuggestChain) {
-            alert("Please use the latest version of Keplr extension");
-            return;
-        }
+            if (!window.keplr?.experimentalSuggestChain) {
+                alert("Please use the latest version of Keplr extension");
+                return;
+            }
 
-        await window.keplr.experimentalSuggestChain(chainInfo);
+            await window.keplr.experimentalSuggestChain(chainInfo);
 
-        const cosmosJS = new GaiaApi({
-            chainId: chainInfo.chainId,
-            rpc: chainInfo.rpc,
-            rest: chainInfo.rest,
-            walletProvider: window.cosmosJSWalletProvider
-        });
+            const cosmosJS = new GaiaApi({
+                chainId: chainInfo.chainId,
+                rpc: chainInfo.rpc,
+                rest: chainInfo.rest,
+                walletProvider: window.cosmosJSWalletProvider
+            });
 
-        await cosmosJS.enable();
+            await cosmosJS.enable();
 
-        const keys = await cosmosJS.getKeys();
+            const keys = await cosmosJS.getKeys();
 
-        if (keys.length === 0) {
-            throw new Error("there is no key");
-        }
-        this.bech32Address = keys[0].bech32Address;
+            if (keys.length === 0) {
+                throw new Error("there is no key");
+            }
+            this.bech32Address = keys[0].bech32Address;
 
-        localStorage.setItem('walletAddress', this.bech32Address)
+            localStorage.setItem('walletAddress', this.bech32Address)
 
-        this.setState({
-            cosmosJS,
-            address: this.bech32Address,
-        });
+            this.setState({
+                cosmosJS,
+                address: this.bech32Address,
+            });
+        };
     }
+
+
+    // async connectWallet() {
+    //     if (!window.cosmosJSWalletProvider) {
+    //         alert("Please install the Keplr extension");
+    //         return;
+    //     }
+
+    //     if (!window.keplr?.experimentalSuggestChain) {
+    //         alert("Please use the latest version of Keplr extension");
+    //         return;
+    //     }
+
+    //     await window.keplr.experimentalSuggestChain(chainInfo);
+
+    //     const cosmosJS = new GaiaApi({
+    //         chainId: chainInfo.chainId,
+    //         rpc: chainInfo.rpc,
+    //         rest: chainInfo.rest,
+    //         walletProvider: window.cosmosJSWalletProvider
+    //     });
+
+    //     await cosmosJS.enable();
+
+    //     const keys = await cosmosJS.getKeys();
+
+    //     if (keys.length === 0) {
+    //         throw new Error("there is no key");
+    //     }
+    //     this.bech32Address = keys[0].bech32Address;
+
+    //     localStorage.setItem('walletAddress', this.bech32Address)
+
+    //     this.setState({
+    //         cosmosJS,
+    //         address: this.bech32Address,
+    //     });
+    // }
 
     render() {
         return (
