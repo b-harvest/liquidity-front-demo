@@ -2,16 +2,6 @@ import { defaultBech32Config } from "@chainapsis/cosmosjs/core/bech32Config";
 
 export const currencies = [
   {
-    coinDenom: "ATOM/AMMpooltocken",
-    coinMinimalDenom: "cosmos1gph6pt8ymatjdc8vgtg5w20704u5ym08hpz020",
-    coinDecimals: 6
-  },
-  {
-    coinDenom: "ATOM/IRISpooltocken",
-    coinMinimalDenom: "cosmos1a0ruh6svwn893vfpzemv4f7mkvs5at8p333ade",
-    coinDecimals: 6
-  },
-  {
     coinDenom: "SCRT",
     coinMinimalDenom: "uscrt",
     coinDecimals: 6
@@ -27,23 +17,38 @@ export const currencies = [
     coinDecimals: 6
   },
   {
-    coinDenom: "AMM",
-    coinMinimalDenom: "uamm",
+    coinDenom: "BAND",
+    coinMinimalDenom: "uband",
+    coinDecimals: 6
+  },
+  {
+    coinDenom: "KAVA",
+    coinMinimalDenom: "ukava",
+    coinDecimals: 6
+  },
+  {
+    coinDenom: "LUNA",
+    coinMinimalDenom: "uluna",
+    coinDecimals: 6
+  },
+  {
+    coinDenom: "USDT",
+    coinMinimalDenom: "uusdt",
     coinDecimals: 6
   },
 ];
 
 export const stakingCurrency = {
   coinDenom: "STAKE",
-  coinMinimalDenom: "stake",
+  coinMinimalDenom: "ustake",
   coinDecimals: 6
 };
 
 export const chainInfo = {
   rpc: "https://dev.bharvest.io/rpc",
   rest: "https://dev.bharvest.io/rest",
-  chainId: "HarvestAMM",
-  chainName: "HarvestAMM",
+  chainId: "amm",
+  chainName: "amm",
   stakeCurrency: stakingCurrency,
   bip44: {
     coinType: 118
