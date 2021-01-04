@@ -1,4 +1,5 @@
-import Axios from 'axios';
+
+import { getPoolList, getWalletTokenList } from '../../common/cosmos-amm'
 import { Component } from 'react';
 import styled from 'styled-components';
 
@@ -11,25 +12,14 @@ class PoolList extends Component {
     }
 
     componentDidMount() {
-        Axios.get('https://dev.bharvest.io/rest/liquidity/pools')
-            .then(response => {
-                const poolListData = response.data.pools
+        (async () => {
+            const poolList = await getPoolList()
+            const walletTokenList = await getWalletTokenList()
 
-                Axios.get(`https://dev.bharvest.io/rest/bank/balances/${localStorage.getItem('walletAddress')}`)
-                    .then(response => {
-                        const walletTokens = response.data.result
-                        const result = setWallettokenDataToPoolListData(poolListData, walletTokens)
+            const result = setWallettokenDataToPoolListData(poolList, walletTokenList)
+            this.setState({ poolData: result })
+        })()
 
-                        this.setState({ poolData: result })
-                        console.log('poolList', this.state.poolData)
-                        console.log('walletTokens', walletTokens)
-                    }).catch(error => {
-                        console.error('getWalletTokenData', error)
-                    })
-
-            }).catch(error => {
-                console.error('getPoolList', error)
-            })
 
 
         //helper

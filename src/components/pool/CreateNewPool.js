@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import styled from 'styled-components';
-const { SigningCosmosClient ,coins,coin} = require("@cosmjs/launchpad");
+const { SigningCosmosClient, coins, coin } = require("@cosmjs/launchpad");
 
 class CreateNewPool extends Component {
 
@@ -19,11 +19,11 @@ class CreateNewPool extends Component {
         const tokenY = document.getElementById('tokenY').value
         let amountX = document.getElementById('tokenXAmount').value
         let amountY = document.getElementById('tokenYAmount').value
-        
+
         alert(`TokenX: ${tokenX} / ${amountX}\nTokenY: ${tokenY} / ${amountY}`)
         amountX *= 1000000;
         amountX = Math.floor(amountX);
-        
+
         amountY *= 1000000;
         console.log(amountY);
         amountY = Math.floor(amountY);
@@ -33,9 +33,9 @@ class CreateNewPool extends Component {
             const chainId = "HarvestAMM";
             await window.keplr.enable(chainId);
             const offlineSigner = window.getOfflineSigner(chainId);
-    
+
             const accounts = await offlineSigner.getAccounts();
-    
+
             // Initialize the gaia api with the offline signer that is injected by Keplr extension.
             const cosmJS = new SigningCosmosClient(
                 "https://dev.bharvest.io/rest/",
@@ -45,21 +45,24 @@ class CreateNewPool extends Component {
             const MsgCreateLiquidityPool = {
                 type: "liquidity/MsgCreateLiquidityPool",
                 value: {
-                  pool_creator_address: accounts[0].address,
-                  pool_type_index: 1,
-                  reserve_coin_denoms: ["uiris", "uscrt"],
-                  deposit_coins: [coin(100000000, "uiris"),coin(100000000, "uscrt")]
+                    pool_creator_address: accounts[0].address,
+                    pool_type_index: 1,
+                    reserve_coin_denoms: ["uiris", "uscrt"],
+                    deposit_coins: [coin(100000000, "uiris"), coin(100000000, "uscrt")]
                 },
-              };
+            };
             const fee = {
                 amount: coins(2000, "uatom"),
-                gas: "180000", 
-              };
+                gas: "180000",
+            };
             console.log(MsgCreateLiquidityPool);
-            const result2 = await cosmJS.signAndBroadcast([MsgCreateLiquidityPool],fee)
-
+            alert('result 전')
+            // const result2 = await cosmJS.signAndBroadcast([MsgCreateLiquidityPool], fee)
+            cosmJS.signAndBroadcast([MsgCreateLiquidityPool], fee).then((res) => { console.log(res) })
+                .catch((e => console.log(e)))
+            const result2 = 'test'
             console.log(result2);
-    
+
             if (result2.code !== undefined &&
                 result2.code !== 0) {
                 alert("Failed to send tx: " + result2.log || result2.rawLog);
