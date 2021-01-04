@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import styled from 'styled-components';
-const { SigningCosmosClient, coins, coin } = require("@cosmjs/launchpad");
+const { SigningCosmosClient, coins, coin } = require("cosmjs-amm/launchpad");
 
 class CreateNewPool extends Component {
 
@@ -47,8 +47,8 @@ class CreateNewPool extends Component {
                 value: {
                     pool_creator_address: accounts[0].address,
                     pool_type_index: 1,
-                    reserve_coin_denoms: ["uiris", "uscrt"],
-                    deposit_coins: [coin(100000000, "uiris"), coin(100000000, "uscrt")]
+                    reserve_coin_denoms: ["uatom", "uluna"],
+                    deposit_coins: [coin(100000000, "uatom"), coin(250000000, "uluna")]
                 },
             };
             const fee = {
