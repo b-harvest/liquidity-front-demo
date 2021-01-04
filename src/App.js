@@ -6,12 +6,11 @@ import {
 } from "react-router-dom";
 //import axios from 'axios';
 import BasicLayout from './components/layouts/BasicLayout'
-import PoolList from './components/pool/PoolList'
-import CreateNewPool from './components/pool/CreateNewPool'
-import Deposit from './components/pool/Deposit'
-import Withdraw from './components/pool/Withdraw'
-import Swap from './components/pool/Swap'
-import { test } from './protoClient'
+import PoolList from './pages/PoolList'
+import CreateNewPool from './pages/CreateNewPool'
+import Deposit from './pages/Deposit'
+import Withdraw from './pages/Withdraw'
+import Swap from './pages/Swap'
 
 const myTokenData = [
   {
@@ -73,7 +72,6 @@ const withdrawInfo = {
 
 
 function App() {
-  test()
   return (
     <BasicLayout>
       <Router>

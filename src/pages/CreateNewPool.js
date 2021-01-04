@@ -30,7 +30,7 @@ class CreateNewPool extends Component {
         console.log(amountY);
         (async () => {
             // See above.
-            const chainId = "HarvestAMM";
+            const chainId = "amm";
             await window.keplr.enable(chainId);
             const offlineSigner = window.getOfflineSigner(chainId);
 
@@ -52,16 +52,14 @@ class CreateNewPool extends Component {
                 },
             };
             const fee = {
-                amount: coins(2000, "uatom"),
+                amount: coins(2000, "ustake"),
                 gas: "180000",
             };
             console.log(MsgCreateLiquidityPool);
-            alert('result 전')
-            // const result2 = await cosmJS.signAndBroadcast([MsgCreateLiquidityPool], fee)
+            const result2 = await cosmJS.signAndBroadcast([MsgCreateLiquidityPool], fee)
             cosmJS.signAndBroadcast([MsgCreateLiquidityPool], fee).then((res) => { console.log(res) })
                 .catch((e => console.log(e)))
-            const result2 = 'test'
-            console.log(result2);
+
 
             if (result2.code !== undefined &&
                 result2.code !== 0) {

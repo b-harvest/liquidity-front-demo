@@ -1,5 +1,5 @@
 
-import { getPoolList, getWalletTokenList } from '../../common/cosmos-amm'
+import { getPoolList, getWalletTokenList } from '../common/cosmos-amm'
 import { Component } from 'react';
 import styled from 'styled-components';
 
@@ -13,29 +13,37 @@ class PoolList extends Component {
 
     componentDidMount() {
         (async () => {
-            const poolList = await getPoolList()
-            // const walletTokenList = await getWalletTokenList()
-
-            this.setState({ poolData: poolList })
+            try {
+                const poolList = await getPoolList()
+                // const walletTokenList = await getWalletTokenList()
+                this.setState({ poolData: poolList })
+            } catch (error) {
+                console.error(error)
+            }
         })()
     }
 
-    setPoolName(item) {
-        return `${item.liquidity_pool.reserve_coin_denoms[0].substr(1).toUpperCase()}-${item.liquidity_pool.reserve_coin_denoms[1].substr(1).toUpperCase()}`
+    getPoolPairs(item) {
+        return [item.liquidity_pool.reserve_coin_denoms[0].substr(1).toUpperCase(), item.liquidity_pool.reserve_coin_denoms[1].substr(1).toUpperCase()]
+    }
+
+    getSecondPairPrice(item) {
+        const price = Number(item.liquidity_pool_metadata.reserve_coins[1].amount) / Number(item.liquidity_pool_metadata.reserve_coins[0].amount)
+        return price
     }
 
     createRows(data) {
         if (data === null) {
-            return (<div></div>)
+            return (<div style={{ color: "#ea5353", fontSize: "18px", fontWeight: "bold" }}>[ERROR] : Please Check The Console!</div>)
         } else {
             return (
                 data.map((item, index) => {
+                    const pairs = this.getPoolPairs(item)
+                    const secondPairPrice = this.getSecondPairPrice(item)
                     return (
                         <Row key={index}>
-                            <div>{this.setPoolName(item)}</div>
-                            <div>{item.liquidity_pool.reserve_coin_denoms[1]}</div>
-                            {/* <div>{item.myPoolToken ? `${item.myPoolToken.balance * 100}${item.myPoolToken.denom}` : '-'}</div>
-                            <div>SOON </div> */}
+                            <div>{`${pairs[0]}-${pairs[1]}`}</div>
+                            <div>{`1 ${pairs[0]} per`}<br />{`${secondPairPrice} ${pairs[1]}`}</div>
                         </Row>)
                 })
             )
@@ -48,8 +56,6 @@ class PoolList extends Component {
                 <TableHeader>
                     <div>Pool</div>
                     <div>Price</div>
-                    {/* <div>My Token</div>
-                    <div>Action</div> */}
                 </TableHeader>
                 {this.createRows(this.state.poolData)}
             </PoolTable>
@@ -58,37 +64,37 @@ class PoolList extends Component {
 }
 
 const PoolTable = styled.section`
-width: 100%;
-border: 1px solid gray;
-border-radius: 8px;
+width: 400px;
+margin: 0 auto;
+border-radius: 6px;
 text-align:center;
 `
 const Row = styled.div`
-// width: 820px;
-&:nth-child(2n) {
-    background-color: #efefef;
-}
+margin-bottom: 20px;
+display: flex;
+
 div {
+    flex: 1;
     display:inline-block;
-    width:369px;
-    height: 36px;
-    line-height: 36px;
-    &:not(:last-child) {
-        border-right: 1px solid #c3c3c3;;
-    }
+    width:200px;
+    line-height: 24px;
 }
-&:not(:last-child) {
-    border-bottom: 1px solid #c3c3c3;
+
+div:first-child {
+    line-height: 48px;
 }
-&:last-child {
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-}
+
+
 
 `
 const TableHeader = styled(Row)`
-    font-weight: 700;
-    border-bottom: none;
+    margin-bottom: 30px;
+    background-color: #eef5ff;
+    font-weight: bold;
+
+    div{
+        line-height: 48px;
+    }
 `
 
 
