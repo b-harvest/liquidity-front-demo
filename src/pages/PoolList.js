@@ -29,7 +29,7 @@ class PoolList extends Component {
 
     getSecondPairPrice(item) {
         const price = Number(item.liquidity_pool_metadata.reserve_coins[1].amount) / Number(item.liquidity_pool_metadata.reserve_coins[0].amount)
-        return price
+        return Number(price).toFixed(2)
     }
 
     createRows(data) {
