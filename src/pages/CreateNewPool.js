@@ -8,6 +8,8 @@ class CreateNewPool extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            tokenX: '',
+            tokenY: '',
             tokenXAmount: '',
             tokenYAmount: '',
         }
@@ -90,9 +92,15 @@ class CreateNewPool extends Component {
             )
         )
     }
+    tokenSelectorChangeHandler = (e) => {
+        console.log(e.target.value)
+        this.setState({
+            tokenX: e.target.value
+        })
+    }
 
-    handleChange = (e) => {
-        console.log(e.target.id)
+    amountChangeHandler = (e) => {
+        console.log(e)
         this.setState({
             [e.target.id]: e.target.value
         })
@@ -103,24 +111,22 @@ class CreateNewPool extends Component {
             <section>
                 <ReserveTokenCard>
                     <TokenTitle>Reserve Token X</TokenTitle>
-                    {/* {this.state.tokenX} {this.state.tokenY} */}
-                    <TokenSelector id="tokenX">
+                    <TokenSelector id="tokenX" value={this.state.tokenX} onChange={this.tokenSelectorChangeHandler}>
                         {this.createOptions(currencies)}
                     </TokenSelector>
                     <TokenTitle>Deposit Amount </TokenTitle>
-                    <DepositInput id="tokenXAmount" placeholder="0" value={this.state.tokenXAmount} onChange={this.handleChange}></DepositInput>
+                    <DepositInput id="tokenXAmount" placeholder="0" value={this.state.tokenXAmount} onChange={this.amountChangeHandler}></DepositInput>
                 </ReserveTokenCard>
 
                 <Divider />
 
                 <ReserveTokenCard>
                     <TokenTitle>Reserve Token Y</TokenTitle>
-                    {/* {this.state.tokenX} {this.state.tokenY} */}
-                    <TokenSelector id="tokenY">
+                    <TokenSelector id="tokenY" value={this.state.tokenY} onChange={this.tokenSelectorChangeHandler}>
                         {this.createOptions(currencies)}
                     </TokenSelector>
                     <TokenTitle>Deposit Amount </TokenTitle>
-                    <DepositInput id="tokenYAmount" placeholder="0" value={this.state.tokenYAmount} onChange={this.handleChange}></DepositInput>
+                    <DepositInput id="tokenYAmount" placeholder="0" value={this.state.tokenYAmount} onChange={this.amountChangeHandler}></DepositInput>
                 </ReserveTokenCard>
 
                 <CreateNewPoolButton onClick={this.createPool}>Create New Pool</CreateNewPoolButton>

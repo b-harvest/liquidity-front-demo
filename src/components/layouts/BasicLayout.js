@@ -66,7 +66,7 @@ class BasicLayout extends Component {
                 console.error("getPoolList", error)
             }
         }
-        test()
+        // test()
 
     }
 
