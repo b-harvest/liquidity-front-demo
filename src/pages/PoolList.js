@@ -2,6 +2,7 @@
 import { getPoolList, getWalletTokenList } from '../common/cosmos-amm'
 import { Component } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 class PoolList extends Component {
     constructor(props) {
@@ -52,16 +53,36 @@ class PoolList extends Component {
 
     render() {
         return (
-            <PoolTable>
-                <TableHeader>
-                    <div>Pool</div>
-                    <div>Price</div>
-                </TableHeader>
-                {this.createRows(this.state.poolData)}
-            </PoolTable>
+            <>
+                <GoCreatePool to="/create-new-pool">
+                    Create Pool
+                </GoCreatePool>
+                <PoolTable>
+                    <TableHeader>
+                        <div>Pool</div>
+                        <div>Price</div>
+                    </TableHeader>
+                    {this.createRows(this.state.poolData)}
+                </PoolTable>
+            </>
         )
     }
 }
+
+const GoCreatePool = styled(Link)`
+display:inline-block;
+text-decoration:none;
+color:#fff;
+background-color:#4297ff;
+height:36px;
+width: 110px;
+line-height:36px;
+border-radius:40px;
+font-size:14px;
+font-weight:bold;
+margin-bottom: 20px;
+margin-right: -292px;
+`
 
 const PoolTable = styled.section`
 width: 400px;

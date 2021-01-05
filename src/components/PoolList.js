@@ -52,23 +52,25 @@ class PoolList extends Component {
 
     render() {
         return (
-            <PoolTable>
-                <TableHeader>
-                    <div>Pool</div>
-                    <div>Price</div>
-                </TableHeader>
-                {this.createRows(this.state.poolData)}
-            </PoolTable>
+            <>
+                <PoolTable>
+                    <TableHeader>
+                        <div>Pool</div>
+                        <div>Price</div>
+                    </TableHeader>
+                    {this.createRows(this.state.poolData)}
+                </PoolTable>
+            </>
         )
     }
 }
-
 const PoolTable = styled.section`
 width: 400px;
 margin: 0 auto;
 border-radius: 6px;
 text-align:center;
 `
+
 const Row = styled.div`
 margin-bottom: 20px;
 display: flex;

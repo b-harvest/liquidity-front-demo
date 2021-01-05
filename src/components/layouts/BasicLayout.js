@@ -10,7 +10,7 @@ class BasicLayout extends Component {
         super(props);
         this.state = {
             activeStyle: {
-                borderBottom: "solid 2px #4297ff"
+                borderBottom: "solid 4px #4297ff"
             }
         };
     }
@@ -111,17 +111,13 @@ class BasicLayout extends Component {
         return (
             <Layout>
                 <Header>
-
                     <NavLink exact to={"/"} activeStyle={this.state.activeStyle}>Pools</NavLink>
-                    <NavLink exact to={"/create-new-pool"} activeStyle={this.state.activeStyle}>Create Pool</NavLink>
+                    <NavLink exact to={"/swap"} activeStyle={this.state.activeStyle}>Swap</NavLink>
                     <NavLink exact to={"/deposit"} activeStyle={this.state.activeStyle}>Deposit</NavLink>
                     <NavLink exact to={"/withdraw"} activeStyle={this.state.activeStyle}>Withdraw</NavLink>
-                    <NavLink exact to={"/swap"} activeStyle={this.state.activeStyle}>Swap</NavLink>
                     <Connect>{this.state.address ? `${this.getModifiedAddress(this.state.address)}` : 'CONNECT WALLET'} </Connect>
-
                 </Header>
-                <h1 style={{ marginTop: "0px" }}>{window.location.pathname.length > 2 ? window.location.pathname.substr(1).toUpperCase().replaceAll('-', ' ') : 'POOL LIST'}</h1>
-                <div style={{ margin: '10px 0 40px', height: '18px' }}></div>
+
                 { this.props.children}
             </Layout >)
     }
@@ -152,7 +148,7 @@ a {
     margin-top: 18px;
     padding: 12px;
     &:not(:last-child) {
-        margin-right: 20px;
+        margin-right: 40px;
     }
 }
 

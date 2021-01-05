@@ -87,7 +87,7 @@ class CreateNewPool extends Component {
 
     render() {
         return (
-            <section>
+            <>
                 <ReserveTokenCard>
                     <TokenTitle>Reserve Token X</TokenTitle>
                     <TokenSelector id="tokenX" value={this.state.tokenX} onChange={this.tokenSelectorChangeHandler}>
@@ -109,7 +109,7 @@ class CreateNewPool extends Component {
                 </ReserveTokenCard>
 
                 <CreateNewPoolButton onClick={this.createPool}>Create New Pool</CreateNewPoolButton>
-            </section>
+            </>
         )
     }
 }
