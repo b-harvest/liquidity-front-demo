@@ -8,8 +8,8 @@ class CreateNewPool extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            tokenX: props.tokenList[0],
-            tokenY: props.tokenList[1],
+            tokenXAmount: '',
+            tokenYAmount: '',
         }
 
     }
@@ -84,11 +84,18 @@ class CreateNewPool extends Component {
         return (
             data.map((item, index) => {
                 return (
-                    <option value={item.coinMinimalDenom} key={item}>{item.coinDenom}</option>
+                    <option value={item.coinMinimalDenom} key={item.coinDenom}>{item.coinDenom}</option>
                 )
             }
             )
         )
+    }
+
+    handleChange = (e) => {
+        console.log(e.target.id)
+        this.setState({
+            [e.target.id]: e.target.value
+        })
     }
 
     render() {
@@ -101,7 +108,7 @@ class CreateNewPool extends Component {
                         {this.createOptions(currencies)}
                     </TokenSelector>
                     <TokenTitle>Deposit Amount </TokenTitle>
-                    <DepositInput id="tokenXAmount" placeholder="1.000"></DepositInput>
+                    <DepositInput id="tokenXAmount" placeholder="0" value={this.state.tokenXAmount} onChange={this.handleChange}></DepositInput>
                 </ReserveTokenCard>
 
                 <Divider />
@@ -113,7 +120,7 @@ class CreateNewPool extends Component {
                         {this.createOptions(currencies)}
                     </TokenSelector>
                     <TokenTitle>Deposit Amount </TokenTitle>
-                    <DepositInput id="tokenYAmount" placeholder="1.000"></DepositInput>
+                    <DepositInput id="tokenYAmount" placeholder="0" value={this.state.tokenYAmount} onChange={this.handleChange}></DepositInput>
                 </ReserveTokenCard>
 
                 <CreateNewPoolButton onClick={this.createPool}>Create New Pool</CreateNewPoolButton>
