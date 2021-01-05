@@ -65,7 +65,7 @@ class CreateNewPool extends Component {
 
     createOptions(data) {
         return (
-            data.map((item, index) => {
+            data.map((item) => {
                 return (
                     <option value={item.coinMinimalDenom} key={item.coinDenom}>{item.coinDenom}</option>
                 )

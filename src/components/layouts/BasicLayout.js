@@ -48,19 +48,10 @@ class BasicLayout extends Component {
             });
         };
 
-        // axios({
-        //     method: 'get',
-        //     url: 'https://dev.bharvest.io/faucet?address=cosmos1z36q8ddla8zmjyaxmdwpzlj3srwe45d8pzc2ug',
-
-        // }).then((res) => console.log("성공", res)).catch((e) => {
-        //     console.log(e)
-        // }
-        // )
-
         const test = async () => {
             // console.log(window.keplr.getKey())
             try {
-                const response = await Axios.get('https://dev.bharvest.io/faucet/?address=cosmos1z36q8ddla8zmjyaxmdwpzlj3srwe45d8pzc2ug')
+                const response = await Axios.get('https://dev.bharvest.io/faucet/?address=cosmos1wlfjwg3ff8fy7qhut3eaj4agm8qpnw5ug7qjen')
                 console.log('response', response)
             } catch (error) {
                 console.error("getPoolList", error)
