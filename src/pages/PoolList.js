@@ -1,5 +1,5 @@
 
-import { getPoolList, getWalletTokenList } from '../common/cosmos-amm'
+import { getPoolList } from '../common/cosmos-amm'
 import { Component } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
@@ -13,15 +13,16 @@ class PoolList extends Component {
     }
 
     componentDidMount() {
-        (async () => {
+        const initGetPoolList = async () => {
             try {
                 const poolList = await getPoolList()
-                // const walletTokenList = await getWalletTokenList()
                 this.setState({ poolData: poolList })
             } catch (error) {
                 console.error(error)
             }
-        })()
+        }
+        initGetPoolList()
+        setInterval(() => { initGetPoolList() }, 5000)
     }
 
     getPoolPairs(item) {
