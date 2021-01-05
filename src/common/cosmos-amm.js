@@ -55,7 +55,7 @@ export const txGenerator = async (type, msgData, feeData = {
         const response = await cosmJS.signAndBroadcast([msg], fee)
         if (response.code) {
             // fail(if code property exists, it means error?)
-            return Promise.reject(getErrorMessage(response.code))
+            return Promise.reject(getErrorMsg(response.code))
         } else {
             // success
             return response
@@ -92,7 +92,7 @@ export const txGenerator = async (type, msgData, feeData = {
         };
     }
 
-    function getErrorMessage(codeNumber) {
+    function getErrorMsg(codeNum) {
         const errors = {
             1: "ErrPoolNotExists : pool not exists",
             2: "ErrPoolTypeNotExists : pool type not exists",
@@ -130,6 +130,6 @@ export const txGenerator = async (type, msgData, feeData = {
             34: "ErrLessThanMinOfferAmount : offer amount should over 1000 micro",
             35: "ErrNotMatchedReserveCoin : does not match the reserve coin of the pool"
         }
-        return `${errors[codeNumber]} (code${codeNumber})`
+        return `${errors[codeNum]} (code${codeNum})`
     }
 }
