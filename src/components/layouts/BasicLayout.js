@@ -103,6 +103,9 @@ class BasicLayout extends Component {
     //         address: this.bech32Address,
     //     });
     // }
+    getModifiedAddress = (address) => {
+        return `${address.substr(0, 10)}...${address.substr(-5)}`
+    }
 
     render() {
         return (
@@ -114,11 +117,11 @@ class BasicLayout extends Component {
                     <NavLink exact to={"/deposit"} activeStyle={this.state.activeStyle}>Deposit</NavLink>
                     <NavLink exact to={"/withdraw"} activeStyle={this.state.activeStyle}>Withdraw</NavLink>
                     <NavLink exact to={"/swap"} activeStyle={this.state.activeStyle}>Swap</NavLink>
-
+                    <Connect>{this.state.address ? `${this.getModifiedAddress(this.state.address)}` : 'CONNECT WALLET'} </Connect>
 
                 </Header>
                 <h1 style={{ marginTop: "0px" }}>{window.location.pathname.length > 2 ? window.location.pathname.substr(1).toUpperCase().replaceAll('-', ' ') : 'POOL LIST'}</h1>
-                <div style={{ margin: '10px 0 40px', height: '18px' }}>{this.state.address ? `My Address : ${this.state.address}` : ''} </div>
+                <div style={{ margin: '10px 0 40px', height: '18px' }}></div>
                 { this.props.children}
             </Layout >)
     }
@@ -156,6 +159,22 @@ a {
 a:visit {
     text-decoration: none;
 }
+`
+
+const Connect = styled.div`
+width:200px;
+display:inline-block;
+margin-bottom:-18px;
+margin-right: 12px;
+border-radius:24px;
+height: 42px;
+border: 50%;
+background-color:#4297ff;
+cursor:pointer;
+line-height:42px;
+text-align:center;
+color:#fff;
+font-weight:bold;
 `
 
 export default BasicLayout
