@@ -55,14 +55,6 @@ export const txGenerator = async (type, msgData, feeData) => {
         })
         )
 
-
-    // if (result2.code !== undefined &&
-    //     result2.code !== 0) {
-    //     alert("Failed to send tx: " + result2.log || result2.rawLog);
-    // } else {
-    //     alert("Succeed to send tx");
-    // }
-
     // helpers
     function getMsg(type, msgData) {
         switch (type) {
