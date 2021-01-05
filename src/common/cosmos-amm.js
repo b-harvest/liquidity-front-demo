@@ -55,7 +55,7 @@ export const txGenerator = async (type, msgData, feeData = {
         const response = await cosmJS.signAndBroadcast([msg], fee)
         if (response.code) {
             // fail(if code property exists, it means error?)
-            return Promise.reject(response.rawLog)
+            return Promise.reject(getErrorMessage(response.code))
         } else {
             // success
             return response
@@ -90,5 +90,46 @@ export const txGenerator = async (type, msgData, feeData = {
             amount: coins(feeData.amount, feeData.denom),
             gas: feeData.gas,
         };
+    }
+
+    function getErrorMessage(codeNumber) {
+        const errors = {
+            1: "ErrPoolNotExists : pool not exists",
+            2: "ErrPoolTypeNotExists : pool type not exists",
+            3: "ErrEqualDenom : reserve coin denomination are equal",
+            4: "ErrInvalidDenom : invalid denom",
+            5: "ErrNumOfReserveCoin : invalid number of reserve coin",
+            6: "ErrNumOfPoolCoin : invalid number of pool coin",
+            7: "ErrInsufficientPool : insufficient pool",
+            8: "ErrInsufficientBalance : insufficient coin balance to escrow",
+            9: "ErrLessThanMinInitDeposit : deposit coin less than MinInitDepositToPool",
+            10: "ErrNotImplementedYet : not implemented yet",
+            11: "ErrPoolAlreadyExists : the pool already exists",
+            12: "ErrPoolBatchNotExists : pool batch not exists",
+            13: "ErrOrderBookInvalidity : orderbook is not validity",
+            14: "ErrBatchNotExecuted : the liquidity pool batch is not executed",
+            15: "ErrEmptyPoolCreatorAddr : empty pool creator address",
+            16: "ErrEmptyDepositorAddr : empty pool depositor address",
+            17: "ErrEmptyWithdrawerAddr : empty pool withdrawer address",
+            18: "ErrEmptySwapRequesterAddr : empty pool swap requester address",
+            19: "ErrBadPoolCoinAmount : invalid pool coin amount",
+            20: "ErrBadDepositCoinsAmount : invalid pool coin amount",
+            21: "ErrBadOfferCoinAmount : invalid offer coin amount",
+            22: "ErrBadOrderingReserveCoin : reserve coin denoms not ordered alphabetical",
+            23: "ErrBadOderPrice : invalid order price",
+            24: "ErrNumOfReserveCoinDenoms : invalid reserve coin denoms",
+            25: "ErrEmptyReserveAccountAddres : empty reserve account address",
+            26: "ErrEmptyPoolCoinDenom : empty pool coin denom",
+            27: "ErrBadOrderingReserveCoinDen : bad ordering reserve coin denoms",
+            28: "ErrBadReserveAccountAddress : bad reserve account address",
+            29: "ErrBadPoolCoinDenom : bad pool coin denom",
+            30: "ErrInsufficientPoolCreationF : insufficient balances for pool creation fee",
+            31: "ErrExceededMaxOrderable : can not exceed max order ratio  of reserve coins that can be ordered at a order",
+            32: "ErrBadBatchMsgIndex : bad msg index of the batch",
+            33: "ErrSwapTypeNotExists : swap type not exists",
+            34: "ErrLessThanMinOfferAmount : offer amount should over 1000 micro",
+            35: "ErrNotMatchedReserveCoin : does not match the reserve coin of the pool"
+        }
+        return `${errors[codeNumber]} (code${codeNumber})`
     }
 }
