@@ -23,7 +23,12 @@ export const getWalletTokenList = async () => {
     }
 }
 
-export const txGenerator = async (type, msgData, feeData) => {
+export const txGenerator = async (type, msgData, feeData = {
+    denom: "ustake",
+    amount: 2000,
+    gas: "180000",
+}) => {
+
     // set config
     const chainId = "amm";
     await window.keplr.enable(chainId);

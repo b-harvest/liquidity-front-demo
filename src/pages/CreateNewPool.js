@@ -57,7 +57,6 @@ class CreateNewPool extends Component {
         }
 
         function getDepositCoins(denoms, amounts) {
-            console.log(denoms, amounts)
             return { denoms: [denoms[0], denoms[1]], amounts: [amounts[denoms[0]], amounts[denoms[1]]] }
         }
     }
@@ -75,14 +74,12 @@ class CreateNewPool extends Component {
         )
     }
     tokenSelectorChangeHandler = (e) => {
-        console.log(e.target.value)
         this.setState({
             [e.target.id]: e.target.value
         })
     }
 
     amountChangeHandler = (e) => {
-        console.log(e)
         this.setState({
             [e.target.id]: e.target.value
         })
