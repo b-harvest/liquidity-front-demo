@@ -9,6 +9,7 @@ class PoolList extends Component {
         super(props);
         this.state = {
             poolData: null,
+            updatePool: null,
         };
     }
 
@@ -21,8 +22,13 @@ class PoolList extends Component {
                 console.error(error)
             }
         }
+
         initGetPoolList()
-        setInterval(() => { initGetPoolList() }, 5000)
+        const updatePool = setInterval(() => { initGetPoolList() }, 5000)
+        this.setState({ updatePool: updatePool })
+    }
+    componentWillUnmount() {
+        clearInterval(this.state.updatePool)
     }
 
     getPoolPairs(item) {
