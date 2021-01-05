@@ -21,7 +21,7 @@ class CreateNewPool extends Component {
     }
 
     // 로직 함수 시작
-    createPool = () => {
+    createPool = async () => {
         console.log(`X : ${this.state.tokenX} ${this.state.tokenXAmount}`)
         console.log(`Y : ${this.state.tokenY} ${this.state.tokenYAmount}`)
 
@@ -39,12 +39,17 @@ class CreateNewPool extends Component {
         }
 
         const feeData = {
-            denom: "ustatke",
+            denom: "ustake",
             amount: 2000,
             gas: "180000",
         };
 
-        txGenerator("MsgCreateLiquidityPool", msgData, feeData)
+        try {
+            const response = await txGenerator("MsgCreateLiquidityPool", msgData, feeData)
+            console.log(response)
+        } catch (error) {
+            alert(error)
+        }
 
         // helpers
         function sortReserveCoinDenoms(x, y) {

@@ -41,19 +41,25 @@ export const txGenerator = async (type, msgData, feeData) => {
     const msg = getMsg(type, msgData)
     const fee = getFee(feeData)
 
+    console.log("msg : ", msg)
+    console.log("fee : ", fee)
 
-    console.log("msg : ", msg);
-    // const result2 = await cosmJS.signAndBroadcast([msg], fee)
-    cosmJS.signAndBroadcast([msg], fee)
-        .then((res) => {
-            alert('Success')
-            console.log(res)
-        })
-        .catch((e => {
-            alert("ERROR: check console!")
-            console.log(e)
-        })
-        )
+
+    // signAndBroadcast
+    try {
+        const response = await cosmJS.signAndBroadcast([msg], fee)
+        if (response.code) {
+            // fail(if code property exists, it means error?)
+            return Promise.reject(response.rawLog)
+        } else {
+            // success
+            return response
+        }
+
+    } catch (error) {
+        console.error(type, error)
+        return error
+    }
 
     // helpers
     function getMsg(type, msgData) {
