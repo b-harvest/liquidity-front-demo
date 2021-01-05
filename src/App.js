@@ -73,8 +73,8 @@ const withdrawInfo = {
 
 function App() {
   return (
-    <BasicLayout>
-      <Router>
+    <Router>
+      <BasicLayout>
         <Switch>
           <Route exact path="/">
             <PoolList myTokenData={myTokenData} />
@@ -92,8 +92,8 @@ function App() {
             <Swap tokenList={tokenList} poolInfo={poolInfo} />
           </Route>
         </Switch>
-      </Router>
-    </BasicLayout>
+      </BasicLayout>
+    </Router>
   );
 }
 

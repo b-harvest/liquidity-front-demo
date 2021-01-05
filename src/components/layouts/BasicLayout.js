@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { NavLink } from "react-router-dom";
 import styled from 'styled-components';
 import { GaiaApi } from "@chainapsis/cosmosjs/gaia/api";
 import { chainInfo } from "../../common/config"
@@ -7,7 +8,11 @@ import Axios from 'axios';
 class BasicLayout extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            activeStyle: {
+                borderBottom: "solid 2px #4297ff"
+            }
+        };
     }
 
     componentDidMount() {
@@ -103,11 +108,13 @@ class BasicLayout extends Component {
         return (
             <Layout>
                 <Header>
-                    <a href="/">Pool List</a>
-                    <a href="/create-new-pool">Create Pool</a>
-                    <a href="/deposit">Deposit</a>
-                    <a href="/withdraw">Withdraw</a>
-                    <a href="/swap">Swap</a>
+
+                    <NavLink exact to={"/"} activeStyle={this.state.activeStyle}>Pools</NavLink>
+                    <NavLink exact to={"/create-new-pool"} activeStyle={this.state.activeStyle}>Create Pool</NavLink>
+                    <NavLink exact to={"/deposit"} activeStyle={this.state.activeStyle}>Deposit</NavLink>
+                    <NavLink exact to={"/withdraw"} activeStyle={this.state.activeStyle}>Withdraw</NavLink>
+                    <NavLink exact to={"/swap"} activeStyle={this.state.activeStyle}>Swap</NavLink>
+
 
                 </Header>
                 <h1 style={{ marginTop: "0px" }}>{window.location.pathname.length > 2 ? window.location.pathname.substr(1).toUpperCase().replaceAll('-', ' ') : 'POOL LIST'}</h1>
@@ -124,26 +131,25 @@ margin: 0 auto;
 text-align: center;
 `
 
-const Header = styled.div`
-height: 80px;
+const Header = styled.header`
+text-align:right;
+height: 120px;
 width: 100%;
 position:fixed;
 top: 0;
 left:0;
-background-color:#252734;
--webkit-box-shadow: 0px 5px 11px -1px #252734; 
-box-shadow: 0px 5px 11px -1px #252734;
+background-color:#fff;
 
 a {
     text-decoration: none;
-    color: #ffaf29;
-    width: 160px;
+    text-align:center;
+    font-weight: bold;
+    color:#222;
     display:inline-block;
     margin-top: 18px;
-    border: 1px solid #ffaf29;
     padding: 12px;
     &:not(:last-child) {
-        margin-right: 8px;
+        margin-right: 20px;
     }
 }
 
