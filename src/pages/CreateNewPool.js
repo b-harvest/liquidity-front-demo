@@ -1,15 +1,15 @@
 import { Component } from 'react';
 import styled from 'styled-components';
+import { txGenerator } from '../common/cosmos-amm'
 import { currencies } from '../common/config'
-const { SigningCosmosClient, coins, coin } = require("cosmjs-amm/launchpad");
 
 class CreateNewPool extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            tokenX: '',
-            tokenY: '',
+            tokenX: currencies[0].coinMinimalDenom,
+            tokenY: currencies[1].coinMinimalDenom,
             tokenXAmount: '',
             tokenYAmount: '',
         }
@@ -21,63 +21,40 @@ class CreateNewPool extends Component {
     }
 
     // 로직 함수 시작
-    createPool() {
-        const tokenX = document.getElementById('tokenX').value
-        const tokenY = document.getElementById('tokenY').value
-        let amountX = document.getElementById('tokenXAmount').value
-        let amountY = document.getElementById('tokenYAmount').value
+    createPool = () => {
+        console.log(`X : ${this.state.tokenX} ${this.state.tokenXAmount}`)
+        console.log(`Y : ${this.state.tokenY} ${this.state.tokenYAmount}`)
 
-        alert(`TokenX: ${tokenX} / ${amountX}\nTokenY: ${tokenY} / ${amountY}`)
-        amountX *= 1000000;
-        amountX = Math.floor(amountX);
+        const tokenX = this.state.tokenX
+        const tokenY = this.state.tokenY
+        const amountX = Math.floor(Number(this.state.tokenXAmount) * 1000000);
+        const amountY = Math.floor(Number(this.state.tokenYAmount) * 1000000);
 
-        amountY *= 1000000;
-        console.log(amountY);
-        amountY = Math.floor(amountY);
-        console.log(amountY);
-        (async () => {
-            // See above.
-            const chainId = "amm";
-            await window.keplr.enable(chainId);
-            const offlineSigner = window.getOfflineSigner(chainId);
+        const arrangedReserveCoinDenoms = sortReserveCoinDenoms(tokenX, tokenY)
 
-            const accounts = await offlineSigner.getAccounts();
+        const msgData = {
+            pool_type_index: 1,
+            reserve_coin_denoms: arrangedReserveCoinDenoms,
+            deposit_coins: getDepositCoins(arrangedReserveCoinDenoms, { [tokenX]: amountX, [tokenY]: amountY })
+        }
 
-            // Initialize the gaia api with the offline signer that is injected by Keplr extension.
-            const cosmJS = new SigningCosmosClient(
-                "https://dev.bharvest.io/rest/",
-                accounts[0].address,
-                offlineSigner
-            );
-            const MsgCreateLiquidityPool = {
-                type: "liquidity/MsgCreateLiquidityPool",
-                value: {
-                    pool_creator_address: accounts[0].address,
-                    pool_type_index: 1,
-                    reserve_coin_denoms: ["uatom", "uluna"],
-                    deposit_coins: [coin(100000000, "uatom"), coin(250000000, "uluna")]
-                },
-            };
-            const fee = {
-                amount: coins(2000, "ustake"),
-                gas: "180000",
-            };
-            console.log(MsgCreateLiquidityPool);
-            const result2 = await cosmJS.signAndBroadcast([MsgCreateLiquidityPool], fee)
-            cosmJS.signAndBroadcast([MsgCreateLiquidityPool], fee).then((res) => { console.log(res) })
-                .catch((e => console.log(e)))
+        const feeData = {
+            denom: "ustatke",
+            amount: 2000,
+            gas: "180000",
+        };
 
+        txGenerator("MsgCreateLiquidityPool", msgData, feeData)
 
-            if (result2.code !== undefined &&
-                result2.code !== 0) {
-                alert("Failed to send tx: " + result2.log || result2.rawLog);
-            } else {
-                alert("Succeed to send tx");
-            }
-        })();
+        // helpers
+        function sortReserveCoinDenoms(x, y) {
+            return [x, y]
+        }
 
-        //여기서 작업하시면 됩니다 😄
-
+        function getDepositCoins(denoms, amounts) {
+            console.log(denoms, amounts)
+            return { denoms: [denoms[0], denoms[1]], amounts: [amounts[denoms[0]], amounts[denoms[1]]] }
+        }
     }
     // 로직 함수 끝
 
@@ -95,7 +72,7 @@ class CreateNewPool extends Component {
     tokenSelectorChangeHandler = (e) => {
         console.log(e.target.value)
         this.setState({
-            tokenX: e.target.value
+            [e.target.id]: e.target.value
         })
     }
 
