@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import PoolList from '../components/PoolList'
 import styled from 'styled-components';
 
 class Deposit extends Component {
@@ -54,6 +55,7 @@ class Deposit extends Component {
     render() {
         return (
             <div>
+                <PoolList></PoolList>
                 <Wrapper>
                     <CustomSection>
                         <ReserveTokenCard>

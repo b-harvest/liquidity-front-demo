@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import styled from 'styled-components';
+import { currencies } from '../common/config'
 const { SigningCosmosClient, coins, coin } = require("cosmjs-amm/launchpad");
 
 class CreateNewPool extends Component {
@@ -11,6 +12,10 @@ class CreateNewPool extends Component {
             tokenY: props.tokenList[1],
         }
 
+    }
+
+    componentDidMount() {
+        console.log(currencies)
     }
 
     // 로직 함수 시작
@@ -79,7 +84,7 @@ class CreateNewPool extends Component {
         return (
             data.map((item, index) => {
                 return (
-                    <option value={item} key={item}>{item}</option>
+                    <option value={item.coinMinimalDenom} key={item}>{item.coinDenom}</option>
                 )
             }
             )
@@ -93,7 +98,7 @@ class CreateNewPool extends Component {
                     <TokenTitle>Reserve Token X</TokenTitle>
                     {/* {this.state.tokenX} {this.state.tokenY} */}
                     <TokenSelector id="tokenX">
-                        {this.createOptions(this.props.tokenList)}
+                        {this.createOptions(currencies)}
                     </TokenSelector>
                     <TokenTitle>Deposit Amount </TokenTitle>
                     <DepositInput id="tokenXAmount" placeholder="1.000"></DepositInput>
@@ -105,7 +110,7 @@ class CreateNewPool extends Component {
                     <TokenTitle>Reserve Token Y</TokenTitle>
                     {/* {this.state.tokenX} {this.state.tokenY} */}
                     <TokenSelector id="tokenY">
-                        {this.createOptions(this.props.tokenList)}
+                        {this.createOptions(currencies)}
                     </TokenSelector>
                     <TokenTitle>Deposit Amount </TokenTitle>
                     <DepositInput id="tokenYAmount" placeholder="1.000"></DepositInput>

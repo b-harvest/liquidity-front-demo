@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import styled from 'styled-components';
 import { GaiaApi } from "@chainapsis/cosmosjs/gaia/api";
-import { chainInfo } from "../config"
+import { chainInfo } from "../../common/config"
 import Axios from 'axios';
 
 class BasicLayout extends Component {
@@ -117,7 +117,7 @@ class BasicLayout extends Component {
                     <a href="/deposit">Deposit</a>
                     <a href="/withdraw">Withdraw</a>
                     <a href="/swap">Swap</a>
-                    <a onClick={this.connectWallet}>연결</a>
+
                 </Header>
                 <h1 style={{ marginTop: "0px" }}>{window.location.pathname.length > 2 ? window.location.pathname.substr(1).toUpperCase().replaceAll('-', ' ') : 'POOL LIST'}</h1>
                 <div style={{ margin: '10px 0 40px', height: '18px' }}>{this.state.address ? `My Address : ${this.state.address}` : ''} </div>
