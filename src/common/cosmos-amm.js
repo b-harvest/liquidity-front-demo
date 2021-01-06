@@ -85,7 +85,7 @@ export const txGenerator = async (type, msgData, feeData = {
                     type: "liquidity/MsgDepositToLiquidityPool",
                     value: {
                         depositor_address: accounts[0].address,
-                        pool_id: msgData.pool_id,
+                        pool_id: String(msgData.pool_id),
                         deposit_coins: [coin(msgData.deposit_coins.amounts[0], msgData.deposit_coins.denoms[0]), coin(msgData.deposit_coins.amounts[1], msgData.deposit_coins.denoms[1])]
                     }
                 }
