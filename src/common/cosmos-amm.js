@@ -79,9 +79,40 @@ export const txGenerator = async (type, msgData, feeData = {
                         deposit_coins: [coin(msgData.deposit_coins.amounts[0], msgData.deposit_coins.denoms[0]), coin(msgData.deposit_coins.amounts[1], msgData.deposit_coins.denoms[1])]
                     },
                 };
+            case "MsgDepositToLiquidityPool":
+                return {
+                    type: "liquidity/MsgDepositToLiquidityPool",
+                    depositor_address: accounts[0].address,
+                    pool_id: msgData.pool_id,
+                    deposit_coins: msgData.deposit_coins
+                }
             default:
                 console.log('getMsg Error')
                 return
+
+            // ---------------------------------
+            // "type": "liquidity/MsgWithdrawFromLiquidityPool"
+
+            // "withdrawer_address": "cosmos1hug5p0yz8knk25npm65y0ktaf6zrk8glmanr0q",
+            // "pool_id": "1",
+            // "pool_coin": {
+            //   "denom": "cosmos1gph6pt8ymatjdc8vgtg5w20704u5ym08hpz020",
+            //   "amount": "1000000"
+            // }
+
+            //  -------------------------------------
+            //  "type": "liquidity/MsgSwap",
+            // "swap_requester_address": "cosmos1hug5p0yz8knk25npm65y0ktaf6zrk8glmanr0q",
+            // "pool_id": "1",
+            // "pool_type_index": 1,
+            // "swap_type": 1,
+            // "offer_coin": {
+            //   "denom": "ustake",
+            //   "amount": "1000"
+            // },
+            // "demand_coin_denom": "uatom",
+            // (sdk.dec)"order_price": "1000.000000000000000000"
+            // }
         }
     }
 

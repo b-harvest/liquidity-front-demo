@@ -39,8 +39,7 @@ class Deposit extends Component {
         const arrangedReserveCoinDenoms = sortReserveCoinDenoms(tokenA, tokenB)
 
         const msgData = {
-            pool_type_index: 1,
-            reserve_coin_denoms: arrangedReserveCoinDenoms,
+            pool_id: 1,
             deposit_coins: getDepositCoins(arrangedReserveCoinDenoms, { [tokenA]: amountX, [tokenB]: amountY })
         }
 
@@ -52,13 +51,12 @@ class Deposit extends Component {
 
         try {
             this.setState({ isLoading: true })
-            const response = await txGenerator("MsgCreateLiquidityPool", msgData, feeData)
+            const response = await txGenerator("MsgDepositToLiquidityPool", msgData, feeData)
             this.setState({ isLoading: false })
             if (response.includes("TypeError")) {
                 throw response
             }
-            alert("Pool Create Success!")
-            this.props.modalHandler()
+            alert("Deposit Success!")
         } catch (error) {
             alert(error)
             this.setState({ isLoading: false })
@@ -70,22 +68,13 @@ class Deposit extends Component {
         }
 
         function getDepositCoins(denoms, amounts) {
-            return { denoms: [denoms[0], denoms[1]], amounts: [amounts[denoms[0]], amounts[denoms[1]]] }
+            return [{ denoms: denoms[0], amount: amounts[denoms[0]] }, { denoms: denoms[1], amount: amounts[denoms[1]] }]
         }
     }
     // 로직 함수 끝
 
 
-    createOptions(data) {
-        return (
-            data.map((item) => {
-                return (
-                    <option value={item.coinMinimalDenom} key={item.coinDenom}>{item.coinDenom}</option>
-                )
-            }
-            )
-        )
-    }
+
     tokenSelectorChangeHandler = (e) => {
         this.setState({
             [e.target.id]: e.target.value
@@ -106,45 +95,6 @@ class Deposit extends Component {
             return "?"
         }
 
-    }
-
-    // 로직 함수 시작
-    deposit() {
-        const tokenX = document.getElementById('tokenX').value
-        const tokenY = document.getElementById('tokenY').value
-        const amountX = document.getElementById('tokenXAmount').value
-        const amountY = document.getElementById('tokenYAmount').value
-
-        alert(`TokenX: ${tokenX} / ${amountX}\nTokenY: ${tokenY} / ${amountY}`)
-        //여기서 작업하시면 됩니다 😄
-
-    }
-    // 로직 함수 끝
-
-    componentDidMount() {
-        // setInterval(() => {
-        //     const amountX = Number(document.getElementById('tokenXAmount').value)
-        //     if (amountX) {
-        //         const tokenShare = (amountX / this.props.poolInfo.reserveTokenX.balance).toFixed(4)
-        //         const curretPoolPriceYX = this.props.poolInfo.reserveTokenY.balance / this.props.poolInfo.reserveTokenX.balance
-        //         document.getElementById('tokenYAmount').value = amountX * curretPoolPriceYX
-        //         document.getElementById('poolTokenReceivable').innerText = Math.round(tokenShare * this.props.poolInfo.poolTokenSupply * 10000) / 10000
-        //         document.getElementById('poolTokenShare').innerText = Math.round(tokenShare * 10000) / 100 + '%'
-
-        //     }
-        // }, 1000)
-    }
-
-
-    createOptions(data) {
-        return (
-            data.map((item, index) => {
-                return (
-                    <option value={item} key={item}>{item}</option>
-                )
-            }
-            )
-        )
     }
 
     selectPool = (item) => {
