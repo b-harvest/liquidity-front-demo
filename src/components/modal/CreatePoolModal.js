@@ -4,16 +4,18 @@ import { txGenerator } from '../../common/cosmos-amm'
 import { currencies } from '../../common/config'
 import BlackOverLay from '../overlays/BlackOverLay'
 import TokenSetter from '../../elements/TokenSetter';
+import BasicButtonCard from '../../elements/BasicButtonCard'
 
 
 class CreatePoolModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            tokenA: currencies[0].coinMinimalDenom,
-            tokenB: currencies[1].coinMinimalDenom,
+            tokenA: currencies[1].coinMinimalDenom,
+            tokenB: currencies[0].coinMinimalDenom,
             tokenAAmount: '',
             tokenBAmount: '',
+            isLoading: false,
         };
     }
 
@@ -48,10 +50,17 @@ class CreatePoolModal extends Component {
         };
 
         try {
+            this.setState({ isLoading: true })
             const response = await txGenerator("MsgCreateLiquidityPool", msgData, feeData)
-            console.log(response)
+            this.setState({ isLoading: false })
+            if (response.includes("TypeError")) {
+                throw response
+            }
+            alert("Pool Create Success!")
+            this.props.modalHandler()
         } catch (error) {
             alert(error)
+            this.setState({ isLoading: false })
         }
 
         // helpers
@@ -88,6 +97,16 @@ class CreatePoolModal extends Component {
         })
     }
 
+    getTokenPrice = () => {
+        const price = this.state.tokenAAmount / this.state.tokenBAmount
+        if (price && price !== Infinity) {
+            return <span>{parseFloat(price.toFixed(6))} {this.state.tokenA.substr(1).toUpperCase()} = 1 {this.state.tokenB.substr(1).toUpperCase()}</span>
+        } else {
+            return "?"
+        }
+
+    }
+
     render() {
         return (
             <>
@@ -96,46 +115,30 @@ class CreatePoolModal extends Component {
                     <TokenSetter
                         currencies={currencies}
                         leftTitle="Token A"
-                        rightTitle="current balance:"
+                        rightTitle="Amount"
                         cssId="A"
                         token={this.state.tokenA}
                         tokenAmount={this.tokenAAmount}
                         selectorHandler={this.tokenSelectorChangeHandler}
                         amountHandler={this.amountChangeHandler}
-                        cssStyle={{ marginBottom: "20px" }}
-                    />
+                        cssStyle={{ marginBottom: "20px" }} />
 
                     <TokenSetter
                         currencies={currencies}
                         leftTitle="Token B"
-                        rightTitle="current balance:"
+                        rightTitle="Amount"
                         cssId="B"
                         token={this.state.tokenB}
                         tokenAmount={this.tokenBAmount}
                         selectorHandler={this.tokenSelectorChangeHandler}
                         amountHandler={this.amountChangeHandler} />
 
-                    {/* <ReserveTokenCard>
-                        <TokenTitle>Reserve Token X</TokenTitle>
-                        <TokenSelector id="tokenA" value={this.state.tokenA} onChange={this.tokenSelectorChangeHandler}>
-                            {this.createOptions(currencies)}
-                        </TokenSelector>
-                        <TokenTitle>Deposit Amount </TokenTitle>
-                        <DepositInput id="tokenAAmount" placeholder="0" value={this.state.tokenAAmount} onChange={this.amountChangeHandler}></DepositInput>
-                    </ReserveTokenCard>
-
-                    <Divider />
-
-                    <ReserveTokenCard>
-                        <TokenTitle>Reserve Token Y</TokenTitle>
-                        <TokenSelector id="tokenB" value={this.state.tokenB} onChange={this.tokenSelectorChangeHandler}>
-                            {this.createOptions(currencies)}
-                        </TokenSelector>
-                        <TokenTitle>Deposit Amount </TokenTitle>
-                        <DepositInput id="tokenBAmount" placeholder="0" value={this.state.tokenBAmount} onChange={this.amountChangeHandler}></DepositInput>
-                    </ReserveTokenCard> */}
-
-                    <CreateNewPoolButton onClick={this.createPool}>Create New Pool</CreateNewPoolButton>
+                    <BasicButtonCard function={this.createPool} buttonName="Create Pool" isLoading={this.state.isLoading}>
+                        <Detail>
+                            <div>Initial Pool Price</div>
+                            <div>{this.getTokenPrice()}</div>
+                        </Detail>
+                    </BasicButtonCard>
                 </Modal>
             </>
         )
@@ -145,7 +148,7 @@ class CreatePoolModal extends Component {
 const Modal = styled.div`
     position:absolute;
     width: 460px;
-    height: 560px;
+    height: 340px;
     padding: 20px;
     background-color:#fff;
     transform: translate(-50%, -50%);
@@ -153,61 +156,17 @@ const Modal = styled.div`
     left: 50%;
     border-radius: 8px;
 `
-// const ReserveTokenCard = styled.section`
-//     width: 324px;
-//     margin: 0 auto;
-//     border: 1px solid gray;
-//     border-radius: 8px;
-//     text-align:left;
-//     padding: 20px;
-// `
-// const TokenTitle = styled.div`
-//     font-weight: 700;
-//     font-size: 18px;
-//     margin-bottom: 8px;
-// `
 
-// const TokenSelector = styled.select` 
-//     padding: 0 12px;
-//     cursor: pointer;
-//     border-radius: 8px;
-//     height: 32px;
-//     width: 326px;
-//     font-weight: 700;
-//     line-height: 32px;
-//     border: 1px solid gray;
-//     margin-bottom: 20px;
-//     &:hover {
-//         font-weight: 700;
-//     }
-// `
-
-// const DepositInput = styled.input`
-//     padding: 0 12px;
-//     cursor: pointer;
-//     border-radius: 8px;
-//     height: 32px;
-//     width: 300px;
-//     font-weight: 700;
-//     line-height: 32px;
-//     border: 1px solid gray;
-// `
-// const Divider = styled.div`
-//     height: 20px;
-//     width: 50%;
-//     border-right: 1px solid gray;
-// `
-
-const CreateNewPoolButton = styled.div`
-    margin: 20px auto 0 auto;
-    width: 364px;
-    cursor:pointer;
-    height: 40px;
-    border-radius: 8px;
-    font-size: 20px;
-    line-height: 40px;
-    color: #fff;
-    background-color: #ffb100;
+const Detail = styled.div`
+display: flex;
+font-weight: bold;
+div {
+    flex: 1;
+    text-align:right;
+}
+div:first-child {
+    text-align: left;
+}
 `
 
 export default CreatePoolModal

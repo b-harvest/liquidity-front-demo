@@ -6,18 +6,8 @@ class TokenSetter extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            tokenX: props.currencies[0].coinMinimalDenom,
-            tokenY: props.currencies[1].coinMinimalDenom,
-            tokenXAmount: '',
-            tokenYAmount: '',
         }
-
     }
-
-    componentDidMount() {
-        console.log(this.props.currencies)
-    }
-
 
     createOptions(data) {
         return (
