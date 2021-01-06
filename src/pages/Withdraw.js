@@ -15,14 +15,14 @@ class Withdraw extends Component {
     // 로직 함수 끝
 
     componentDidMount() {
-        setInterval(() => {
-            const myPoolTokenWidrawAmount = Number(document.getElementById('withdrawAmount').value)
-            if (myPoolTokenWidrawAmount) {
-                const myShare = myPoolTokenWidrawAmount / this.props.poolInfo.poolTokenSupply
-                document.getElementById('ReserveTokenX').innerText = this.props.poolInfo.reserveTokenX.balance * myShare
-                document.getElementById('ReserveTokenY').innerText = this.props.poolInfo.reserveTokenY.balance * myShare
-            }
-        }, 1000)
+        // setInterval(() => {
+        //     const myPoolTokenWidrawAmount = Number(document.getElementById('withdrawAmount').value)
+        //     if (myPoolTokenWidrawAmount) {
+        //         const myShare = myPoolTokenWidrawAmount / this.props.poolInfo.poolTokenSupply
+        //         document.getElementById('ReserveTokenX').innerText = this.props.poolInfo.reserveTokenX.balance * myShare
+        //         document.getElementById('ReserveTokenY').innerText = this.props.poolInfo.reserveTokenY.balance * myShare
+        //     }
+        // }, 1000)
     }
 
 

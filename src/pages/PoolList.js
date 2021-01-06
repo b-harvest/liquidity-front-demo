@@ -1,8 +1,8 @@
 
 import { getPoolList } from '../common/cosmos-amm'
+import CreatePoolModal from '../components/modal/CreatePoolModal'
 import { Component } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 
 class PoolList extends Component {
     constructor(props) {
@@ -10,6 +10,7 @@ class PoolList extends Component {
         this.state = {
             poolData: null,
             updatePool: null,
+            isModal: false,
         };
     }
 
@@ -29,6 +30,10 @@ class PoolList extends Component {
     }
     componentWillUnmount() {
         clearInterval(this.state.updatePool)
+    }
+
+    modalHandler = () => {
+        this.setState({ isModal: !this.state.isModal })
     }
 
     getPoolPairs(item) {
@@ -61,7 +66,7 @@ class PoolList extends Component {
     render() {
         return (
             <>
-                <GoCreatePool to="/create-new-pool">
+                <GoCreatePool onClick={this.modalHandler}>
                     Create Pool
                 </GoCreatePool>
                 <PoolTable>
@@ -71,12 +76,13 @@ class PoolList extends Component {
                     </TableHeader>
                     {this.createRows(this.state.poolData)}
                 </PoolTable>
+                {this.state.isModal ? <CreatePoolModal modalHandler={this.modalHandler} /> : ''}
             </>
         )
     }
 }
 
-const GoCreatePool = styled(Link)`
+const GoCreatePool = styled.button`
 display:inline-block;
 text-decoration:none;
 color:#fff;
@@ -89,6 +95,9 @@ font-size:14px;
 font-weight:bold;
 margin-bottom: 20px;
 margin-right: -292px;
+border: none;
+outline:none;
+cursor:pointer;
 `
 
 const PoolTable = styled.section`

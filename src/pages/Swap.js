@@ -26,17 +26,17 @@ class Swap extends Component {
     // 로직 함수 끝
 
     componentDidMount() {
-        setInterval(() => {
-            const amountX = Number(document.getElementById('tokenXAmount').value)
-            if (amountX) {
-                const tokenShare = (amountX / this.props.poolInfo.reserveTokenX.balance).toFixed(4)
-                const curretPoolPriceYX = this.props.poolInfo.reserveTokenY.balance / this.props.poolInfo.reserveTokenX.balance
-                document.getElementById('tokenYAmount').value = amountX * curretPoolPriceYX
-                document.getElementById('poolTokenReceivable').innerText = Math.round(tokenShare * this.props.poolInfo.poolTokenSupply * 10000) / 10000
-                document.getElementById('poolTokenShare').innerText = Math.round(tokenShare * 10000) / 100 + '%'
+        // setInterval(() => {
+        //     const amountX = Number(document.getElementById('tokenXAmount').value)
+        //     if (amountX) {
+        //         const tokenShare = (amountX / this.props.poolInfo.reserveTokenX.balance).toFixed(4)
+        //         const curretPoolPriceYX = this.props.poolInfo.reserveTokenY.balance / this.props.poolInfo.reserveTokenX.balance
+        //         document.getElementById('tokenYAmount').value = amountX * curretPoolPriceYX
+        //         document.getElementById('poolTokenReceivable').innerText = Math.round(tokenShare * this.props.poolInfo.poolTokenSupply * 10000) / 10000
+        //         document.getElementById('poolTokenShare').innerText = Math.round(tokenShare * 10000) / 100 + '%'
 
-            }
-        }, 1000)
+        //     }
+        // }, 1000)
     }
 
 
