@@ -53,7 +53,7 @@ class Deposit extends Component {
             this.setState({ isLoading: true })
             const response = await txGenerator("MsgDepositToLiquidityPool", msgData, feeData)
             this.setState({ isLoading: false })
-            if (response.includes("TypeError")) {
+            if (String(response).includes("TypeError")) {
                 throw response
             }
             alert("Deposit Success!")
