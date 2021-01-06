@@ -82,7 +82,7 @@ class BasicLayout extends Component {
                     <NavLink exact to={"/swap"} activeStyle={this.state.activeStyle}>Swap</NavLink>
                     <NavLink exact to={"/deposit"} activeStyle={this.state.activeStyle}>Deposit</NavLink>
                     <NavLink exact to={"/withdraw"} activeStyle={this.state.activeStyle}>Withdraw</NavLink>
-                    <a onClick={this.sendFaucetRequest} style={this.state.isSent ? { color: "#a7a7a7", pointerEvents: "none" } : {}}>{this.state.isSent ? "Processing" : "Faucet 💸"}</a>
+                    <a onClick={this.sendFaucetRequest} style={this.state.isSent ? { color: "#a7a7a7", pointerEvents: "none" } : {}}>{this.state.isSent ? "Wait 💸" : "Faucet 💸"}</a>
                     <Connect>{this.state.address ? `${this.getModifiedAddress(this.state.address)}` : 'CONNECT WALLET'} </Connect>
                 </Header>
 
