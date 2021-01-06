@@ -1,14 +1,109 @@
 import { Component } from 'react';
 import PoolList from '../components/PoolList'
 import styled from 'styled-components';
+import { txGenerator } from '../common/cosmos-amm'
+import { currencies } from '../common/config'
+import TokenSetter from '../elements/TokenSetter';
+import BasicButtonCard from '../elements/BasicButtonCard'
 
 class Deposit extends Component {
 
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
-            tokenX: props.tokenList[0],
-            tokenY: props.tokenList[1],
+            tokenA: currencies[1].coinMinimalDenom,
+            tokenB: currencies[0].coinMinimalDenom,
+            tokenAAmount: '',
+            tokenBAmount: '',
+            isLoading: false,
+            isPoolSelected: false
+        };
+    }
+
+    componentDidMount() {
+        console.log(currencies)
+    }
+    componentWillUnmount() {
+
+    }
+    // 로직 함수 시작
+    createPool = async () => {
+        console.log(`X : ${this.state.tokenA} ${this.state.tokenAAmount}`)
+        console.log(`Y : ${this.state.tokenB} ${this.state.tokenBAmount}`)
+
+        const tokenA = this.state.tokenA
+        const tokenB = this.state.tokenB
+        const amountX = Math.floor(Number(this.state.tokenAAmount) * 1000000);
+        const amountY = Math.floor(Number(this.state.tokenBAmount) * 1000000);
+
+        const arrangedReserveCoinDenoms = sortReserveCoinDenoms(tokenA, tokenB)
+
+        const msgData = {
+            pool_type_index: 1,
+            reserve_coin_denoms: arrangedReserveCoinDenoms,
+            deposit_coins: getDepositCoins(arrangedReserveCoinDenoms, { [tokenA]: amountX, [tokenB]: amountY })
+        }
+
+        const feeData = {
+            denom: "ustake",
+            amount: 2000,
+            gas: "180000",
+        };
+
+        try {
+            this.setState({ isLoading: true })
+            const response = await txGenerator("MsgCreateLiquidityPool", msgData, feeData)
+            this.setState({ isLoading: false })
+            if (response.includes("TypeError")) {
+                throw response
+            }
+            alert("Pool Create Success!")
+            this.props.modalHandler()
+        } catch (error) {
+            alert(error)
+            this.setState({ isLoading: false })
+        }
+
+        // helpers
+        function sortReserveCoinDenoms(x, y) {
+            return [x, y]
+        }
+
+        function getDepositCoins(denoms, amounts) {
+            return { denoms: [denoms[0], denoms[1]], amounts: [amounts[denoms[0]], amounts[denoms[1]]] }
+        }
+    }
+    // 로직 함수 끝
+
+
+    createOptions(data) {
+        return (
+            data.map((item) => {
+                return (
+                    <option value={item.coinMinimalDenom} key={item.coinDenom}>{item.coinDenom}</option>
+                )
+            }
+            )
+        )
+    }
+    tokenSelectorChangeHandler = (e) => {
+        this.setState({
+            [e.target.id]: e.target.value
+        })
+    }
+
+    amountChangeHandler = (e) => {
+        this.setState({
+            [e.target.id]: e.target.value
+        })
+    }
+
+    getTokenPrice = () => {
+        const price = this.state.tokenAAmount / this.state.tokenBAmount
+        if (price && price !== Infinity) {
+            return <span>{parseFloat(price.toFixed(6))} {this.state.tokenA.substr(1).toUpperCase()} = 1 {this.state.tokenB.substr(1).toUpperCase()}</span>
+        } else {
+            return "?"
         }
 
     }
@@ -52,208 +147,75 @@ class Deposit extends Component {
         )
     }
 
+    selectPool = (item) => {
+        console.log(item)
+        this.setState({
+            isPoolSelected: !this.state.isPoolSelected
+        })
+    }
+
     render() {
         return (
             <div>
-                <PoolList></PoolList>
-                <Wrapper>
-                    <CustomSection>
-                        <ReserveTokenCard>
-                            <TokenTitle>Reserve Token X</TokenTitle>
-                            {/* {this.state.tokenX} {this.state.tokenY} */}
-                            <TokenSelector id="tokenX">
-                                {this.createOptions(this.props.tokenList)}
-                            </TokenSelector>
-                            <TokenTitle>Deposit Amount </TokenTitle>
-                            <DepositInput id="tokenXAmount" placeholder="1.000"></DepositInput>
-                        </ReserveTokenCard>
+                { this.state.isPoolSelected ?
+                    <DepositCard>
+                        <TokenSetter
+                            currencies={currencies}
+                            leftTitle="Token A"
+                            rightTitle="Amount"
+                            cssId="A"
+                            token={this.state.tokenA}
+                            tokenAmount={this.tokenAAmount}
+                            selectorHandler={this.tokenSelectorChangeHandler}
+                            amountHandler={this.amountChangeHandler}
+                            cssStyle={{ marginBottom: "20px" }} />
 
-                        <Divider />
+                        <TokenSetter
+                            currencies={currencies}
+                            leftTitle="Token B"
+                            rightTitle="Amount"
+                            cssId="B"
+                            token={this.state.tokenB}
+                            tokenAmount={this.tokenBAmount}
+                            selectorHandler={this.tokenSelectorChangeHandler}
+                            amountHandler={this.amountChangeHandler} />
 
-                        <ReserveTokenCard>
-                            <TokenTitle>Reserve Token Y</TokenTitle>
-                            {/* {this.state.tokenX} {this.state.tokenY} */}
-                            <TokenSelector id="tokenY">
-                                {this.createOptions(this.props.tokenList)}
-                            </TokenSelector>
-                            <TokenTitle>Deposit Amount </TokenTitle>
-                            <DepositInput style={{ backgroundColor: '#efefef' }} readOnly id="tokenYAmount" placeholder="1.000"></DepositInput>
-                        </ReserveTokenCard>
-
-
-                    </CustomSection>
-
-                    <CustomSection>
-                        <PoolInfoCard>
-                            <PoolInfoRow>
-                                <PoolInfoCell>
-                                    <div>Reserve Token X</div>
-                                    <div>{`${this.props.poolInfo.reserveTokenX.balance} ${this.props.poolInfo.reserveTokenX.denom}`}</div>
-                                </PoolInfoCell>
-                                <PoolInfoCell>
-                                    <div>Reserve Token Y</div>
-                                    <div>{`${this.props.poolInfo.reserveTokenY.balance} ${this.props.poolInfo.reserveTokenY.denom}`}</div>
-                                </PoolInfoCell>
-                            </PoolInfoRow>
-                            <PoolInfoRow>
-                                <PoolInfoCell>
-                                    <div>Current Pool Price Y/X</div>
-                                    <div>{Math.round((this.props.poolInfo.reserveTokenY.balance / this.props.poolInfo.reserveTokenX.balance) * 100) / 100}</div>
-                                </PoolInfoCell>
-                                <PoolInfoCell>
-                                    <div>Latest Swap Price Y/X</div>
-                                    <div>{this.props.poolInfo.latestSwapPrice.YX}</div>
-                                </PoolInfoCell>
-                            </PoolInfoRow>
-                            <PoolInfoRow>
-                                <PoolInfoCell>
-                                    <div>Current Pool Price X/Y</div>
-                                    <div>{Math.round((this.props.poolInfo.reserveTokenX.balance / this.props.poolInfo.reserveTokenY.balance) * 100) / 100}</div>
-                                </PoolInfoCell>
-                                <PoolInfoCell>
-                                    <div>Latest Swap Price X/Y</div>
-                                    <div>{this.props.poolInfo.latestSwapPrice.XY}</div>
-                                </PoolInfoCell>
-                            </PoolInfoRow>
-                            <PoolInfoRow>
-                                <PoolInfoCell>
-                                    <div>Pool Token Supply</div>
-                                    <div>{this.props.poolInfo.poolTokenSupply}</div>
-                                </PoolInfoCell>
-                                <PoolInfoCell>
-
-                                </PoolInfoCell>
-                            </PoolInfoRow>
-                            <PoolTokenH2>{`Expected Pool Token Receivalble & Share`} </PoolTokenH2>
-                            <PoolInfoRow>
-                                <PoolInfoCell>
-                                    <div></div>
-                                    <div id="poolTokenReceivable">0</div>
-                                </PoolInfoCell>
-                                <PoolInfoCell>
-                                    <div></div>
-                                    <div id="poolTokenShare">0</div>
-                                </PoolInfoCell>
-                            </PoolInfoRow>
-
-                        </PoolInfoCard>
-                    </CustomSection>
-
-
-                </Wrapper>
-                <CreateNewPoolButton onClick={this.deposit}>Deposit</CreateNewPoolButton>
+                        <BasicButtonCard function={this.createPool} buttonName="DEPOSIT" isLoading={this.state.isLoading}>
+                            <Detail>
+                                <div>Initial Pool Price</div>
+                                <div>{this.getTokenPrice()}</div>
+                            </Detail>
+                        </BasicButtonCard>
+                    </DepositCard> :
+                    <PoolList selectPool={this.selectPool} />}
             </div>
         )
     }
 }
 
-const CustomSection = styled.section`
-   flex:1;
-    display:inline-block;
-`
-const Wrapper = styled.div`
-    display:flex;
-`
-
-const PoolInfoCard = styled.section`
-width: 340px;;
-display:inline-block;
-border: 1px solid gray;
-border-radius: 8px;
-text-align:left;
-padding: 20px 20px 20px 0;
-height: 350px;
-`
-const PoolInfoRow = styled.div`
-display:flex;
-margin-bottom: 20px;
+const DepositCard = styled.div`
+    position:absolute;
+    width: 460px;
+    height: 340px;
+    padding: 20px;
+    background-color:#fff;
+    transform: translateX( -50%);
+    top: 120px;
+    left: 50%;
+    border-radius: 8px;
+    border: 1px solid #bdbdbd;
 `
 
-const PoolTokenH2 = styled.div`
-padding-left: 20px;
-font-size: 12px;
+const Detail = styled.div`
+display: flex;
 font-weight: bold;
-margin-bottom: 4px;
-`
-
-const PoolInfoCell = styled.div`
-flex: 1;
-margin-left: 20px;
+div {
+    flex: 1;
+    text-align:right;
+}
 div:first-child {
-    font-size: 12px;
-    font-weight: bold;
+    text-align: left;
 }
-div:nth-child(2) {
-    margin-top: 2px;
-    padding-right: 12px;
-    text-align: right;
-    font-weight: 700;
-    font-size: 18px;
-    border: 1px solid gray;
-    height: 32px;
-    line-height: 32px;
-    border-radius: 8px;
-    background-color: #efefef;
-    
-}
-`
-
-
-const ReserveTokenCard = styled.section`
-width: 330px;
-display:inline-block;
-border: 1px solid gray;
-border-radius: 8px;
-text-align:left;
-padding: 20px;
-`
-const TokenTitle = styled.div`
-font-weight: 700;
-font-size: 18px;
-margin-bottom: 8px;
-`
-
-const TokenSelector = styled.select` 
-    padding: 0 12px;
-    cursor: pointer;
-    border-radius: 8px;
-    height: 32px;
-    width: 326px;
-    font-weight: 700;
-    line-height: 32px;
-    border: 1px solid gray;
-    margin-bottom: 20px;
-    &:hover {
-        font-weight: 700;
-    }
-`
-
-const DepositInput = styled.input`
-    padding: 0 12px;
-    cursor: pointer;
-    border-radius: 8px;
-    height: 32px;
-    width: 300px;
-    line-height: 32px;
-    border: 1px solid gray;
-    font-weight:700;
-`
-const Divider = styled.div`
-    height: 20px;
-    width: 50%;
-    border-right: 1px solid gray;
-`
-
-const CreateNewPoolButton = styled.div`
-margin: 20px auto 0 auto;
-width: 100%;
-cursor:pointer;
-height: 40px;
-border-radius: 8px;
-font-size: 20px;
-line-height: 40px;
-color: #fff;
-background-color: #ffb100;
 `
 
 

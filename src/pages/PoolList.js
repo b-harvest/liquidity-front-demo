@@ -47,7 +47,7 @@ class PoolList extends Component {
 
     createRows(data) {
         if (data === null) {
-            return (<div style={{ color: "#ea5353", fontSize: "18px", fontWeight: "bold" }}>[ERROR] : Please Check The Console!</div>)
+            return (<div style={{ color: "#ea5353", fontSize: "18px", fontWeight: "bold" }}></div>)
         } else {
             return (
                 data.map((item, index) => {

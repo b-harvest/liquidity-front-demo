@@ -1,5 +1,5 @@
 
-import { getPoolList, getWalletTokenList } from '../common/cosmos-amm'
+import { getPoolList } from '../common/cosmos-amm'
 import { Component } from 'react';
 import styled from 'styled-components';
 
@@ -15,7 +15,6 @@ class PoolList extends Component {
         (async () => {
             try {
                 const poolList = await getPoolList()
-                // const walletTokenList = await getWalletTokenList()
                 this.setState({ poolData: poolList })
             } catch (error) {
                 console.error(error)
@@ -32,9 +31,13 @@ class PoolList extends Component {
         return Number(price).toFixed(2)
     }
 
-    createRows(data) {
+    selectPool = (pool) => {
+        this.props.selectPool(pool)
+    }
+
+    createRows = (data) => {
         if (data === null) {
-            return (<div style={{ color: "#ea5353", fontSize: "18px", fontWeight: "bold" }}>[ERROR] : Please Check The Console!</div>)
+            return (<div style={{ color: "#ea5353", fontSize: "18px", fontWeight: "bold" }}></div>)
         } else {
             return (
                 data.map((item, index) => {
@@ -42,7 +45,7 @@ class PoolList extends Component {
                     const secondPairPrice = this.getSecondPairPrice(item)
                     return (
                         <Row key={index}>
-                            <div>{`${pairs[0]}-${pairs[1]}`}</div>
+                            <div>{`${pairs[0]}-${pairs[1]}`}<br /><DepositButton onClick={() => { this.selectPool(item) }}>Deposit</DepositButton></div>
                             <div>{`1 ${pairs[0]} per`}<br />{`${secondPairPrice} ${pairs[1]}`}</div>
                         </Row>)
                 })
@@ -64,13 +67,6 @@ class PoolList extends Component {
         )
     }
 }
-const PoolTable = styled.section`
-width: 400px;
-margin: 0 auto;
-border-radius: 6px;
-text-align:center;
-`
-
 const Row = styled.div`
 margin-bottom: 20px;
 display: flex;
@@ -81,14 +77,14 @@ div {
     width:200px;
     line-height: 24px;
 }
-
-div:first-child {
-    line-height: 48px;
-}
-
-
-
 `
+const PoolTable = styled.section`
+width: 400px;
+margin: 0 auto;
+border-radius: 6px;
+text-align:center;
+`
+
 const TableHeader = styled(Row)`
     margin-bottom: 30px;
     background-color: #eef5ff;
@@ -98,6 +94,21 @@ const TableHeader = styled(Row)`
         line-height: 48px;
     }
 `
+
+
+const DepositButton = styled.button`
+width: 120px;
+height: 24px;
+border-radius: 12px;
+border: none;
+background-color:#4297ff;
+color:#fff;
+font-weight: bold;
+cursor:pointer;
+outline:none;
+`
+
+
 
 
 export default PoolList

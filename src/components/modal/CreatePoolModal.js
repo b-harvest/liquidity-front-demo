@@ -133,7 +133,7 @@ class CreatePoolModal extends Component {
                         selectorHandler={this.tokenSelectorChangeHandler}
                         amountHandler={this.amountChangeHandler} />
 
-                    <BasicButtonCard function={this.createPool} buttonName="Create Pool" isLoading={this.state.isLoading}>
+                    <BasicButtonCard function={this.createPool} buttonName="CREATE POOL" isLoading={this.state.isLoading}>
                         <Detail>
                             <div>Initial Pool Price</div>
                             <div>{this.getTokenPrice()}</div>
