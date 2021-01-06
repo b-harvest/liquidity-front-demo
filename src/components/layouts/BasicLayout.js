@@ -64,11 +64,11 @@ class BasicLayout extends Component {
             alert('send a request! it takes about 10 seconds :)')
             this.setState({ isSent: true })
             const response = await Axios.get(`https://dev.bharvest.io/faucet/?address=${localStorage.getItem('walletAddress')}`)
-            alert('Faucet request complete!')
+            alert(response.data)
             this.setState({ isSent: false })
             console.log('Faucet response', response)
         } catch (error) {
-            alert(error)
+            alert(error.data)
             this.setState({ isSent: false })
             console.log(error)
         }

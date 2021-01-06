@@ -53,6 +53,7 @@ export const txGenerator = async (type, msgData, feeData = {
     // signAndBroadcast
     try {
         const response = await cosmJS.signAndBroadcast([msg], fee)
+        console.log(response)
         if (response.code) {
             // fail(if code property exists, it means error?)
             return Promise.reject(getErrorMsg(response.code))
@@ -82,9 +83,11 @@ export const txGenerator = async (type, msgData, feeData = {
             case "MsgDepositToLiquidityPool":
                 return {
                     type: "liquidity/MsgDepositToLiquidityPool",
-                    depositor_address: accounts[0].address,
-                    pool_id: msgData.pool_id,
-                    deposit_coins: msgData.deposit_coins
+                    value: {
+                        depositor_address: accounts[0].address,
+                        pool_id: msgData.pool_id,
+                        deposit_coins: [coin(msgData.deposit_coins.amounts[0], msgData.deposit_coins.denoms[0]), coin(msgData.deposit_coins.amounts[1], msgData.deposit_coins.denoms[1])]
+                    }
                 }
             default:
                 console.log('getMsg Error')

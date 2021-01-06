@@ -68,7 +68,7 @@ class Deposit extends Component {
         }
 
         function getDepositCoins(denoms, amounts) {
-            return [{ denoms: denoms[0], amount: amounts[denoms[0]] }, { denoms: denoms[1], amount: amounts[denoms[1]] }]
+            return { denoms: [denoms[0], denoms[1]], amounts: [amounts[denoms[0]], amounts[denoms[1]]] }
         }
     }
     // 로직 함수 끝
