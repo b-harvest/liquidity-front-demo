@@ -8,18 +8,26 @@ class PoolList extends Component {
         super(props);
         this.state = {
             poolData: null,
+            updatePool: null,
         };
     }
 
     componentDidMount() {
-        (async () => {
+        const initGetPoolList = async () => {
             try {
                 const poolList = await getPoolList()
                 this.setState({ poolData: poolList })
             } catch (error) {
                 console.error(error)
             }
-        })()
+        }
+
+        initGetPoolList()
+        const updatePool = setInterval(() => { initGetPoolList() }, 5000)
+        this.setState({ updatePool: updatePool })
+    }
+    componentWillUnmount() {
+        clearInterval(this.state.updatePool)
     }
 
     getPoolPairs(item) {

@@ -11,7 +11,8 @@ class BasicLayout extends Component {
         this.state = {
             activeStyle: {
                 borderBottom: "solid 4px #4297ff"
-            }
+            },
+            isSent: false
         };
     }
 
@@ -52,59 +53,25 @@ class BasicLayout extends Component {
                 address: this.bech32Address,
             });
         };
-
-        const test = async () => {
-            // console.log(window.keplr.getKey())
-            try {
-                const response = await Axios.get('https://dev.bharvest.io/faucet/?address=cosmos1wlfjwg3ff8fy7qhut3eaj4agm8qpnw5ug7qjen')
-                console.log('response', response)
-            } catch (error) {
-                console.error("getPoolList", error)
-            }
-        }
-        // test()
-
     }
 
-
-    // async connectWallet() {
-    //     if (!window.cosmosJSWalletProvider) {
-    //         alert("Please install the Keplr extension");
-    //         return;
-    //     }
-
-    //     if (!window.keplr?.experimentalSuggestChain) {
-    //         alert("Please use the latest version of Keplr extension");
-    //         return;
-    //     }
-
-    //     await window.keplr.experimentalSuggestChain(chainInfo);
-
-    //     const cosmosJS = new GaiaApi({
-    //         chainId: chainInfo.chainId,
-    //         rpc: chainInfo.rpc,
-    //         rest: chainInfo.rest,
-    //         walletProvider: window.cosmosJSWalletProvider
-    //     });
-
-    //     await cosmosJS.enable();
-
-    //     const keys = await cosmosJS.getKeys();
-
-    //     if (keys.length === 0) {
-    //         throw new Error("there is no key");
-    //     }
-    //     this.bech32Address = keys[0].bech32Address;
-
-    //     localStorage.setItem('walletAddress', this.bech32Address)
-
-    //     this.setState({
-    //         cosmosJS,
-    //         address: this.bech32Address,
-    //     });
-    // }
     getModifiedAddress = (address) => {
         return `${address.substr(0, 10)}...${address.substr(-5)}`
+    }
+
+    sendFaucetRequest = async () => {
+        try {
+            alert('send a request! it takes about 10 seconds :)')
+            this.setState({ isSent: true })
+            const response = await Axios.get(`https://dev.bharvest.io/faucet/?address=${localStorage.getItem('walletAddress')}`)
+            alert('Faucet request complete!')
+            this.setState({ isSent: false })
+            console.log('Faucet response', response)
+        } catch (error) {
+            alert(error)
+            this.setState({ isSent: false })
+            console.log(error)
+        }
     }
 
     render() {
@@ -115,6 +82,7 @@ class BasicLayout extends Component {
                     <NavLink exact to={"/swap"} activeStyle={this.state.activeStyle}>Swap</NavLink>
                     <NavLink exact to={"/deposit"} activeStyle={this.state.activeStyle}>Deposit</NavLink>
                     <NavLink exact to={"/withdraw"} activeStyle={this.state.activeStyle}>Withdraw</NavLink>
+                    <a onClick={this.sendFaucetRequest} style={this.state.isSent ? { color: "#a7a7a7", pointerEvents: "none" } : {}}>{this.state.isSent ? "Processing" : "Faucet 💸"}</a>
                     <Connect>{this.state.address ? `${this.getModifiedAddress(this.state.address)}` : 'CONNECT WALLET'} </Connect>
                 </Header>
 
@@ -145,6 +113,7 @@ a {
     font-weight: bold;
     color:#222;
     display:inline-block;
+    cursor:pointer;
     margin-top: 18px;
     padding: 12px;
     &:not(:last-child) {
