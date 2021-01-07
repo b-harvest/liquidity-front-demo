@@ -45,9 +45,7 @@ class PoolList extends Component {
 	}
 
 	getSecondPairPrice(item) {
-		const price =
-			Number(item.liquidity_pool_metadata.reserve_coins[1].amount) /
-			Number(item.liquidity_pool_metadata.reserve_coins[0].amount);
+		const price = Number(item.liquidity_pool_metadata.reserve_coins[1]?.amount) / Number(item.liquidity_pool_metadata.reserve_coins[0]?.amount);
 		return Number(price).toFixed(2);
 	}
 
@@ -90,8 +88,8 @@ class PoolList extends Component {
 				{this.state.isModal ? (
 					<CreatePoolModal modalHandler={this.modalHandler} />
 				) : (
-					""
-				)}
+						""
+					)}
 			</>
 		);
 	}

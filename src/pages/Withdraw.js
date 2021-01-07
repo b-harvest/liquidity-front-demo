@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import styled from 'styled-components';
 import { txGenerator, getWalletTokenList, getPoolList } from '../common/cosmos-amm'
-import { currencies } from '../common/config'
+
 import TokenSetter from '../elements/TokenSetter';
 import BasicButtonCard from '../elements/BasicButtonCard'
 
@@ -11,15 +11,10 @@ class Deposit extends Component {
         super(props);
         this.state = {
             tokenA: '',
-            tokenB: currencies[0].coinMinimalDenom,
             tokenAAmount: '',
-            tokenBAmount: '',
             tokenAPoolAmount: '',
-            tokenBPoolAmount: '',
-            poolId: '',
-            poolTypeIndex: '',
             poolTokenData: null,
-            priceBForA: 0,
+            poolTokenDataIndexer: null,
             isLoading: false,
         };
     }
@@ -29,12 +24,16 @@ class Deposit extends Component {
                 const poolList = await getPoolList();
                 const walletTokenList = await getWalletTokenList();
                 const poolTokenData = getPoolToken(poolList, walletTokenList)
-                console.log('test', poolTokenData)
-                this.setState({ poolTokenData: poolTokenData, tokenA: poolTokenData[0].tokenName })
+                let poolTokenDataIndexer = {}
+                console.log('poolTokenData', poolTokenData)
+                poolTokenData.forEach((ele, index) => {
+                    poolTokenDataIndexer[ele.coinMinimalDenom] = index
+                })
+                console.log('poolTokenDataIndex', poolTokenDataIndexer)
+                this.setState({ poolTokenData: poolTokenData, poolTokenDataIndexer: poolTokenDataIndexer, tokenA: poolTokenData[0].coinMinimalDenom })
             } catch (error) {
                 console.error(error);
             }
-            console.log(currencies)
         };
 
 
@@ -47,7 +46,6 @@ class Deposit extends Component {
                     myPoolTokens[ele.denom] = ele.amount
                 }
             })
-            console.log('myPoolToken', myPoolTokens)
             return pl.map(ele => {
                 let myTokenAmount = 0
                 if (myPoolTokens[ele.liquidity_pool.pool_coin_denom]) {
@@ -58,8 +56,9 @@ class Deposit extends Component {
                     tokenDenom: [ele.liquidity_pool.reserve_coin_denoms[0], ele.liquidity_pool.reserve_coin_denoms[1]],
                     poolTokenAmount: ele.liquidity_pool_metadata.pool_coin_total_supply.amount,
                     coinMinimalDenom: ele.liquidity_pool.pool_coin_denom,
-                    reserve_coins: ele.liquidity_pool_metadata.reserve_coins,
-                    myTokenAmount: myTokenAmount
+                    reserveCoins: ele.liquidity_pool_metadata.reserve_coins,
+                    myTokenAmount: myTokenAmount,
+                    poolId: ele.liquidity_pool.pool_id
                 }
             });
         }
@@ -68,25 +67,19 @@ class Deposit extends Component {
     // 로직 함수 시작
     createPool = async () => {
         console.log(`X : ${this.state.tokenA} ${this.state.tokenAAmount}`)
-        console.log(`Y : ${this.state.tokenB} ${this.state.tokenBAmount}`)
 
         const tokenA = this.state.tokenA
-        const tokenB = this.state.tokenB
         const amountA = Math.floor(Number(this.state.tokenAAmount) * 1000000);
         // const amountB = Math.floor(Number(this.state.tokenBAmount) * 1000000);
 
         // const arrangedReserveCoinDenoms = sortReserveCoinDenoms(tokenA, tokenB)
-
+        console.log(this.state.poolTokenDataIndexer)
         const msgData = {
-            poolId: this.state.poolId,
-            poolTypeIndex: this.state.poolTypeIndex,
-            swapType: 1,
-            offerCoin: {
+            poolId: this.state.poolTokenData[this.state.poolTokenDataIndexer[tokenA]].poolId,
+            poolCoin: {
                 "denom": tokenA,
                 "amount": String(amountA)
             },
-            demandCoinDenom: tokenB,
-            orderPrice: Number(Number(this.state.tokenBPoolAmount) / Number(this.state.tokenAPoolAmount)).toFixed(18)
         }
 
         const feeData = {
@@ -102,20 +95,11 @@ class Deposit extends Component {
             if (String(response).includes("Error")) {
                 throw response
             }
-            alert("Swap Success!")
+            alert("Withdraw Success!")
         } catch (error) {
             alert(error)
             this.setState({ isLoading: false })
         }
-
-        // helpers
-        // function sortReserveCoinDenoms(x, y) {
-        //     return [x, y]
-        // }
-
-        // function getDepositCoins(denoms, amounts) {
-        //     return { denoms: [denoms[0], denoms[1]], amounts: [amounts[denoms[0]], amounts[denoms[1]]] }
-        // }
     }
     // 로직 함수 끝
 
@@ -143,20 +127,6 @@ class Deposit extends Component {
 
     }
 
-    selectPool = (item) => {
-        console.log(item)
-        if (item.liquidity_pool_metadata?.reserve_coins) {
-            this.setState({
-                poolId: item.liquidity_pool.pool_id,
-                poolTypeIndex: item.liquidity_pool.pool_type_index,
-                tokenA: item.liquidity_pool_metadata.reserve_coins[0].denom,
-                tokenB: item.liquidity_pool_metadata.reserve_coins[1].denom,
-                tokenAPoolAmount: item.liquidity_pool_metadata.reserve_coins[0].amount,
-                tokenBPoolAmount: item.liquidity_pool_metadata.reserve_coins[1].amount,
-            })
-        }
-    }
-
     render() {
         return (
             <div>
@@ -174,8 +144,8 @@ class Deposit extends Component {
 
                     <BasicButtonCard function={this.createPool} buttonName="WITHDRAW" isLoading={this.state.isLoading}>
                         <Detail>
-                            <div>Pool Price</div>
-                            <div>{this.getTokenPrice()}</div>
+                            {/* <div>Pool Price</div>
+                            <div>{this.getTokenPrice()}</div> */}
                         </Detail>
                     </BasicButtonCard>
                 </DepositCard> : ''}
