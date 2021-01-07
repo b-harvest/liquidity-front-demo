@@ -1,126 +1,143 @@
-
-import { getPoolList } from '../common/cosmos-amm'
-import { Component } from 'react';
-import styled from 'styled-components';
+import { getPoolList } from "../common/cosmos-amm";
+import { Component } from "react";
+import styled from "styled-components";
 
 class PoolList extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            poolData: null,
-            updatePool: null,
-        };
-    }
+	constructor(props) {
+		super(props);
+		this.state = {
+			poolData: null,
+			updatePool: null
+		};
+	}
 
-    componentDidMount() {
-        const initGetPoolList = async () => {
-            try {
-                const poolList = await getPoolList()
-                this.setState({ poolData: poolList })
-            } catch (error) {
-                console.error(error)
-            }
-        }
+	componentDidMount() {
+		const initGetPoolList = async () => {
+			try {
+				const poolList = await getPoolList();
+				this.setState({ poolData: poolList });
+			} catch (error) {
+				console.error(error);
+			}
+		};
 
-        initGetPoolList()
-        const updatePool = setInterval(() => { initGetPoolList() }, 5000)
-        this.setState({ updatePool: updatePool })
-    }
-    componentWillUnmount() {
-        clearInterval(this.state.updatePool)
-    }
+		initGetPoolList();
+		const updatePool = setInterval(() => {
+			initGetPoolList();
+		}, 5000);
+		this.setState({ updatePool: updatePool });
+	}
+	componentWillUnmount() {
+		clearInterval(this.state.updatePool);
+	}
 
-    getPoolPairs(item) {
-        return [item.liquidity_pool.reserve_coin_denoms[0].substr(1).toUpperCase(), item.liquidity_pool.reserve_coin_denoms[1].substr(1).toUpperCase()]
-    }
+	getPoolPairs(item) {
+		return [
+			item.liquidity_pool.reserve_coin_denoms[0].substr(1).toUpperCase(),
+			item.liquidity_pool.reserve_coin_denoms[1].substr(1).toUpperCase()
+		];
+	}
 
-    getSecondPairPrice(item) {
-        const price = Number(item.liquidity_pool_metadata.reserve_coins[1].amount) / Number(item.liquidity_pool_metadata.reserve_coins[0].amount)
-        return Number(price).toFixed(2)
-    }
+	getSecondPairPrice(item) {
+		const price =
+			Number(item.liquidity_pool_metadata.reserve_coins[1].amount) /
+			Number(item.liquidity_pool_metadata.reserve_coins[0].amount);
+		return Number(price).toFixed(2);
+	}
 
-    selectPool = (pool) => {
-        this.props.selectPool(pool)
-    }
+	selectPool = (pool) => {
+		this.props.selectPool(pool);
+	};
 
-    createRows = (data) => {
-        if (data === null) {
-            return (<div style={{ color: "#ea5353", fontSize: "18px", fontWeight: "bold" }}></div>)
-        } else {
-            return (
-                data.map((item, index) => {
-                    const pairs = this.getPoolPairs(item)
-                    const secondPairPrice = this.getSecondPairPrice(item)
-                    return (
-                        <Row key={index}>
-                            <div>{`${pairs[0]}-${pairs[1]}`}<br /><DepositButton onClick={() => { this.selectPool(item) }}>Deposit</DepositButton></div>
-                            <div>{`1 ${pairs[0]} per`}<br />{`${secondPairPrice} ${pairs[1]}`}</div>
-                        </Row>)
-                })
-            )
-        }
-    }
+	createRows = (data) => {
+		if (data === null) {
+			return (
+				<div
+					style={{ color: "#ea5353", fontSize: "18px", fontWeight: "bold" }}
+				></div>
+			);
+		} else {
+			return data.map((item, index) => {
+				const pairs = this.getPoolPairs(item);
+				const secondPairPrice = this.getSecondPairPrice(item);
+				return (
+					<Row key={index}>
+						<div>
+							{`${pairs[0]}-${pairs[1]}`}
+							<br />
+							<DepositButton
+								onClick={() => {
+									this.selectPool(item);
+								}}
+							>
+								Deposit
+							</DepositButton>
+						</div>
+						<div>
+							{`1 ${pairs[0]} per`}
+							<br />
+							{`${secondPairPrice} ${pairs[1]}`}
+						</div>
+					</Row>
+				);
+			});
+		}
+	};
 
-    render() {
-        return (
-            <>
-                <PoolTable>
-                    <TableHeader>
-                        <div>Pool</div>
-                        <div>Price</div>
-                    </TableHeader>
-                    {this.createRows(this.state.poolData)}
-                </PoolTable>
-            </>
-        )
-    }
+	render() {
+		return (
+			<>
+				<PoolTable>
+					<TableHeader>
+						<div>Pool</div>
+						<div>Price</div>
+					</TableHeader>
+					{this.createRows(this.state.poolData)}
+				</PoolTable>
+			</>
+		);
+	}
 }
 const Row = styled.div`
-margin-bottom: 20px;
-display: flex;
+	margin-bottom: 20px;
+	display: flex;
+	width: 540px;
 
-div {
-    flex: 1;
-    display:inline-block;
-    width:200px;
-    line-height: 24px;
-}
-`
+	div {
+		width: 50%;
+		display: inline-block;
+		line-height: 24px;
+	}
+`;
 const PoolTable = styled.section`
-width: 400px;
-margin: 0 auto;
-border-radius: 6px;
-text-align:center;
-`
+	margin: 0 auto;
+	border-radius: 6px;
+	text-align: center;
+`;
 
 const TableHeader = styled(Row)`
-    margin-bottom: 30px;
-    background-color: #eef5ff;
-    font-weight: bold;
+	margin-bottom: 30px;
+	background-color: #eef5ff;
+	font-weight: bold;
 
-    div{
-        line-height: 48px;
-    }
-`
-
+	div {
+		line-height: 48px;
+	}
+`;
 
 const DepositButton = styled.button`
-width: 120px;
-height: 24px;
-border-radius: 12px;
-border: none;
-background-color:#4297ff;
-color:#fff;
-font-weight: bold;
-cursor:pointer;
-outline:none;
-`
+	width: 120px;
+	height: 24px;
+	border-radius: 12px;
+	border: none;
+	background-color: #4297ff;
+	color: #fff;
+	font-weight: bold;
+	cursor: pointer;
+	outline: none;
+`;
 
-
-
-
-export default PoolList
-
+export default PoolList;
 
 //helper
 // function setWallettokenDataToPoolListData(poolListData, walletTokens) {
