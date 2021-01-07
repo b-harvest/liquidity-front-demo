@@ -89,6 +89,24 @@ export const txGenerator = async (type, msgData, feeData = {
                         deposit_coins: [coin(msgData.deposit_coins.amounts[0], msgData.deposit_coins.denoms[0]), coin(msgData.deposit_coins.amounts[1], msgData.deposit_coins.denoms[1])]
                     }
                 }
+            case "MsgSwap":
+                return {
+                    type: "liquidity/MsgSwap",
+                    value: {
+                        swap_requester_address: accounts[0].address,
+                        pool_id: "1",
+                        pool_type_index: 1,
+                        swap_type: 1,
+                        offer_coin: {
+                            "denom": "uatom",
+                            "amount": "1000000000"
+                        },
+                        demand_coin_denom: "uusdt",
+                        order_price: "6.300000000000000000"
+                    }
+                }
+
+
             default:
                 console.log('getMsg Error')
                 return

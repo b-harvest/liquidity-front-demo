@@ -6,8 +6,7 @@ import {
 } from "react-router-dom";
 //import axios from 'axios';
 import BasicLayout from './components/layouts/BasicLayout'
-import PoolList from './pages/PoolList'
-import CreateNewPool from './pages/CreateNewPool'
+import Pools from './pages/Pools'
 import Deposit from './pages/Deposit'
 import Withdraw from './pages/Withdraw'
 import Swap from './pages/Swap'
@@ -77,10 +76,7 @@ function App() {
       <BasicLayout>
         <Switch>
           <Route exact path="/">
-            <PoolList myTokenData={myTokenData} />
-          </Route>
-          <Route exact path="/create-new-pool">
-            <CreateNewPool tokenList={tokenList} />
+            <Pools myTokenData={myTokenData} />
           </Route>
           <Route exact path="/deposit">
             <Deposit tokenList={tokenList} poolInfo={poolInfo} />
