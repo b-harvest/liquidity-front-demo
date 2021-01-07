@@ -21,7 +21,7 @@ class CreatePoolModal extends Component {
 	componentDidMount() {
 		console.log(currencies);
 	}
-	componentWillUnmount() {}
+	componentWillUnmount() { }
 	// 로직 함수 시작
 	createPool = async () => {
 		console.log(`X : ${this.state.tokenA} ${this.state.tokenAAmount}`);
