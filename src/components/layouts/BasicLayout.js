@@ -86,7 +86,7 @@ class BasicLayout extends Component {
                     <Connect>{this.state.address ? `${this.getModifiedAddress(this.state.address)}` : 'CONNECT WALLET'} </Connect>
                 </Header>
 
-                { this.props.children}
+                {this.props.children}
             </Layout >)
     }
 }

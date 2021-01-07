@@ -7,7 +7,6 @@ import {
 //import axios from 'axios';
 import BasicLayout from './components/layouts/BasicLayout'
 import PoolList from './pages/PoolList'
-import CreateNewPool from './pages/CreateNewPool'
 import Deposit from './pages/Deposit'
 import Withdraw from './pages/Withdraw'
 import Swap from './pages/Swap'
@@ -78,9 +77,6 @@ function App() {
         <Switch>
           <Route exact path="/">
             <PoolList myTokenData={myTokenData} />
-          </Route>
-          <Route exact path="/create-new-pool">
-            <CreateNewPool tokenList={tokenList} />
           </Route>
           <Route exact path="/deposit">
             <Deposit tokenList={tokenList} poolInfo={poolInfo} />
