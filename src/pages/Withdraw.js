@@ -1,250 +1,186 @@
 import { Component } from 'react';
 import styled from 'styled-components';
+import { txGenerator, getWalletTokenList, getPoolList } from '../common/cosmos-amm'
+import { currencies } from '../common/config'
+import TokenSetter from '../elements/TokenSetter';
+import BasicButtonCard from '../elements/BasicButtonCard'
 
-class Withdraw extends Component {
+class Deposit extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            tokenA: currencies[1].coinMinimalDenom,
+            tokenB: currencies[0].coinMinimalDenom,
+            tokenAAmount: '',
+            tokenBAmount: '',
+            tokenAPoolAmount: '',
+            tokenBPoolAmount: '',
+            poolId: '',
+            poolTypeIndex: '',
+            priceBForA: 0,
+            isLoading: false,
+        };
+    }
+    componentDidMount() {
+        const GetPoolTokenList = async () => {
+            try {
+                const poolList = await getPoolList();
+                const tokenList = await getWalletTokenList();
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+
+        GetPoolTokenList()
+    }
 
     // 로직 함수 시작
-    withdraw() {
-        const amountX = document.getElementById('ReserveTokenX').innerText
-        const amountY = document.getElementById('ReserveTokenY').innerText
+    createPool = async () => {
+        console.log(`X : ${this.state.tokenA} ${this.state.tokenAAmount}`)
+        console.log(`Y : ${this.state.tokenB} ${this.state.tokenBAmount}`)
 
-        alert(`출금량\nTokenX: ${amountX}\nTokenY: ${amountY}`)
-        //여기서 작업하시면 됩니다 😄
+        const tokenA = this.state.tokenA
+        const tokenB = this.state.tokenB
+        const amountA = Math.floor(Number(this.state.tokenAAmount) * 1000000);
+        // const amountB = Math.floor(Number(this.state.tokenBAmount) * 1000000);
 
+        // const arrangedReserveCoinDenoms = sortReserveCoinDenoms(tokenA, tokenB)
+
+        const msgData = {
+            poolId: this.state.poolId,
+            poolTypeIndex: this.state.poolTypeIndex,
+            swapType: 1,
+            offerCoin: {
+                "denom": tokenA,
+                "amount": String(amountA)
+            },
+            demandCoinDenom: tokenB,
+            orderPrice: Number(Number(this.state.tokenBPoolAmount) / Number(this.state.tokenAPoolAmount)).toFixed(18)
+        }
+
+        const feeData = {
+            denom: "ustake",
+            amount: 2000,
+            gas: "180000",
+        };
+
+        try {
+            this.setState({ isLoading: true })
+            const response = await txGenerator("MsgSwap", msgData, feeData)
+            this.setState({ isLoading: false })
+            if (String(response).includes("Error")) {
+                throw response
+            }
+            alert("Swap Success!")
+        } catch (error) {
+            alert(error)
+            this.setState({ isLoading: false })
+        }
+
+        // helpers
+        // function sortReserveCoinDenoms(x, y) {
+        //     return [x, y]
+        // }
+
+        // function getDepositCoins(denoms, amounts) {
+        //     return { denoms: [denoms[0], denoms[1]], amounts: [amounts[denoms[0]], amounts[denoms[1]]] }
+        // }
     }
     // 로직 함수 끝
 
-    componentDidMount() {
-        // setInterval(() => {
-        //     const myPoolTokenWidrawAmount = Number(document.getElementById('withdrawAmount').value)
-        //     if (myPoolTokenWidrawAmount) {
-        //         const myShare = myPoolTokenWidrawAmount / this.props.poolInfo.poolTokenSupply
-        //         document.getElementById('ReserveTokenX').innerText = this.props.poolInfo.reserveTokenX.balance * myShare
-        //         document.getElementById('ReserveTokenY').innerText = this.props.poolInfo.reserveTokenY.balance * myShare
-        //     }
-        // }, 1000)
+
+
+    tokenSelectorChangeHandler = (e) => {
+        this.setState({
+            [e.target.id]: e.target.value
+        })
     }
 
+    amountChangeHandler = (e) => {
+        this.setState({
+            [e.target.id]: e.target.value
+        })
+    }
 
-    createOptions(data) {
-        return (
-            data.map((item, index) => {
-                return (
-                    <option value={item} key={item}>{item}</option>
-                )
-            }
-            )
-        )
+    getTokenPrice = () => {
+        const price = this.state.tokenBPoolAmount / this.state.tokenAPoolAmount
+        if (price && price !== Infinity) {
+            return <span>1 {this.state.tokenA.substr(1).toUpperCase()} = {parseFloat(price.toFixed(6))} {this.state.tokenB.substr(1).toUpperCase()}</span>
+        } else {
+            return "?"
+        }
+
+    }
+
+    selectPool = (item) => {
+        console.log(item)
+        if (item.liquidity_pool_metadata?.reserve_coins) {
+            this.setState({
+                poolId: item.liquidity_pool.pool_id,
+                poolTypeIndex: item.liquidity_pool.pool_type_index,
+                tokenA: item.liquidity_pool_metadata.reserve_coins[0].denom,
+                tokenB: item.liquidity_pool_metadata.reserve_coins[1].denom,
+                tokenAPoolAmount: item.liquidity_pool_metadata.reserve_coins[0].amount,
+                tokenBPoolAmount: item.liquidity_pool_metadata.reserve_coins[1].amount,
+            })
+        }
     }
 
     render() {
         return (
             <div>
-                <Wrapper>
-                    <CustomSection>
-                        <ReserveTokenCard>
-                            <TokenTitle>Pool Token</TokenTitle>
-                            {/* {this.state.tokenX} {this.state.tokenY} */}
-                            <TokenSelector id="tokenX">
-                                {this.createOptions(this.props.withdrawInfo.pools)}
-                            </TokenSelector>
-                            <TokenTitle>Withdraw Amount </TokenTitle>
-                            <WithdrawInput id="withdrawAmount" placeholder="1.000"></WithdrawInput>
-                            <PoolTokenInfo>
-                                <div>Your Balance:</div>
-                                <div>{this.props.withdrawInfo.myPoolToken}</div>
-                            </PoolTokenInfo>
-                        </ReserveTokenCard>
+                <DepositCard>
+                    <TokenSetter
+                        currencies={currencies}
+                        leftTitle="Pool Token"
+                        rightTitle="Amount"
+                        cssId="A"
+                        token={this.state.tokenA}
+                        tokenAmount={this.tokenAAmount}
+                        selectorHandler={this.tokenSelectorChangeHandler}
+                        amountHandler={this.amountChangeHandler}
+                        cssStyle={{ marginBottom: "20px" }} />
 
+                    <BasicButtonCard function={this.createPool} buttonName="SWAP" isLoading={this.state.isLoading}>
+                        <Detail>
+                            <div>Pool Price</div>
+                            <div>{this.getTokenPrice()}</div>
+                        </Detail>
+                    </BasicButtonCard>
+                </DepositCard>
 
-
-
-                    </CustomSection>
-
-                    <CustomSection>
-                        <PoolInfoCard>
-                            <PoolInfoRow>
-                                <PoolInfoCell>
-                                    <div>Reserve Token X</div>
-                                    <div>{`${this.props.poolInfo.reserveTokenX.balance} ${this.props.poolInfo.reserveTokenX.denom}`}</div>
-                                </PoolInfoCell>
-                                <PoolInfoCell>
-                                    <div>Reserve Token Y</div>
-                                    <div>{`${this.props.poolInfo.reserveTokenY.balance} ${this.props.poolInfo.reserveTokenY.denom}`}</div>
-                                </PoolInfoCell>
-                            </PoolInfoRow>
-                            <PoolInfoRow>
-                                <PoolInfoCell>
-                                    <div>Current Pool Price Y/X</div>
-                                    <div>{Math.round((this.props.poolInfo.reserveTokenY.balance / this.props.poolInfo.reserveTokenX.balance) * 100) / 100}</div>
-                                </PoolInfoCell>
-                                <PoolInfoCell>
-                                    <div>Latest Swap Price Y/X</div>
-                                    <div>{this.props.poolInfo.latestSwapPrice.YX}</div>
-                                </PoolInfoCell>
-                            </PoolInfoRow>
-                            <PoolInfoRow>
-                                <PoolInfoCell>
-                                    <div>Current Pool Price X/Y</div>
-                                    <div>{Math.round((this.props.poolInfo.reserveTokenX.balance / this.props.poolInfo.reserveTokenY.balance) * 100) / 100}</div>
-                                </PoolInfoCell>
-                                <PoolInfoCell>
-                                    <div>Latest Swap Price X/Y</div>
-                                    <div>{this.props.poolInfo.latestSwapPrice.XY}</div>
-                                </PoolInfoCell>
-                            </PoolInfoRow>
-                            <PoolInfoRow>
-                                <PoolInfoCell>
-                                    <div>Pool Token Supply</div>
-                                    <div>{this.props.poolInfo.poolTokenSupply}</div>
-                                </PoolInfoCell>
-                                <PoolInfoCell>
-
-                                </PoolInfoCell>
-                            </PoolInfoRow>
-                            <PoolTokenH2>{`Expected Reserve Token Receivalble`} </PoolTokenH2>
-                            <PoolInfoRow>
-                                <PoolInfoCell>
-                                    <div></div>
-                                    <div id="ReserveTokenX">0</div>
-                                </PoolInfoCell>
-                                <PoolInfoCell>
-                                    <div></div>
-                                    <div id="ReserveTokenY">0</div>
-                                </PoolInfoCell>
-                            </PoolInfoRow>
-
-                        </PoolInfoCard>
-                    </CustomSection>
-
-
-                </Wrapper>
-                <CreateNewPoolButton onClick={this.withdraw}>Withdraw</CreateNewPoolButton>
             </div>
         )
     }
 }
 
-const PoolTokenInfo = styled.div`
-display:flex;
-margin-top: 12px;
-div {
-    display:inline-block;
-    flex: 1;
-}
-
-div:nth-child(2) {
-    color:#ffb100;
-    text-align: right;
-    padding-right: 6px;
-    font-weight: bold;
-    
-}
+const DepositCard = styled.div`
+    position:absolute;
+    width: 460px;
+    height: 340px;
+    padding: 40px 20px 20px;
+    background-color:#fff;
+    transform: translateX( -50%);
+    top: 120px;
+    left: 50%;
+    border-radius: 8px;
+    border: 1px solid #bdbdbd;
 `
 
-const CustomSection = styled.section`
-   flex:1;
-    display:inline-block;
-`
-const Wrapper = styled.div`
-    display:flex;
-`
 
-const PoolInfoCard = styled.section`
-width: 340px;;
-display:inline-block;
-border: 1px solid gray;
-border-radius: 8px;
-text-align:left;
-padding: 20px 20px 20px 0;
-height: 350px;
-`
-const PoolInfoRow = styled.div`
-display:flex;
-margin-bottom: 20px;
-`
-
-const PoolTokenH2 = styled.div`
-padding-left: 20px;
-font-size: 12px;
+const Detail = styled.div`
+display: flex;
 font-weight: bold;
-margin-bottom: 4px;
-`
-
-const PoolInfoCell = styled.div`
-flex: 1;
-margin-left: 20px;
+div {
+    flex: 1;
+    text-align:right;
+}
 div:first-child {
-    font-size: 12px;
-    font-weight: bold;
-}
-div:nth-child(2) {
-    margin-top: 2px;
-    padding-right: 12px;
-    text-align: right;
-    font-weight: 700;
-    font-size: 18px;
-    border: 1px solid gray;
-    height: 32px;
-    line-height: 32px;
-    border-radius: 8px;
-    background-color: #efefef;
-    
+    text-align: left;
 }
 `
 
 
-const ReserveTokenCard = styled.section`
-width: 330px;
-display:inline-block;
-border: 1px solid gray;
-border-radius: 8px;
-text-align:left;
-padding: 20px;
-`
-const TokenTitle = styled.div`
-font-weight: 700;
-font-size: 18px;
-margin-bottom: 8px;
-`
-
-const TokenSelector = styled.select` 
-    padding: 0 12px;
-    cursor: pointer;
-    border-radius: 8px;
-    height: 32px;
-    width: 326px;
-    font-weight: 700;
-    line-height: 32px;
-    border: 1px solid gray;
-    margin-bottom: 20px;
-    &:hover {
-        font-weight: 700;
-    }
-`
-
-const WithdrawInput = styled.input`
-    padding: 0 12px;
-    cursor: pointer;
-    border-radius: 8px;
-    height: 32px;
-    width: 300px;
-    line-height: 32px;
-    border: 1px solid gray;
-    font-weight:700;
-`
-
-const CreateNewPoolButton = styled.div`
-margin: 20px auto 0 auto;
-width: 100%;
-cursor:pointer;
-height: 40px;
-border-radius: 8px;
-font-size: 20px;
-line-height: 40px;
-color: #fff;
-background-color: #ffb100;
-`
-
-
-export default Withdraw
+export default Deposit
