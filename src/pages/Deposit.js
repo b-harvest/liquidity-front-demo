@@ -15,17 +15,15 @@ class Deposit extends Component {
             tokenB: currencies[0].coinMinimalDenom,
             tokenAAmount: '',
             tokenBAmount: '',
+            tokenAPoolAmount: '',
+            tokenBPoolAmount: '',
+            poolId: '',
+            priceBForA: 0,
             isLoading: false,
             isPoolSelected: false
         };
     }
-
-    componentDidMount() {
-        console.log(currencies)
-    }
-    componentWillUnmount() {
-
-    }
+    // this.setState({ priceBForA: parseFloat(price.toFixed(6)) })
     // 로직 함수 시작
     createPool = async () => {
         console.log(`X : ${this.state.tokenA} ${this.state.tokenAAmount}`)
@@ -39,7 +37,7 @@ class Deposit extends Component {
         const arrangedReserveCoinDenoms = sortReserveCoinDenoms(tokenA, tokenB)
 
         const msgData = {
-            pool_id: 1,
+            pool_id: this.state.poolId,
             deposit_coins: getDepositCoins(arrangedReserveCoinDenoms, { [tokenA]: amountX, [tokenB]: amountY })
         }
 
@@ -88,20 +86,31 @@ class Deposit extends Component {
     }
 
     getTokenPrice = () => {
-        const price = this.state.tokenAAmount / this.state.tokenBAmount
+        const price = this.state.tokenBPoolAmount / this.state.tokenAPoolAmount
         if (price && price !== Infinity) {
-            return <span>{parseFloat(price.toFixed(6))} {this.state.tokenA.substr(1).toUpperCase()} = 1 {this.state.tokenB.substr(1).toUpperCase()}</span>
+            return <span>1 {this.state.tokenA.substr(1).toUpperCase()} = {parseFloat(price.toFixed(6))} {this.state.tokenB.substr(1).toUpperCase()}</span>
         } else {
             return "?"
         }
 
     }
 
-    selectPool = (item = {}) => {
+    selectPool = (item) => {
         console.log(item)
-        this.setState({
-            isPoolSelected: !this.state.isPoolSelected
-        })
+        if (item.liquidity_pool_metadata?.reserve_coins) {
+            this.setState({
+                isPoolSelected: !this.state.isPoolSelected,
+                poolId: item.liquidity_pool.pool_id,
+                tokenA: item.liquidity_pool_metadata.reserve_coins[0].denom,
+                tokenB: item.liquidity_pool_metadata.reserve_coins[1].denom,
+                tokenAPoolAmount: item.liquidity_pool_metadata.reserve_coins[0].amount,
+                tokenBPoolAmount: item.liquidity_pool_metadata.reserve_coins[1].amount
+            })
+        } else {
+            this.setState({
+                isPoolSelected: !this.state.isPoolSelected,
+            })
+        }
     }
 
     render() {
@@ -133,7 +142,7 @@ class Deposit extends Component {
 
                         <BasicButtonCard function={this.createPool} buttonName="DEPOSIT" isLoading={this.state.isLoading}>
                             <Detail>
-                                <div>Initial Pool Price</div>
+                                <div>Pool Price</div>
                                 <div>{this.getTokenPrice()}</div>
                             </Detail>
                         </BasicButtonCard>
