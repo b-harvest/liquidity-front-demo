@@ -10,7 +10,7 @@ class Deposit extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            tokenA: currencies[1].coinMinimalDenom,
+            tokenA: '',
             tokenB: currencies[0].coinMinimalDenom,
             tokenAAmount: '',
             tokenBAmount: '',
@@ -18,22 +18,51 @@ class Deposit extends Component {
             tokenBPoolAmount: '',
             poolId: '',
             poolTypeIndex: '',
+            poolTokenData: null,
             priceBForA: 0,
             isLoading: false,
         };
     }
     componentDidMount() {
-        const GetPoolTokenList = async () => {
+        const setPoolToken = async () => {
             try {
                 const poolList = await getPoolList();
-                const tokenList = await getWalletTokenList();
+                const walletTokenList = await getWalletTokenList();
+                const poolTokenData = getPoolToken(poolList, walletTokenList)
+                console.log('test', poolTokenData)
+                this.setState({ poolTokenData: poolTokenData, tokenA: poolTokenData[0].tokenName })
             } catch (error) {
                 console.error(error);
             }
+            console.log(currencies)
         };
 
 
-        GetPoolTokenList()
+        setPoolToken()
+        //helper 
+        function getPoolToken(pl, wt) {
+            let myPoolTokens = {}
+            wt.forEach((ele) => {
+                if (ele.denom.length > 10) {
+                    myPoolTokens[ele.denom] = ele.amount
+                }
+            })
+            console.log('myPoolToken', myPoolTokens)
+            return pl.map(ele => {
+                let myTokenAmount = 0
+                if (myPoolTokens[ele.liquidity_pool.pool_coin_denom]) {
+                    myTokenAmount = myPoolTokens[ele.liquidity_pool.pool_coin_denom]
+                }
+                return {
+                    coinDenom: `${ele.liquidity_pool.reserve_coin_denoms[0].substr(1).toUpperCase()}-${ele.liquidity_pool.reserve_coin_denoms[1].substr(1).toUpperCase()}`,
+                    tokenDenom: [ele.liquidity_pool.reserve_coin_denoms[0], ele.liquidity_pool.reserve_coin_denoms[1]],
+                    poolTokenAmount: ele.liquidity_pool_metadata.pool_coin_total_supply.amount,
+                    coinMinimalDenom: ele.liquidity_pool.pool_coin_denom,
+                    reserve_coins: ele.liquidity_pool_metadata.reserve_coins,
+                    myTokenAmount: myTokenAmount
+                }
+            });
+        }
     }
 
     // 로직 함수 시작
@@ -131,9 +160,9 @@ class Deposit extends Component {
     render() {
         return (
             <div>
-                <DepositCard>
+                {this.state.poolTokenData ? <DepositCard>
                     <TokenSetter
-                        currencies={currencies}
+                        currencies={this.state.poolTokenData}
                         leftTitle="Pool Token"
                         rightTitle="Amount"
                         cssId="A"
@@ -149,7 +178,7 @@ class Deposit extends Component {
                             <div>{this.getTokenPrice()}</div>
                         </Detail>
                     </BasicButtonCard>
-                </DepositCard>
+                </DepositCard> : ''}
 
             </div>
         )
