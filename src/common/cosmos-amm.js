@@ -102,6 +102,18 @@ export const txGenerator = async (type, msgData, feeData = {
                         order_price: String(msgData.orderPrice)
                     }
                 }
+            case "MsgWithdrawFromLiquidityPool":
+                return {
+                    type: "liquidity/MsgWithdrawFromLiquidityPool",
+                    value: {
+                        withdrawer_address: "cosmos1wlfjwg3ff8fy7qhut3eaj4agm8qpnw5ug7qjen",
+                        pool_id: "1",
+                        pool_coin: {
+                            "denom": "cosmos1gwgm6c4hvekakt8c43m6k5zwsr909ssu2qj724",
+                            "amount": "1000000"
+                        }
+                    }
+                }
 
 
             default:

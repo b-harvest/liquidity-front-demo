@@ -97,7 +97,7 @@ class Deposit extends Component {
 
         try {
             this.setState({ isLoading: true })
-            const response = await txGenerator("MsgSwap", msgData, feeData)
+            const response = await txGenerator("MsgWithdrawFromLiquidityPool", msgData, feeData)
             this.setState({ isLoading: false })
             if (String(response).includes("Error")) {
                 throw response
@@ -172,7 +172,7 @@ class Deposit extends Component {
                         amountHandler={this.amountChangeHandler}
                         cssStyle={{ marginBottom: "20px" }} />
 
-                    <BasicButtonCard function={this.createPool} buttonName="SWAP" isLoading={this.state.isLoading}>
+                    <BasicButtonCard function={this.createPool} buttonName="WITHDRAW" isLoading={this.state.isLoading}>
                         <Detail>
                             <div>Pool Price</div>
                             <div>{this.getTokenPrice()}</div>
@@ -188,11 +188,11 @@ class Deposit extends Component {
 const DepositCard = styled.div`
     position:absolute;
     width: 460px;
-    height: 340px;
-    padding: 40px 20px 20px;
+    height: 230px;
+    padding: 20px 20px 20px;
     background-color:#fff;
     transform: translateX( -50%);
-    top: 120px;
+    top: 160px;
     left: 50%;
     border-radius: 8px;
     border: 1px solid #bdbdbd;
