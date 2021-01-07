@@ -94,15 +94,12 @@ export const txGenerator = async (type, msgData, feeData = {
                     type: "liquidity/MsgSwap",
                     value: {
                         swap_requester_address: accounts[0].address,
-                        pool_id: "1",
-                        pool_type_index: 1,
-                        swap_type: 1,
-                        offer_coin: {
-                            "denom": "uatom",
-                            "amount": "1000000000"
-                        },
-                        demand_coin_denom: "uusdt",
-                        order_price: "6.300000000000000000"
+                        pool_id: String(msgData.poolId),
+                        pool_type_index: msgData.poolTypeIndex,
+                        swap_type: msgData.swapType,
+                        offer_coin: msgData.offerCoin,
+                        demand_coin_denom: msgData.demandCoinDenom,
+                        order_price: String(msgData.orderPrice)
                     }
                 }
 

@@ -18,6 +18,7 @@ class Deposit extends Component {
             tokenAPoolAmount: '',
             tokenBPoolAmount: '',
             poolId: '',
+            poolTypeIndex: '',
             priceBForA: 0,
             isLoading: false,
             isPoolSelected: false
@@ -31,14 +32,21 @@ class Deposit extends Component {
 
         const tokenA = this.state.tokenA
         const tokenB = this.state.tokenB
-        const amountX = Math.floor(Number(this.state.tokenAAmount) * 1000000);
-        const amountY = Math.floor(Number(this.state.tokenBAmount) * 1000000);
+        const amountA = Math.floor(Number(this.state.tokenAAmount) * 1000000);
+        // const amountB = Math.floor(Number(this.state.tokenBAmount) * 1000000);
 
-        const arrangedReserveCoinDenoms = sortReserveCoinDenoms(tokenA, tokenB)
+        // const arrangedReserveCoinDenoms = sortReserveCoinDenoms(tokenA, tokenB)
 
         const msgData = {
-            pool_id: this.state.poolId,
-            deposit_coins: getDepositCoins(arrangedReserveCoinDenoms, { [tokenA]: amountX, [tokenB]: amountY })
+            poolId: this.state.poolId,
+            poolTypeIndex: this.state.poolTypeIndex,
+            swapType: 1,
+            offerCoin: {
+                "denom": tokenA,
+                "amount": String(amountA)
+            },
+            demandCoinDenom: tokenB,
+            orderPrice: Number(Number(this.state.tokenBPoolAmount) / Number(this.state.tokenAPoolAmount)).toFixed(18)
         }
 
         const feeData = {
@@ -51,23 +59,23 @@ class Deposit extends Component {
             this.setState({ isLoading: true })
             const response = await txGenerator("MsgSwap", msgData, feeData)
             this.setState({ isLoading: false })
-            if (String(response).includes("TypeError")) {
+            if (String(response).includes("Error")) {
                 throw response
             }
-            alert("Deposit Success!")
+            alert("Swap Success!")
         } catch (error) {
             alert(error)
             this.setState({ isLoading: false })
         }
 
         // helpers
-        function sortReserveCoinDenoms(x, y) {
-            return [x, y]
-        }
+        // function sortReserveCoinDenoms(x, y) {
+        //     return [x, y]
+        // }
 
-        function getDepositCoins(denoms, amounts) {
-            return { denoms: [denoms[0], denoms[1]], amounts: [amounts[denoms[0]], amounts[denoms[1]]] }
-        }
+        // function getDepositCoins(denoms, amounts) {
+        //     return { denoms: [denoms[0], denoms[1]], amounts: [amounts[denoms[0]], amounts[denoms[1]]] }
+        // }
     }
     // 로직 함수 끝
 
@@ -101,10 +109,11 @@ class Deposit extends Component {
             this.setState({
                 isPoolSelected: !this.state.isPoolSelected,
                 poolId: item.liquidity_pool.pool_id,
+                poolTypeIndex: item.liquidity_pool.pool_type_index,
                 tokenA: item.liquidity_pool_metadata.reserve_coins[0].denom,
                 tokenB: item.liquidity_pool_metadata.reserve_coins[1].denom,
                 tokenAPoolAmount: item.liquidity_pool_metadata.reserve_coins[0].amount,
-                tokenBPoolAmount: item.liquidity_pool_metadata.reserve_coins[1].amount
+                tokenBPoolAmount: item.liquidity_pool_metadata.reserve_coins[1].amount,
             })
         } else {
             this.setState({
@@ -140,7 +149,7 @@ class Deposit extends Component {
                             selectorHandler={this.tokenSelectorChangeHandler}
                             amountHandler={this.amountChangeHandler} />
 
-                        <BasicButtonCard function={this.createPool} buttonName="DEPOSIT" isLoading={this.state.isLoading}>
+                        <BasicButtonCard function={this.createPool} buttonName="SWAP" isLoading={this.state.isLoading}>
                             <Detail>
                                 <div>Pool Price</div>
                                 <div>{this.getTokenPrice()}</div>
