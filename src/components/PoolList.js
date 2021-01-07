@@ -53,7 +53,7 @@ class PoolList extends Component {
                     const secondPairPrice = this.getSecondPairPrice(item)
                     return (
                         <Row key={index}>
-                            <div>{`${pairs[0]}-${pairs[1]}`}<br /><DepositButton onClick={() => { this.selectPool(item) }}>Deposit</DepositButton></div>
+                            <div>{`${pairs[0]}-${pairs[1]}`}<br /><DepositButton onClick={() => { this.selectPool(item) }}>{this.props.actionName ? this.props.actionName : "Select"}</DepositButton></div>
                             <div>{`1 ${pairs[0]} per`}<br />{`${secondPairPrice} ${pairs[1]}`}</div>
                         </Row>)
                 })
