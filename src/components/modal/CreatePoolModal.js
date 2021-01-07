@@ -53,7 +53,7 @@ class CreatePoolModal extends Component {
             this.setState({ isLoading: true })
             const response = await txGenerator("MsgCreateLiquidityPool", msgData, feeData)
             this.setState({ isLoading: false })
-            if (response.includes("TypeError")) {
+            if (JSON.stringify(response).includes("TypeError")) {
                 throw response
             }
             alert("Pool Create Success!")
