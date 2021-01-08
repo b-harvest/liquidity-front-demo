@@ -15,12 +15,26 @@ class Deposit extends Component {
             tokenAPoolAmount: '',
             poolTokenData: null,
             poolTokenDataIndexer: null,
+            tokenIndexer: null,
             isLoading: false,
         };
     }
     componentDidMount() {
         const setPoolToken = async () => {
             try {
+                (async () => {
+                    try {
+                        let tokenIndexer = {}
+                        const walletTokenList = await getWalletTokenList();
+                        walletTokenList.forEach((item) => {
+                            tokenIndexer[item.denom] = item.amount
+                        })
+                        this.setState({ tokenIndexer: tokenIndexer })
+                        console.log(tokenIndexer)
+                    } catch (error) {
+                        console.error(error);
+                    }
+                })()
                 const poolList = await getPoolList();
                 const walletTokenList = await getWalletTokenList();
                 const poolTokenData = getPoolToken(poolList, walletTokenList)
@@ -34,6 +48,8 @@ class Deposit extends Component {
             } catch (error) {
                 console.error(error);
             }
+
+
         };
 
 
@@ -124,7 +140,15 @@ class Deposit extends Component {
         } else {
             return "?"
         }
+    }
 
+    getMyTokenBalance = (token) => {
+        const balance = Number(Number(this.state.tokenIndexer[token]) / 1000000).toFixed(2)
+        if (balance !== "NaN") {
+            return `My Balance: ${balance}`
+        } else {
+            return `My Balance: 0`
+        }
     }
 
     render() {
@@ -136,6 +160,7 @@ class Deposit extends Component {
                         leftTitle="Pool Token"
                         rightTitle="Amount"
                         cssId="A"
+                        rightTitle={this.getMyTokenBalance(this.state.tokenA)}
                         token={this.state.tokenA}
                         tokenAmount={this.tokenAAmount}
                         selectorHandler={this.tokenSelectorChangeHandler}

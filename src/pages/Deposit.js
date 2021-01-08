@@ -132,7 +132,12 @@ class Deposit extends Component {
     }
 
     getMyTokenBalance = (token) => {
-        return `My Balance: ${Number(Number(this.state.tokenIndexer[token]) / 1000000).toFixed(2)} `
+        const balance = Number(Number(this.state.tokenIndexer[token]) / 1000000).toFixed(2)
+        if (balance !== "NaN") {
+            return `My Balance: ${balance}`
+        } else {
+            return `My Balance: 0`
+        }
     }
 
     render() {
