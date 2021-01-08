@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@chainapsis/cosmosjs": "^0.0.3-alpha.3",
-    "@cosmjs/launchpad": "^0.23.1",
+    "@cosmjs/launchpad": "^0.23.2",
     "@testing-library/jest-dom": "^5.11.5",
     "@testing-library/react": "^11.1.1",
     "@testing-library/user-event": "^12.2.0",
