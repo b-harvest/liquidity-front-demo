@@ -37,9 +37,12 @@ class TokenSetter extends Component {
                 <TokenCard style={this.props.cssStyle}>
                     <Left>
                         <Title>{this.props.leftTitle ? this.props.leftTitle : "leftTitle"}</Title>
-                        <TokenSelector id={`token${this.props.cssId}`} value={this.props.token} onChange={this.props.selectorHandler}>
-                            {this.createOptions(this.props.currencies)}
-                        </TokenSelector>
+                        <div>
+                            <TokenSelector id={`token${this.props.cssId}`} value={this.props.token} onChange={this.props.selectorHandler} style={{ pointerEvents: `${this.props.readOnly ? 'none' : ''}` }}>
+                                {this.createOptions(this.props.currencies)}
+                            </TokenSelector>
+                            {this.props.readOnly ? <ArrowEraser /> : ""}
+                        </div>
                     </Left>
                     <Right>
                         <Title>{this.props.rightTitle ? `${this.props.rightTitle}` : 'rightTitle'} </Title>
@@ -53,20 +56,19 @@ class TokenSetter extends Component {
 
 const TokenCard = styled.section`
 
-margin: 0 auto;
+    margin: 0 auto;
 
-border-radius: 8px;
-border: 2px solid black;
-padding: 10px 20px;
-display:flex;
+    border-radius: 8px;
+    border: 2px solid black;
+    padding: 10px 20px;
+    display:flex;
 `
 const Title = styled.div`
-font-weight: 300;
-font-size: 12px;
-color:#777777;
-margin-bottom: 8px;
+    font-weight: 300;
+    font-size: 12px;
+    color:#777777;
+    margin-bottom: 8px;
 `
-
 const Left = styled.div`
     flex:1;
     text-align:left;
@@ -75,7 +77,13 @@ const Left = styled.div`
 const Right = styled(Left)`
     text-align:right;
 `
-
+const ArrowEraser = styled.div`
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    display: inline-block;
+    transform: translate(-13px, 3px);
+`
 const TokenSelector = styled.select` 
     padding: 0 ;
     cursor: pointer;
@@ -87,7 +95,6 @@ const TokenSelector = styled.select`
     border: none;
     outline: none;
 `
-
 const DepositInput = styled.input`
     padding: 0 12px;
     cursor: pointer;

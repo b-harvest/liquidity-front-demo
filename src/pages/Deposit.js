@@ -128,7 +128,9 @@ class Deposit extends Component {
                             tokenAmount={this.tokenAAmount}
                             selectorHandler={this.tokenSelectorChangeHandler}
                             amountHandler={this.amountChangeHandler}
-                            cssStyle={{ marginBottom: "20px" }} />
+                            cssStyle={{ marginBottom: "20px" }}
+                            readOnly={true}
+                        />
 
                         <TokenSetter
                             currencies={currencies}
@@ -138,6 +140,7 @@ class Deposit extends Component {
                             token={this.state.tokenB}
                             tokenAmount={this.tokenBAmount}
                             selectorHandler={this.tokenSelectorChangeHandler}
+                            readOnly={true}
                             amountHandler={this.amountChangeHandler} />
 
                         <BasicButtonCard function={this.createPool} buttonName="DEPOSIT" isLoading={this.state.isLoading}>
