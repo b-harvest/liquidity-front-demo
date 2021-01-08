@@ -130,7 +130,7 @@ class Deposit extends Component {
                         <ResetButton onClick={this.selectPool}>Reset</ResetButton>
                         <TokenSetter
                             currencies={currencies}
-                            leftTitle="Token A"
+                            leftTitle="From"
                             rightTitle="Amount"
                             cssId="A"
                             token={this.state.tokenA}
@@ -142,7 +142,7 @@ class Deposit extends Component {
 
                         <TokenSetter
                             currencies={currencies}
-                            leftTitle="Token B"
+                            leftTitle="To"
                             rightTitle="Amount"
                             cssId="B"
                             token={this.state.tokenB}

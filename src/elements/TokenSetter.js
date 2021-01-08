@@ -82,7 +82,7 @@ const ArrowEraser = styled.div`
     height: 20px;
     background-color: white;
     display: inline-block;
-    transform: translate(-13px, 3px);
+    transform: translate(-14px, 3px);
 `
 const TokenSelector = styled.select` 
     padding: 0 ;
