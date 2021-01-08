@@ -101,10 +101,10 @@ class Deposit extends Component {
             this.setState({
                 isPoolSelected: !this.state.isPoolSelected,
                 poolId: item.liquidity_pool.pool_id,
-                tokenA: item.liquidity_pool_metadata.reserve_coins[0].denom,
-                tokenB: item.liquidity_pool_metadata.reserve_coins[1].denom,
-                tokenAPoolAmount: item.liquidity_pool_metadata.reserve_coins[0].amount,
-                tokenBPoolAmount: item.liquidity_pool_metadata.reserve_coins[1].amount
+                tokenA: item.liquidity_pool.reserve_coin_denoms[0],
+                tokenB: item.liquidity_pool.reserve_coin_denoms[1],
+                tokenAPoolAmount: item.liquidity_pool_metadata.reserve_coins[0]?.amount,
+                tokenBPoolAmount: item.liquidity_pool_metadata.reserve_coins[1]?.amount
             })
         } else {
             this.setState({
