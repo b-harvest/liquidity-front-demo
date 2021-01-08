@@ -118,6 +118,10 @@ const GoCreatePool = styled.button`
 	border: none;
 	outline: none;
 	cursor: pointer;
+	transition: opacity 0.3s;
+    &:hover {
+        opacity: 0.7;
+    }
 `;
 
 const PoolTable = styled.section`

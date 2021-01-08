@@ -143,57 +143,10 @@ const DepositButton = styled.button`
 	font-weight: bold;
 	cursor: pointer;
 	outline: none;
+	transition: opacity 0.3s;
+    &:hover {
+        opacity: 0.7;
+    }
 `;
 
 export default PoolList;
-
-//helper
-// function setWallettokenDataToPoolListData(poolListData, walletTokens) {
-//     let pd = [...poolListData]
-//     const wt = walletTokens
-
-//     pd.forEach((pool, index) => {
-//         let poolTokenTotalSupply;
-//         let myPoolTokenAmount;
-//         let myPoolTokenRatio;
-
-//         wt.some(isPoolToken)
-//         pool.myPoolToken = {
-//             balance: myPoolTokenRatio,
-//             denom: '%'
-//         }
-
-//         pool.liquidity_pool.reserve_coin_denoms.forEach((denom, denomIndex) => {
-//             wt.some(isReserveToken)
-
-//             function isReserveToken(td) {
-//                 if (td.denom === denom) {
-//                     let reserveTokenAmount;
-
-//                     for (let tokenInfo of pd[index].liquidity_pool_metadata.reserve_coins) {
-//                         if (tokenInfo.denom === denom) {
-//                             reserveTokenAmount = tokenInfo.amount
-//                         }
-//                     }
-
-//                     pd[index].liquidity_pool.reserve_coin_denoms[denomIndex] = `${reserveTokenAmount / 1000000 * myPoolTokenRatio}${denom.substr(1)}`
-//                     return true
-//                 }
-//             }
-//         })
-
-//         function isPoolToken(td) {
-//             if (pool.liquidity_pool.pool_coin_denom === td.denom) {
-//                 poolTokenTotalSupply = pool.liquidity_pool_metadata.pool_coin_total_supply.amount
-//                 myPoolTokenAmount = td.amount
-//                 myPoolTokenRatio = (myPoolTokenAmount / poolTokenTotalSupply)
-//                 console.log(`
-//                     PoolTokendenom : ${td.denom}
-//                     myPoolTokenAmount : ${myPoolTokenAmount}
-//                     poolTokenTotalSupply : ${poolTokenTotalSupply}
-//                     ratio : ${myPoolTokenRatio}
-//                     `)
-//                 return true
-//             }
-//         }
-//     });

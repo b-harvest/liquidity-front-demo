@@ -127,7 +127,7 @@ class Deposit extends Component {
             <div>
                 { this.state.isPoolSelected ?
                     <DepositCard>
-                        <ResetButton onClick={this.selectPool}>Reset</ResetButton>
+                        <ResetButton onClick={this.selectPool}>{`< Go Back`}</ResetButton>
                         <TokenSetter
                             currencies={currencies}
                             leftTitle="From"
@@ -169,7 +169,7 @@ const DepositCard = styled.div`
     position:absolute;
     width: 460px;
     height: 340px;
-    padding: 40px 20px 20px;
+    padding: 96px 20px 20px;
     background-color:#fff;
     transform: translateX( -50%);
     top: 120px;
@@ -180,16 +180,17 @@ const DepositCard = styled.div`
 
 const ResetButton = styled.div`
 display:inline-block;
-width: 80px;
+width: 120px;
 height: 24px;
-color: #4297ff;
-border: 1px solid #4297ff;
+color: black;
+font-size:20px;
 line-height: 24px;
 position: absolute;
-right: 20px;
-top: 8px;
+left: 20px;
+top: 36px;
 border-radius:24px;
 cursor:pointer;
+font-weight:bold;
 `
 
 const Detail = styled.div`

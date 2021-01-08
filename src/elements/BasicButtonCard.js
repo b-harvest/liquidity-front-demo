@@ -46,6 +46,10 @@ const Button = styled.div`
     line-height: 40px;
     color: #fff;
     background-color: #4297ff;
+    transition: opacity 0.3s;
+    &:hover {
+        opacity: 0.7;
+    }
 `
 
 
