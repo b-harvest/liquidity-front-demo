@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import PoolList from '../components/PoolList'
 import styled from 'styled-components';
-import { txGenerator } from '../common/cosmos-amm'
+import { txGenerator, getWalletTokenList } from '../common/cosmos-amm'
 import { currencies } from '../common/config'
 import TokenSetter from '../elements/TokenSetter';
 import BasicButtonCard from '../elements/BasicButtonCard'
@@ -17,12 +17,30 @@ class Deposit extends Component {
             tokenBAmount: '',
             tokenAPoolAmount: '',
             tokenBPoolAmount: '',
+            tokenIndexer: '',
             poolId: '',
             priceBForA: 0,
             isLoading: false,
             isPoolSelected: false
         };
     }
+
+    componentDidMount() {
+        (async () => {
+            try {
+                let tokenIndexer = {}
+                const walletTokenList = await getWalletTokenList();
+                walletTokenList.forEach((item) => {
+                    tokenIndexer[item.denom] = item.amount
+                })
+                this.setState({ tokenIndexer: tokenIndexer })
+                console.log(tokenIndexer)
+            } catch (error) {
+                console.error(error);
+            }
+        })()
+    };
+
     // this.setState({ priceBForA: parseFloat(price.toFixed(6)) })
     // 로직 함수 시작
     createPool = async () => {
@@ -113,16 +131,20 @@ class Deposit extends Component {
         }
     }
 
+    getMyTokenBalance = (token) => {
+        return `My Balance: ${Number(Number(this.state.tokenIndexer[token]) / 1000000).toFixed(2)} `
+    }
+
     render() {
         return (
             <div>
                 { this.state.isPoolSelected ?
                     <DepositCard>
-                        <ResetButton onClick={this.selectPool}>Reset</ResetButton>
+                        <ResetButton onClick={this.selectPool}>{`< Go Back`}</ResetButton>
                         <TokenSetter
                             currencies={currencies}
                             leftTitle="From"
-                            rightTitle="Amount"
+                            rightTitle={this.getMyTokenBalance(this.state.tokenA)}
                             cssId="A"
                             token={this.state.tokenA}
                             tokenAmount={this.tokenAAmount}
@@ -135,7 +157,7 @@ class Deposit extends Component {
                         <TokenSetter
                             currencies={currencies}
                             leftTitle="To"
-                            rightTitle="Amount"
+                            rightTitle={this.getMyTokenBalance(this.state.tokenB)}
                             cssId="B"
                             token={this.state.tokenB}
                             tokenAmount={this.tokenBAmount}
@@ -160,7 +182,7 @@ const DepositCard = styled.div`
     position:absolute;
     width: 460px;
     height: 340px;
-    padding: 40px 20px 20px;
+    padding: 96px 20px 20px;
     background-color:#fff;
     transform: translateX( -50%);
     top: 120px;
@@ -171,18 +193,18 @@ const DepositCard = styled.div`
 
 const ResetButton = styled.div`
 display:inline-block;
-width: 80px;
+width: 120px;
 height: 24px;
-color: #4297ff;
-border: 1px solid #4297ff;
+color: black;
+font-size:20px;
 line-height: 24px;
 position: absolute;
-right: 20px;
-top: 8px;
+left: 20px;
+top: 36px;
 border-radius:24px;
 cursor:pointer;
+font-weight:bold;
 `
-
 const Detail = styled.div`
 display: flex;
 font-weight: bold;

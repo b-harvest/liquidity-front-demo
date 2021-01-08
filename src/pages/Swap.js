@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import PoolList from '../components/PoolList'
 import styled from 'styled-components';
-import { txGenerator } from '../common/cosmos-amm'
+import { txGenerator, getWalletTokenList } from '../common/cosmos-amm'
 import { currencies } from '../common/config'
 import TokenSetter from '../elements/TokenSetter';
 import BasicButtonCard from '../elements/BasicButtonCard'
@@ -19,11 +19,28 @@ class Deposit extends Component {
             tokenBPoolAmount: '',
             poolId: '',
             poolTypeIndex: '',
+            tokenIndexer: '',
             priceBForA: 0,
             isLoading: false,
             isPoolSelected: false
         };
     }
+
+    componentDidMount() {
+        (async () => {
+            try {
+                let tokenIndexer = {}
+                const walletTokenList = await getWalletTokenList();
+                walletTokenList.forEach((item) => {
+                    tokenIndexer[item.denom] = item.amount
+                })
+                this.setState({ tokenIndexer: tokenIndexer })
+                console.log(tokenIndexer)
+            } catch (error) {
+                console.error(error);
+            }
+        })()
+    };
     // this.setState({ priceBForA: parseFloat(price.toFixed(6)) })
     // 로직 함수 시작
     createPool = async () => {
@@ -121,6 +138,9 @@ class Deposit extends Component {
             })
         }
     }
+    getMyTokenBalance = (token) => {
+        return `My Balance: ${Number(Number(this.state.tokenIndexer[token]) / 1000000).toFixed(2)} `
+    }
 
     render() {
         return (
@@ -131,7 +151,7 @@ class Deposit extends Component {
                         <TokenSetter
                             currencies={currencies}
                             leftTitle="From"
-                            rightTitle="Amount"
+                            rightTitle={this.getMyTokenBalance(this.state.tokenA)}
                             cssId="A"
                             token={this.state.tokenA}
                             tokenAmount={this.tokenAAmount}
@@ -143,7 +163,7 @@ class Deposit extends Component {
                         <TokenSetter
                             currencies={currencies}
                             leftTitle="To"
-                            rightTitle="Amount"
+                            rightTitle={this.getMyTokenBalance(this.state.tokenB)}
                             cssId="B"
                             token={this.state.tokenB}
                             tokenAmount={this.tokenBAmount}

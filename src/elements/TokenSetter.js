@@ -45,7 +45,7 @@ class TokenSetter extends Component {
                         </div>
                     </Left>
                     <Right>
-                        <Title>{this.props.rightTitle ? `${this.props.rightTitle}` : 'rightTitle'} </Title>
+                        <Title>{this.props.rightTitle ? `${this.props.rightTitle}` : 'amount'} </Title>
                         <DepositInput id={`token${this.props.cssId}Amount`} placeholder="0" value={this.props.tokenAmount} onChange={this.props.amountHandler}></DepositInput>
                     </Right>
                 </TokenCard>
@@ -64,8 +64,8 @@ const TokenCard = styled.section`
     display:flex;
 `
 const Title = styled.div`
-    font-weight: 300;
-    font-size: 12px;
+    font-weight: 400;
+    font-size: 14px;
     color:#777777;
     margin-bottom: 8px;
 `
