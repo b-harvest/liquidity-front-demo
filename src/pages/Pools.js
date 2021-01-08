@@ -9,7 +9,8 @@ class PoolList extends Component {
 		this.state = {
 			poolData: null,
 			updatePool: null,
-			isModal: false
+			isModal: false,
+			isLoading: false,
 		};
 	}
 
@@ -17,7 +18,7 @@ class PoolList extends Component {
 		const initGetPoolList = async () => {
 			try {
 				const poolList = await getPoolList();
-				this.setState({ poolData: poolList });
+				this.setState({ poolData: poolList, isLoading: true });
 			} catch (error) {
 				console.error(error);
 			}
@@ -50,7 +51,9 @@ class PoolList extends Component {
 	}
 
 	createRows(data) {
-
+		if (!this.state.isLoading) {
+			return
+		}
 		if (data === null) {
 			return (
 				<div
