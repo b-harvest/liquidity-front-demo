@@ -50,11 +50,14 @@ class PoolList extends Component {
 	}
 
 	createRows(data) {
+
 		if (data === null) {
 			return (
 				<div
 					style={{ color: "#ea5353", fontSize: "18px", fontWeight: "bold" }}
-				></div>
+				>There are no pools to display yet.<br />
+			Be the first to create a pool!
+				</div>
 			);
 		} else {
 			return data.map((item, index) => {
