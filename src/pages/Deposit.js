@@ -177,7 +177,7 @@ class Deposit extends Component {
                             </Detail>
                         </BasicButtonCard>
                     </DepositCard> :
-                    <PoolList selectPool={this.selectPool} />}
+                    <PoolList poolsData={this.props.poolsData} selectPool={this.selectPool} />}
             </div>
         )
     }

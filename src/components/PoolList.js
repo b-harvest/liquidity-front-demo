@@ -6,29 +6,22 @@ class PoolList extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			poolData: null,
+			poolsData: null,
 			updatePool: null
 		};
 	}
 
 	componentDidMount() {
-		const initGetPoolList = async () => {
-			try {
-				const poolList = await getPoolList();
-				this.setState({ poolData: poolList });
-			} catch (error) {
-				console.error(error);
-			}
-		};
-
-		initGetPoolList();
-		const updatePool = setInterval(() => {
-			initGetPoolList();
-		}, 5000);
-		this.setState({ updatePool: updatePool });
+		console.log(this.state.poolsData)
+		if (this.props.poolsData !== null) {
+			this.setState({ poolsData: this.props.poolsData })
+		}
 	}
-	componentWillUnmount() {
-		clearInterval(this.state.updatePool);
+
+	componentDidUpdate(prevProps) {
+		if (prevProps.poolsData !== this.props.poolsData) {
+			this.setState({ poolsData: this.props.poolsData })
+		}
 	}
 
 	getPoolPairs(item) {
@@ -50,7 +43,7 @@ class PoolList extends Component {
 	};
 
 	createRows = (data) => {
-		if (data === null) {
+		if (data === null || data === undefined) {
 			return (
 				<div
 					style={{ color: "#ea5353", fontSize: "18px", fontWeight: "bold" }}
@@ -92,7 +85,7 @@ class PoolList extends Component {
 						<div>Price</div>
 						<div>Action</div>
 					</TableHeader>
-					{this.createRows(this.state.poolData)}
+					{this.createRows(this.state.poolsData)}
 				</PoolTable>
 			</>
 		);

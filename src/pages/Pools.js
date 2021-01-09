@@ -1,4 +1,3 @@
-import { getPoolList } from "../common/cosmos-amm";
 import CreatePoolModal from "../components/modal/CreatePoolModal";
 import { Component } from "react";
 import styled from "styled-components";
@@ -7,31 +6,22 @@ class PoolList extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			poolData: null,
-			updatePool: null,
+			poolsData: this.props.poolsData,
 			isModal: false,
 			isLoading: false,
 		};
 	}
 
 	componentDidMount() {
-		const initGetPoolList = async () => {
-			try {
-				const poolList = await getPoolList();
-				this.setState({ poolData: poolList, isLoading: true });
-			} catch (error) {
-				console.error(error);
-			}
-		};
-
-		initGetPoolList();
-		const updatePool = setInterval(() => {
-			initGetPoolList();
-		}, 5000);
-		this.setState({ updatePool: updatePool });
+		if (this.props.poolsData !== null) {
+			this.setState({ poolsData: this.props.poolsData, isLoading: true })
+		}
 	}
-	componentWillUnmount() {
-		clearInterval(this.state.updatePool);
+
+	componentDidUpdate(prevProps) {
+		if (prevProps.poolsData !== this.props.poolsData) {
+			this.setState({ poolsData: this.props.poolsData, isLoading: true })
+		}
 	}
 
 	modalHandler = () => {
@@ -89,7 +79,7 @@ class PoolList extends Component {
 						<div>Pool</div>
 						<div>Price</div>
 					</TableHeader>
-					{this.createRows(this.state.poolData)}
+					{this.createRows(this.state.poolsData)}
 				</PoolTable>
 				{this.state.isModal ? (
 					<CreatePoolModal modalHandler={this.modalHandler} />
