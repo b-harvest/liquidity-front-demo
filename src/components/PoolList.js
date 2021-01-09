@@ -1,5 +1,6 @@
-import { getPoolList } from "../common/cosmos-amm";
+
 import { Component } from "react";
+import CoinImgShower from "../elements/CoinImageShower"
 import styled from "styled-components";
 
 class PoolList extends Component {
