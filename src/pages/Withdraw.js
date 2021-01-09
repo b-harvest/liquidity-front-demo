@@ -25,10 +25,11 @@ class Deposit extends Component {
                 (async () => {
                     try {
                         let tokenIndexer = {}
-                        const walletTokenList = await getWalletTokenList();
-                        walletTokenList.forEach((item) => {
-                            tokenIndexer[item.denom] = item.amount
-                        })
+                        if (this.props.walletTokenList !== null) {
+                            this.props.walletTokenList.forEach((item) => {
+                                tokenIndexer[item.denom] = item.amount
+                            })
+                        }
                         this.setState({ tokenIndexer: tokenIndexer })
                         console.log(tokenIndexer)
                     } catch (error) {

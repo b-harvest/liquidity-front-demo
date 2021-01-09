@@ -1,8 +1,11 @@
 import { Component } from 'react';
-import PoolList from '../components/PoolList'
 import styled from 'styled-components';
-import { txGenerator, getWalletTokenList } from '../common/cosmos-amm'
+
 import { currencies } from '../common/config'
+import { txGenerator } from '../common/cosmos-amm'
+import { getTokenIndexer } from '../common/global-functions'
+
+import PoolList from '../components/PoolList'
 import TokenSetter from '../elements/TokenSetter';
 import BasicButtonCard from '../elements/BasicButtonCard'
 
@@ -11,8 +14,8 @@ class Deposit extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            tokenA: currencies[1].coinMinimalDenom,
-            tokenB: currencies[0].coinMinimalDenom,
+            tokenA: '',
+            tokenB: '',
             tokenAAmount: '',
             tokenBAmount: '',
             tokenAPoolAmount: '',
@@ -27,32 +30,35 @@ class Deposit extends Component {
     }
 
     componentDidMount() {
-        (async () => {
+        if (this.props.walletTokenList !== null) {
             try {
-                let tokenIndexer = {}
-                const walletTokenList = await getWalletTokenList();
-                walletTokenList.forEach((item) => {
-                    tokenIndexer[item.denom] = item.amount
-                })
-                this.setState({ tokenIndexer: tokenIndexer })
-                console.log(tokenIndexer)
+                this.setState({ tokenIndexer: getTokenIndexer(this.props.walletTokenList) })
+                console.log(getTokenIndexer(this.props.walletTokenList))
             } catch (error) {
                 console.error(error);
             }
-        })()
-    };
-    // this.setState({ priceBForA: parseFloat(price.toFixed(6)) })
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.walletTokenList !== this.props.walletTokenList) {
+            try {
+                this.setState({ tokenIndexer: getTokenIndexer(this.props.walletTokenList) })
+                console.log(getTokenIndexer(this.props.walletTokenList))
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    }
+
     // 로직 함수 시작
     createPool = async () => {
-        console.log(`X : ${this.state.tokenA} ${this.state.tokenAAmount}`)
-        console.log(`Y : ${this.state.tokenB} ${this.state.tokenBAmount}`)
+        console.log(`From : ${this.state.tokenA} ${this.state.tokenAAmount}`)
+        console.log(`To : ${this.state.tokenB} ${this.state.tokenBAmount}`)
 
         const tokenA = this.state.tokenA
         const tokenB = this.state.tokenB
         const amountA = Math.floor(Number(this.state.tokenAAmount) * 1000000);
-        // const amountB = Math.floor(Number(this.state.tokenBAmount) * 1000000);
-
-        // const arrangedReserveCoinDenoms = sortReserveCoinDenoms(tokenA, tokenB)
 
         const msgData = {
             poolId: this.state.poolId,
@@ -130,6 +136,7 @@ class Deposit extends Component {
             })
         }
     }
+
     getMyTokenBalance = (token) => {
         const balance = Number(Number(this.state.tokenIndexer[token]) / 1000000).toFixed(2)
         if (balance !== "NaN") {

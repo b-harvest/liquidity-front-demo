@@ -1,8 +1,9 @@
 import { Component } from 'react';
 import PoolList from '../components/PoolList'
 import styled from 'styled-components';
-import { txGenerator, getWalletTokenList } from '../common/cosmos-amm'
+import { txGenerator } from '../common/cosmos-amm'
 import { currencies } from '../common/config'
+import { getTokenIndexer } from '../common/global-functions'
 import TokenSetter from '../elements/TokenSetter';
 import BasicButtonCard from '../elements/BasicButtonCard'
 
@@ -11,8 +12,8 @@ class Deposit extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            tokenA: currencies[1].coinMinimalDenom,
-            tokenB: currencies[0].coinMinimalDenom,
+            tokenA: '',
+            tokenB: '',
             tokenAAmount: '',
             tokenBAmount: '',
             tokenAPoolAmount: '',
@@ -26,20 +27,26 @@ class Deposit extends Component {
     }
 
     componentDidMount() {
-        (async () => {
+        if (this.props.walletTokenList !== null) {
             try {
-                let tokenIndexer = {}
-                const walletTokenList = await getWalletTokenList();
-                walletTokenList.forEach((item) => {
-                    tokenIndexer[item.denom] = item.amount
-                })
-                this.setState({ tokenIndexer: tokenIndexer })
-                console.log(tokenIndexer)
+                this.setState({ tokenIndexer: getTokenIndexer(this.props.walletTokenList) })
+                console.log(getTokenIndexer(this.props.walletTokenList))
             } catch (error) {
                 console.error(error);
             }
-        })()
-    };
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.walletTokenList !== this.props.walletTokenList) {
+            try {
+                this.setState({ tokenIndexer: getTokenIndexer(this.props.walletTokenList) })
+                console.log(getTokenIndexer(this.props.walletTokenList))
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    }
 
     // this.setState({ priceBForA: parseFloat(price.toFixed(6)) })
     // 로직 함수 시작

@@ -4,7 +4,7 @@ import {
   Route,
 } from "react-router-dom";
 import { Component } from "react";
-import { getPoolList } from "./common/cosmos-amm";
+import { getPoolList, getWalletTokenList } from "./common/cosmos-amm";
 import BasicLayout from './components/layouts/BasicLayout'
 import Pools from './pages/Pools'
 import Deposit from './pages/Deposit'
@@ -16,40 +16,45 @@ class App extends Component {
     super(props);
     this.state = {
       poolsData: null,
+      walletTokenList: null,
     };
   }
   componentDidMount() {
-    const initGetPoolList = async () => {
+    const initGetExcData = async () => {
       try {
         const poolList = await getPoolList();
-        this.setState({ poolsData: poolList });
+        let walletTokenList = null;
+        if (localStorage.walletAddress) {
+          walletTokenList = await getWalletTokenList();
+        }
+        this.setState({ poolsData: poolList, walletTokenList: walletTokenList });
       } catch (error) {
         console.error(error);
       }
     };
 
-    initGetPoolList();
+    initGetExcData();
     setInterval(() => {
-      initGetPoolList();
+      initGetExcData();
     }, 5000);
   }
 
   render() {
     return (
       <Router>
-        <BasicLayout>
+        <BasicLayout walletTokenList={this.state.SwapwalletTokenList}>
           <Switch>
             <Route exact path="/">
-              <Pools poolsData={this.state.poolsData} />
+              <Pools poolsData={this.state.poolsData} walletTokenList={this.state.walletTokenList} />
             </Route>
             <Route exact path="/deposit">
-              <Deposit poolsData={this.state.poolsData} />
+              <Deposit poolsData={this.state.poolsData} walletTokenList={this.state.walletTokenList} />
             </Route>
             <Route exact path="/withdraw">
-              <Withdraw />
+              <Withdraw poolsData={this.state.poolsData} walletTokenList={this.state.walletTokenList} />
             </Route>
             <Route exact path="/swap">
-              <Swap poolsData={this.state.poolsData} />
+              <Swap poolsData={this.state.poolsData} walletTokenList={this.state.walletTokenList} />
             </Route>
           </Switch>
         </BasicLayout>
