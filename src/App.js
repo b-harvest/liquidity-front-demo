@@ -3,6 +3,7 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
+
 import BasicLayout from './components/layouts/BasicLayout'
 import Pools from './pages/Pools'
 import Deposit from './pages/Deposit'
@@ -29,7 +30,7 @@ function App() {
         </Switch>
       </BasicLayout>
     </Router>
-  );
+  )
 }
 
 export default App;
