@@ -56,7 +56,7 @@ class PoolList extends Component {
 				const secondPairPrice = this.getSecondPairPrice(item);
 				return (
 					<Row key={index}>
-						<div>{`${pairs[0]}-${pairs[1]}`}</div>
+						<div><CoinImgShower coin={pairs[0]} />{pairs[0]} - <CoinImgShower coin={pairs[1]} />{pairs[1]}</div>
 						<div>
 							{`1 ${pairs[0]} per`}
 							<br />
