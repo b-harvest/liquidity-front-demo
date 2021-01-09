@@ -45,7 +45,8 @@ class PoolList extends Component {
 		if (!this.state.isLoading) {
 			return
 		}
-		if (data === null || data === undefined) {
+		console.log(data)
+		if (data === null || data === undefined || data === []) {
 			return (
 				<div
 					style={{ color: "#ea5353", fontSize: "18px", fontWeight: "bold" }}

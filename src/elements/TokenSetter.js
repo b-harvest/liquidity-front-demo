@@ -15,9 +15,7 @@ class TokenSetter extends Component {
         return (
             data.map((item) => {
                 return (
-                    <>
-                        <option value={item.coinMinimalDenom} key={item.coinDenom}>{item.coinDenom}</option>
-                    </>
+                    <option value={item.coinMinimalDenom} key={item.coinDenom}>{item.coinDenom}</option>
                 )
             }
             )
