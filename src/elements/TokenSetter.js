@@ -1,6 +1,8 @@
 import { Component } from 'react';
 import styled from 'styled-components';
 
+import CoinImgShower from "../elements/CoinImageShower"
+
 class TokenSetter extends Component {
 
     constructor(props) {
@@ -13,7 +15,9 @@ class TokenSetter extends Component {
         return (
             data.map((item) => {
                 return (
-                    <option value={item.coinMinimalDenom} key={item.coinDenom}>{item.coinDenom}</option>
+                    <>
+                        <option value={item.coinMinimalDenom} key={item.coinDenom}>{item.coinDenom}</option>
+                    </>
                 )
             }
             )
@@ -32,12 +36,14 @@ class TokenSetter extends Component {
     }
 
     render() {
+        console.log(this.props.token)
         return (
             <>
                 <TokenCard style={this.props.cssStyle}>
                     <Left>
                         <Title>{this.props.leftTitle ? this.props.leftTitle : "leftTitle"}</Title>
                         <div>
+                            <CoinImgShower coin={String(this.props.token).substr(1)} />
                             <TokenSelector id={`token${this.props.cssId}`} value={this.props.token} onChange={this.props.selectorHandler} style={{ pointerEvents: `${this.props.readOnly ? 'none' : ''}` }}>
                                 {this.createOptions(this.props.currencies)}
                             </TokenSelector>
