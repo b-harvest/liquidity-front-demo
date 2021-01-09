@@ -49,13 +49,12 @@ export const txGenerator = async (type, msgData, feeData = {
     console.log("msg : ", msg)
     console.log("fee : ", fee)
 
-
     // signAndBroadcast
     try {
         const response = await cosmJS.signAndBroadcast([msg], fee)
         console.log(response)
         if (response.code) {
-            // fail(if code property exists, it means error?)
+            // fail
             return Promise.reject(getErrorMsg(response.code))
         } else {
             // success
@@ -111,35 +110,9 @@ export const txGenerator = async (type, msgData, feeData = {
                         pool_coin: msgData.poolCoin
                     }
                 }
-
-
             default:
                 console.log('getMsg Error')
                 return
-
-            // ---------------------------------
-            // "type": "liquidity/MsgWithdrawFromLiquidityPool"
-
-            // "withdrawer_address": "cosmos1hug5p0yz8knk25npm65y0ktaf6zrk8glmanr0q",
-            // "pool_id": "1",
-            // "pool_coin": {
-            //   "denom": "cosmos1gph6pt8ymatjdc8vgtg5w20704u5ym08hpz020",
-            //   "amount": "1000000"
-            // }
-
-            //  -------------------------------------
-            //  "type": "liquidity/MsgSwap",
-            // "swap_requester_address": "cosmos1hug5p0yz8knk25npm65y0ktaf6zrk8glmanr0q",
-            // "pool_id": "1",
-            // "pool_type_index": 1,
-            // "swap_type": 1,
-            // "offer_coin": {
-            //   "denom": "ustake",
-            //   "amount": "1000"
-            // },
-            // "demand_coin_denom": "uatom",
-            // (sdk.dec)"order_price": "1000.000000000000000000"
-            // }
         }
     }
 
