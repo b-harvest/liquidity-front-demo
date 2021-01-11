@@ -5,6 +5,8 @@ import {
 } from "react-router-dom";
 import { Component } from "react";
 import { getPoolList, getWalletTokenList } from "./common/cosmos-amm";
+import { getTokenIndexer } from './common/global-functions'
+
 import BasicLayout from './components/layouts/BasicLayout'
 import Pools from './pages/Pools'
 import Deposit from './pages/Deposit'
@@ -15,8 +17,11 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      poolsData: null,
-      walletTokenList: null,
+      sharedData: {
+        poolsData: null,
+        walletTokenList: null,
+        tokenIndexer: null
+      }
     };
   }
   componentDidMount() {
@@ -24,13 +29,17 @@ class App extends Component {
       try {
         const poolList = await getPoolList();
         let walletTokenList = null;
+        let tokenIndexer = null;
         if (localStorage.walletAddress) {
           walletTokenList = await getWalletTokenList();
+          tokenIndexer = await getTokenIndexer(walletTokenList);
         }
-        this.setState({ poolsData: poolList, walletTokenList: walletTokenList });
+        this.setState({ sharedData: { poolsData: poolList, walletTokenList: walletTokenList, tokenIndexer: tokenIndexer } });
       } catch (error) {
         console.error(error);
       }
+
+
     };
 
     initGetExcData();
@@ -45,16 +54,16 @@ class App extends Component {
         <BasicLayout walletTokenList={this.state.SwapwalletTokenList}>
           <Switch>
             <Route exact path="/">
-              <Pools poolsData={this.state.poolsData} walletTokenList={this.state.walletTokenList} />
+              <Pools data={this.state.sharedData} />
             </Route>
             <Route exact path="/deposit">
-              <Deposit poolsData={this.state.poolsData} walletTokenList={this.state.walletTokenList} />
+              <Deposit data={this.state.sharedData} />
             </Route>
             <Route exact path="/withdraw">
-              <Withdraw poolsData={this.state.poolsData} walletTokenList={this.state.walletTokenList} />
+              <Withdraw data={this.state.sharedData} />
             </Route>
             <Route exact path="/swap">
-              <Swap poolsData={this.state.poolsData} walletTokenList={this.state.walletTokenList} />
+              <Swap data={this.state.sharedData} />
             </Route>
           </Switch>
         </BasicLayout>

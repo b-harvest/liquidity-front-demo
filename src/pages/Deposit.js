@@ -1,9 +1,11 @@
 import { Component } from 'react';
-import PoolList from '../components/PoolList'
 import styled from 'styled-components';
+
 import { txGenerator } from '../common/cosmos-amm'
 import { currencies } from '../common/config'
-import { getTokenIndexer } from '../common/global-functions'
+import { getMyTokenBalance } from '../common/global-functions'
+
+import PoolList from '../components/PoolList'
 import TokenSetter from '../elements/TokenSetter';
 import BasicButtonCard from '../elements/BasicButtonCard'
 
@@ -27,10 +29,9 @@ class Deposit extends Component {
     }
 
     componentDidMount() {
-        if (this.props.walletTokenList !== null) {
+        if (this.props.data.tokenIndexer !== null) {
             try {
-                this.setState({ tokenIndexer: getTokenIndexer(this.props.walletTokenList) })
-                console.log(getTokenIndexer(this.props.walletTokenList))
+                this.setState({ tokenIndexer: this.props.data.tokenIndexer })
             } catch (error) {
                 console.error(error);
             }
@@ -38,17 +39,16 @@ class Deposit extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.walletTokenList !== this.props.walletTokenList) {
+        if (prevProps.data.tokenIndexer !== this.props.data.tokenIndexer) {
             try {
-                this.setState({ tokenIndexer: getTokenIndexer(this.props.walletTokenList) })
-                console.log(getTokenIndexer(this.props.walletTokenList))
+                this.setState({ tokenIndexer: this.props.data.tokenIndexer })
+                console.log('this.props.data.tokenIndexer', this.props.data.tokenIndexer)
             } catch (error) {
                 console.error(error);
             }
         }
     }
 
-    // this.setState({ priceBForA: parseFloat(price.toFixed(6)) })
     // 로직 함수 시작
     createPool = async () => {
         console.log(`X : ${this.state.tokenA} ${this.state.tokenAAmount}`)
@@ -138,14 +138,7 @@ class Deposit extends Component {
         }
     }
 
-    getMyTokenBalance = (token) => {
-        const balance = Number(Number(this.state.tokenIndexer[token]) / 1000000).toFixed(2)
-        if (balance !== "NaN") {
-            return `My Balance: ${balance}`
-        } else {
-            return `My Balance: 0`
-        }
-    }
+
 
     render() {
         return (
@@ -156,7 +149,7 @@ class Deposit extends Component {
                         <TokenSetter
                             currencies={currencies}
                             leftTitle="From"
-                            rightTitle={this.getMyTokenBalance(this.state.tokenA)}
+                            rightTitle={getMyTokenBalance(this.state.tokenA, this.state.tokenIndexer)}
                             cssId="A"
                             token={this.state.tokenA}
                             tokenAmount={this.tokenAAmount}
@@ -169,7 +162,7 @@ class Deposit extends Component {
                         <TokenSetter
                             currencies={currencies}
                             leftTitle="To"
-                            rightTitle={this.getMyTokenBalance(this.state.tokenB)}
+                            rightTitle={getMyTokenBalance(this.state.tokenB, this.state.tokenIndexer)}
                             cssId="B"
                             token={this.state.tokenB}
                             tokenAmount={this.tokenBAmount}
@@ -184,7 +177,7 @@ class Deposit extends Component {
                             </Detail>
                         </BasicButtonCard>
                     </DepositCard> :
-                    <PoolList poolsData={this.props.poolsData} selectPool={this.selectPool} />}
+                    <PoolList poolsData={this.props.data.poolsData} selectPool={this.selectPool} />}
             </div>
         )
     }

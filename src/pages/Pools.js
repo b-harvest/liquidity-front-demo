@@ -7,21 +7,21 @@ class PoolList extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			poolsData: this.props.poolsData,
+			poolsData: this.props.data.poolsData,
 			isModal: false,
 			isLoading: false,
 		};
 	}
 
 	componentDidMount() {
-		if (this.props.poolsData !== null) {
-			this.setState({ poolsData: this.props.poolsData, isLoading: true })
+		if (this.props.data.poolsData !== null) {
+			this.setState({ poolsData: this.props.data.poolsData, isLoading: true })
 		}
 	}
 
 	componentDidUpdate(prevProps) {
-		if (prevProps.poolsData !== this.props.poolsData) {
-			this.setState({ poolsData: this.props.poolsData, isLoading: true })
+		if (prevProps.data.poolsData !== this.props.data.poolsData) {
+			this.setState({ poolsData: this.props.data.poolsData, isLoading: true })
 		}
 	}
 
