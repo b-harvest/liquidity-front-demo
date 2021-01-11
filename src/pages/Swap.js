@@ -1,12 +1,13 @@
-import { Component } from 'react';
-import styled from 'styled-components';
+import { Component } from 'react'
+import styled from 'styled-components'
 
 import { currencies } from '../common/config'
 import { txGenerator } from '../common/cosmos-amm'
 import { getMyTokenBalance } from '../common/global-functions'
 
 import PoolList from '../components/PoolList'
-import TokenSetter from '../elements/TokenSetter';
+import TokenSetter from '../elements/TokenSetter'
+import ChangeButton from '../elements/ChangeButton'
 import BasicButtonCard from '../elements/BasicButtonCard'
 
 class Deposit extends Component {
@@ -141,6 +142,12 @@ class Deposit extends Component {
         }
     }
 
+    tokenChange = () => {
+        let tokenA = this.state.tokenB
+        let tokenB = this.state.tokenA
+        this.setState({ tokenA: tokenA, tokenB: tokenB })
+    }
+
     render() {
         return (
             <div>
@@ -157,8 +164,8 @@ class Deposit extends Component {
                             selectorHandler={this.tokenSelectorChangeHandler}
                             amountHandler={this.amountChangeHandler}
                             readOnly={true}
-                            cssStyle={{ marginBottom: "20px" }} />
-
+                        />
+                        <ChangeButton func={this.tokenChange} />
                         <TokenSetter
                             currencies={currencies}
                             leftTitle="To"
@@ -176,10 +183,6 @@ class Deposit extends Component {
                                 <div>Pool Price</div>
                                 <div>{this.getTokenPrice(this.state.tokenAPoolAmount, this.state.tokenBPoolAmount)}</div>
                             </Detail>
-                            <Detail>
-                                <div></div>
-                                <div>{this.getTokenPrice(this.state.tokenBPoolAmount, this.state.tokenAPoolAmount, true)}</div>
-                            </Detail>
                         </BasicButtonCard>
                     </DepositCard> :
                     <PoolList poolsData={this.props.data.poolsData} selectPool={this.selectPool} />}
@@ -191,7 +194,7 @@ class Deposit extends Component {
 const DepositCard = styled.div`
     position:absolute;
     width: 460px;
-    height: 360px;
+    height: 380px;
     padding: 96px 20px 20px;
     background-color:#fff;
     transform: translateX( -50%);
@@ -227,6 +230,7 @@ div:first-child {
     text-align: left;
 }
 `
+
 
 
 export default Deposit
