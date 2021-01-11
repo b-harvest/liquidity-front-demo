@@ -1,11 +1,13 @@
-import { Component } from 'react';
-import styled from 'styled-components';
+import { Component } from 'react'
+import styled from 'styled-components'
 
 import { getMyTokenBalance } from '../common/global-functions'
 import { txGenerator, getWalletTokenList, getPoolList } from '../common/cosmos-amm'
 
-import TokenSetter from '../elements/TokenSetter';
+import TokenSetter from '../elements/TokenSetter'
 import BasicButtonCard from '../elements/BasicButtonCard'
+
+
 
 
 class Deposit extends Component {
@@ -57,6 +59,7 @@ class Deposit extends Component {
             setPoolToken()
         } else {
             alert('Please connect the wallet')
+            window.location = '/'
         }
 
 
