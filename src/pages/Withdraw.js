@@ -1,9 +1,12 @@
 import { Component } from 'react';
 import styled from 'styled-components';
+
+import { getMyTokenBalance } from '../common/global-functions'
 import { txGenerator, getWalletTokenList, getPoolList } from '../common/cosmos-amm'
 
 import TokenSetter from '../elements/TokenSetter';
 import BasicButtonCard from '../elements/BasicButtonCard'
+
 
 class Deposit extends Component {
 
@@ -19,42 +22,46 @@ class Deposit extends Component {
             isLoading: false,
         };
     }
+
     componentDidMount() {
-        const setPoolToken = async () => {
-            try {
-                (async () => {
-                    try {
-                        let tokenIndexer = {}
-                        if (this.props.walletTokenList !== null) {
-                            this.props.walletTokenList.forEach((item) => {
-                                tokenIndexer[item.denom] = item.amount
-                            })
+        if (localStorage.walletAddress) {
+            const setPoolToken = async () => {
+                try {
+                    (async () => {
+                        try {
+                            let tokenIndexer = {}
+                            if (this.props.data.walletTokenList !== null) {
+                                this.props.data.walletTokenList.forEach((item) => {
+                                    tokenIndexer[item.denom] = item.amount
+                                })
+                            }
+                            this.setState({ tokenIndexer: tokenIndexer })
+                            console.log(tokenIndexer)
+                        } catch (error) {
+                            console.error(error);
                         }
-                        this.setState({ tokenIndexer: tokenIndexer })
-                        console.log(tokenIndexer)
-                    } catch (error) {
-                        console.error(error);
-                    }
-                })()
-                const poolList = await getPoolList();
-                const walletTokenList = await getWalletTokenList();
-                const poolTokenData = getPoolToken(poolList, walletTokenList)
-                let poolTokenDataIndexer = {}
-                console.log('poolTokenData', poolTokenData)
-                poolTokenData.forEach((ele, index) => {
-                    poolTokenDataIndexer[ele.coinMinimalDenom] = index
-                })
-                console.log('poolTokenDataIndex', poolTokenDataIndexer)
-                this.setState({ poolTokenData: poolTokenData, poolTokenDataIndexer: poolTokenDataIndexer, tokenA: poolTokenData[0].coinMinimalDenom })
-            } catch (error) {
-                console.error(error);
+                    })()
+                    const poolList = await getPoolList();
+                    const walletTokenList = await getWalletTokenList();
+                    const poolTokenData = getPoolToken(poolList, walletTokenList)
+                    let poolTokenDataIndexer = {}
+                    console.log('poolTokenData', poolTokenData)
+                    poolTokenData.forEach((ele, index) => {
+                        poolTokenDataIndexer[ele.coinMinimalDenom] = index
+                    })
+                    console.log('poolTokenDataIndex', poolTokenDataIndexer)
+                    this.setState({ poolTokenData: poolTokenData, poolTokenDataIndexer: poolTokenDataIndexer, tokenA: poolTokenData[0].coinMinimalDenom })
+                } catch (error) {
+                    console.error(error);
+                }
             }
+            setPoolToken()
+        } else {
+            alert('Please connect the wallet')
+        }
 
 
-        };
 
-
-        setPoolToken()
         //helper 
         function getPoolToken(pl, wt) {
             let myPoolTokens = {}
@@ -87,9 +94,7 @@ class Deposit extends Component {
 
         const tokenA = this.state.tokenA
         const amountA = Math.floor(Number(this.state.tokenAAmount) * 1000000);
-        // const amountB = Math.floor(Number(this.state.tokenBAmount) * 1000000);
 
-        // const arrangedReserveCoinDenoms = sortReserveCoinDenoms(tokenA, tokenB)
         console.log(this.state.poolTokenDataIndexer)
         const msgData = {
             poolId: this.state.poolTokenData[this.state.poolTokenDataIndexer[tokenA]].poolId,
@@ -143,15 +148,6 @@ class Deposit extends Component {
         }
     }
 
-    getMyTokenBalance = (token) => {
-        const balance = Number(Number(this.state.tokenIndexer[token]) / 1000000).toFixed(2)
-        if (balance !== "NaN") {
-            return `My Balance: ${balance}`
-        } else {
-            return `My Balance: 0`
-        }
-    }
-
     render() {
         return (
             <div>
@@ -160,7 +156,7 @@ class Deposit extends Component {
                         currencies={this.state.poolTokenData}
                         leftTitle="Pool Token"
                         cssId="A"
-                        rightTitle={this.getMyTokenBalance(this.state.tokenA)}
+                        rightTitle={getMyTokenBalance(this.state.tokenA, this.state.tokenIndexer)}
                         token={this.state.tokenA}
                         tokenAmount={this.tokenAAmount}
                         selectorHandler={this.tokenSelectorChangeHandler}

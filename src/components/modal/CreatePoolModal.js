@@ -1,7 +1,9 @@
-import styled from "styled-components";
 import { Component } from "react";
+import styled from "styled-components";
+
 import { txGenerator } from "../../common/cosmos-amm";
 import { currencies } from "../../common/config";
+
 import BlackOverLay from "../overlays/BlackOverLay";
 import TokenSetter from "../../elements/TokenSetter";
 import BasicButtonCard from "../../elements/BasicButtonCard";
@@ -18,14 +20,10 @@ class CreatePoolModal extends Component {
 		};
 	}
 
-	componentDidMount() {
-		console.log(currencies);
-	}
-	componentWillUnmount() { }
 	// 로직 함수 시작
 	createPool = async () => {
-		console.log(`X : ${this.state.tokenA} ${this.state.tokenAAmount}`);
-		console.log(`Y : ${this.state.tokenB} ${this.state.tokenBAmount}`);
+		console.log(`From : ${this.state.tokenA} ${this.state.tokenAAmount}`);
+		console.log(`To : ${this.state.tokenB} ${this.state.tokenBAmount}`);
 
 		const tokenA = this.state.tokenA;
 		const tokenB = this.state.tokenB;
