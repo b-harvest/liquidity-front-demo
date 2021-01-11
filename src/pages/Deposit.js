@@ -146,9 +146,10 @@ class Deposit extends Component {
                             tokenAmount={this.tokenAAmount}
                             selectorHandler={this.tokenSelectorChangeHandler}
                             amountHandler={this.amountChangeHandler}
-                            cssStyle={{ marginBottom: "20px" }}
                             readOnly={true}
                         />
+
+                        <div style={{ fontSize: "30px", margin: "5x 0" }}>+</div>
 
                         <TokenSetter
                             currencies={currencies}
@@ -177,7 +178,6 @@ class Deposit extends Component {
 const DepositCard = styled.div`
     position:absolute;
     width: 460px;
-    height: 340px;
     padding: 96px 20px 20px;
     background-color:#fff;
     transform: translateX( -50%);

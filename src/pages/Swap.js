@@ -194,7 +194,7 @@ class Deposit extends Component {
 const DepositCard = styled.div`
     position:absolute;
     width: 460px;
-    height: 380px;
+    height: 360px;
     padding: 96px 20px 20px;
     background-color:#fff;
     transform: translateX( -50%);
