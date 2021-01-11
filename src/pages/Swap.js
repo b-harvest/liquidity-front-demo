@@ -108,10 +108,15 @@ class Deposit extends Component {
         })
     }
 
-    getTokenPrice = () => {
-        const price = this.state.tokenBPoolAmount / this.state.tokenAPoolAmount
+    getTokenPrice = (a, b, reverse = false) => {
+        const price = b / a
         if (price && price !== Infinity) {
-            return <span>1 {this.state.tokenA.substr(1).toUpperCase()} = {parseFloat(price.toFixed(6))} {this.state.tokenB.substr(1).toUpperCase()}</span>
+            if (reverse) {
+                return <span>1 {this.state.tokenB.substr(1).toUpperCase()} = {parseFloat(price.toFixed(6))} {this.state.tokenA.substr(1).toUpperCase()}</span>
+            } else {
+                return <span>1 {this.state.tokenA.substr(1).toUpperCase()} = {parseFloat(price.toFixed(6))} {this.state.tokenB.substr(1).toUpperCase()}</span>
+            }
+
         } else {
             return "?"
         }
@@ -179,7 +184,11 @@ class Deposit extends Component {
                         <BasicButtonCard function={this.createPool} buttonName="SWAP" isLoading={this.state.isLoading}>
                             <Detail>
                                 <div>Pool Price</div>
-                                <div>{this.getTokenPrice()}</div>
+                                <div>{this.getTokenPrice(this.state.tokenAPoolAmount, this.state.tokenBPoolAmount)}</div>
+                            </Detail>
+                            <Detail>
+                                <div></div>
+                                <div>{this.getTokenPrice(this.state.tokenBPoolAmount, this.state.tokenAPoolAmount, true)}</div>
                             </Detail>
                         </BasicButtonCard>
                     </DepositCard> :
@@ -192,7 +201,7 @@ class Deposit extends Component {
 const DepositCard = styled.div`
     position:absolute;
     width: 460px;
-    height: 340px;
+    height: 360px;
     padding: 96px 20px 20px;
     background-color:#fff;
     transform: translateX( -50%);

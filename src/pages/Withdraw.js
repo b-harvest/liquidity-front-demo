@@ -159,7 +159,6 @@ class Deposit extends Component {
                     <TokenSetter
                         currencies={this.state.poolTokenData}
                         leftTitle="Pool Token"
-                        rightTitle="Amount"
                         cssId="A"
                         rightTitle={this.getMyTokenBalance(this.state.tokenA)}
                         token={this.state.tokenA}
