@@ -17,42 +17,46 @@ class BasicLayout extends Component {
     }
 
     componentDidMount() {
-        window.onload = async () => {
-            if (!window.cosmosJSWalletProvider) {
-                alert("Please install the Keplr extension");
-                return;
-            }
-
-            if (!window.keplr?.experimentalSuggestChain) {
-                alert("Please use the latest version of Keplr extension");
-                return;
-            }
-
-            await window.keplr.experimentalSuggestChain(chainInfo);
-
-            const cosmosJS = new GaiaApi({
-                chainId: chainInfo.chainId,
-                rpc: chainInfo.rpc,
-                rest: chainInfo.rest,
-                walletProvider: window.cosmosJSWalletProvider
-            });
-
-            await cosmosJS.enable();
-
-            const keys = await cosmosJS.getKeys();
-
-            if (keys.length === 0) {
-                throw new Error("there is no key");
-            }
-            this.bech32Address = keys[0].bech32Address;
-
-            localStorage.setItem("walletAddress", this.bech32Address);
-
-            this.setState({
-                cosmosJS,
-                address: this.bech32Address
-            });
+        window.onload = () => {
+            this.connectWallet()
         };
+    }
+
+    connectWallet = async () => {
+        if (!window.cosmosJSWalletProvider) {
+            alert("Please install the Keplr extension");
+            return;
+        }
+
+        if (!window.keplr?.experimentalSuggestChain) {
+            alert("Please use the latest version of Keplr extension");
+            return;
+        }
+
+        await window.keplr.experimentalSuggestChain(chainInfo);
+
+        const cosmosJS = new GaiaApi({
+            chainId: chainInfo.chainId,
+            rpc: chainInfo.rpc,
+            rest: chainInfo.rest,
+            walletProvider: window.cosmosJSWalletProvider
+        });
+
+        await cosmosJS.enable();
+
+        const keys = await cosmosJS.getKeys();
+
+        if (keys.length === 0) {
+            throw new Error("there is no key");
+        }
+        this.bech32Address = keys[0].bech32Address;
+
+        localStorage.setItem("walletAddress", this.bech32Address);
+
+        this.setState({
+            cosmosJS,
+            address: this.bech32Address
+        });
     }
 
     getModifiedAddress = (address) => {
@@ -104,7 +108,7 @@ class BasicLayout extends Component {
                     >
                         {this.state.isSent ? "Wait 💸" : "Faucet 💸"}
                     </span>
-                    <Connect>
+                    <Connect onClick={this.connectWallet}>
                         {this.state.address
                             ? `${this.getModifiedAddress(this.state.address)}`
                             : "CONNECT WALLET"}{" "}
