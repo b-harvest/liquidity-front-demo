@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { txGenerator } from '../common/cosmos-amm'
 import { currencies } from '../common/config'
-import { getMyTokenBalance } from '../common/global-functions'
+import { getMyTokenBalance, sortReserveCoinDenoms, getDepositCoins } from '../common/global-functions'
 
 import PoolList from '../components/PoolList'
 import TokenSetter from '../elements/TokenSetter';
@@ -51,8 +51,8 @@ class Deposit extends Component {
 
     // 로직 함수 시작
     createPool = async () => {
-        console.log(`X : ${this.state.tokenA} ${this.state.tokenAAmount}`)
-        console.log(`Y : ${this.state.tokenB} ${this.state.tokenBAmount}`)
+        console.log(`From : ${this.state.tokenA} ${this.state.tokenAAmount}`)
+        console.log(`To : ${this.state.tokenB} ${this.state.tokenBAmount}`)
 
         const tokenA = this.state.tokenA
         const tokenB = this.state.tokenB
@@ -83,15 +83,6 @@ class Deposit extends Component {
         } catch (error) {
             alert(error)
             this.setState({ isLoading: false })
-        }
-
-        // helpers
-        function sortReserveCoinDenoms(x, y) {
-            return [x, y]
-        }
-
-        function getDepositCoins(denoms, amounts) {
-            return { denoms: [denoms[0], denoms[1]], amounts: [amounts[denoms[0]], amounts[denoms[1]]] }
         }
     }
     // 로직 함수 끝

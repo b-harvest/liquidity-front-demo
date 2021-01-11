@@ -21,3 +21,11 @@ export function getMyTokenBalance(token, indexer) {
         }
     }
 }
+
+export function sortReserveCoinDenoms(x, y) {
+    return [x, y]
+}
+
+export function getDepositCoins(denoms, amounts) {
+    return { denoms: [denoms[0], denoms[1]], amounts: [amounts[denoms[0]], amounts[denoms[1]]] }
+}
