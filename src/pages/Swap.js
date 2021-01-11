@@ -116,7 +116,6 @@ class Deposit extends Component {
             } else {
                 return <span>1 {this.state.tokenA.substr(1).toUpperCase()} = {parseFloat(price.toFixed(6))} {this.state.tokenB.substr(1).toUpperCase()}</span>
             }
-
         } else {
             return "?"
         }

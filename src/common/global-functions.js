@@ -1,6 +1,5 @@
 export function getTokenIndexer(wtl) {
     let tokenIndexer = {}
-    console.log(wtl)
     if (wtl) {
         wtl.forEach((item) => {
             tokenIndexer[item.denom] = item.amount

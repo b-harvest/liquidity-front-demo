@@ -34,7 +34,6 @@ class TokenSetter extends Component {
     }
 
     render() {
-        console.log(this.props.token)
         return (
             <>
                 <TokenCard style={this.props.cssStyle}>

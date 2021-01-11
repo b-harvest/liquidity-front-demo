@@ -36,7 +36,6 @@ class Deposit extends Component {
                                 })
                             }
                             this.setState({ tokenIndexer: tokenIndexer })
-                            console.log(tokenIndexer)
                         } catch (error) {
                             console.error(error);
                         }
@@ -131,6 +130,7 @@ class Deposit extends Component {
         this.setState({
             [e.target.id]: e.target.value
         })
+        console.log(e.target.value)
     }
 
     amountChangeHandler = (e) => {
@@ -139,13 +139,12 @@ class Deposit extends Component {
         })
     }
 
-    getTokenPrice = () => {
-        const price = this.state.tokenBPoolAmount / this.state.tokenAPoolAmount
-        if (price && price !== Infinity) {
-            return <span>1 {this.state.tokenA.substr(1).toUpperCase()} = {parseFloat(price.toFixed(6))} {this.state.tokenB.substr(1).toUpperCase()}</span>
-        } else {
-            return "?"
-        }
+    getMyPoolTokenInfo = () => {
+        const amount = this.state.tokenAAmount
+        const tokenData = this.state.poolTokenData[this.state.poolTokenDataIndexer[this.state.tokenA]]
+        const myRatio = Number((tokenData.myTokenAmount / tokenData.poolTokenAmount) * 100).toFixed(4)
+        const returns = `${Number((tokenData.reserveCoins[0].amount / 100000000) * amount * myRatio * amount).toFixed(2)}${String(tokenData.reserveCoins[0].denom).substr(1).toUpperCase()} + ${Number((tokenData.reserveCoins[1].amount / 100000000) * amount * myRatio * amount).toFixed(2)}${String(tokenData.reserveCoins[1].denom).substr(1).toUpperCase()}`
+        return { myRatio: `${myRatio}%`, returns: returns }
     }
 
     render() {
@@ -165,8 +164,12 @@ class Deposit extends Component {
 
                     <BasicButtonCard function={this.createPool} buttonName="WITHDRAW" isLoading={this.state.isLoading}>
                         <Detail>
-                            {/* <div>Pool Price</div>
-                            <div>{this.getTokenPrice()}</div> */}
+                            <div>Your Pool Share</div>
+                            <div>{this.getMyPoolTokenInfo().myRatio}</div>
+                        </Detail>
+                        <Detail>
+                            <div>Estimated Output</div>
+                            <div>{this.getMyPoolTokenInfo().returns}</div>
                         </Detail>
                     </BasicButtonCard>
                 </DepositCard> : ''}
@@ -179,7 +182,6 @@ class Deposit extends Component {
 const DepositCard = styled.div`
     position:absolute;
     width: 460px;
-    height: 230px;
     padding: 20px 20px 20px;
     background-color:#fff;
     transform: translateX( -50%);
@@ -200,6 +202,9 @@ div {
 div:first-child {
     text-align: left;
 }
+
+ margin-bottom: 8px;
+
 `
 
 
