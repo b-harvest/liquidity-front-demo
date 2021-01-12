@@ -7,6 +7,7 @@ import {
 	Brand,
 	Connect
 } from "../../design/components/layouts/BasicLayout";
+import Wallet from "../Wallet"
 import { GaiaApi } from "@chainapsis/cosmosjs/gaia/api";
 import { chainInfo } from "../../common/config";
 import Axios from "axios";
@@ -18,7 +19,8 @@ class BasicLayout extends Component {
 			activeStyle: {
 				backgroundColor: "#ffaa0d"
 			},
-			isSent: false
+			isSent: false,
+			isWallet: false,
 		};
 	}
 
@@ -28,7 +30,7 @@ class BasicLayout extends Component {
 		};
 	}
 
-	connectWallet = async () => {
+	connectWallet = async (isClick) => {
 		if (!window.cosmosJSWalletProvider) {
 			alert("Please install the Keplr extension");
 			return;
@@ -63,6 +65,11 @@ class BasicLayout extends Component {
 			cosmosJS,
 			address: this.bech32Address
 		});
+
+		if (isClick) {
+			this.modalHandler()
+		}
+
 	};
 
 	getModifiedAddress = (address) => {
@@ -88,14 +95,20 @@ class BasicLayout extends Component {
 		}
 	};
 
+	modalHandler = () => {
+		this.setState({
+			isWallet: !this.state.isWallet
+		})
+	}
+
 	render() {
 		return (
 			<Layout>
 				<HeaderPlaceholder />
 				<Header>
 					<Brand>
-						<img src="/assets/bh-logo.png" alt="Image seems to be missing" />
-						<img src="/assets/amm-demo.svg" alt="Image seems to be missing" />
+						<img src="/assets/bh-logo.png" alt="seems to be missing" />
+						<img src="/assets/amm-demo.svg" alt="seems to be missing" />
 					</Brand>
 					<NavLink exact to={"/"} activeStyle={this.state.activeStyle}>
 						Pools
@@ -124,6 +137,7 @@ class BasicLayout extends Component {
 							? `${this.getModifiedAddress(this.state.address)}`
 							: "CONNECT WALLET"}
 					</Connect>
+					{this.state.isWallet ? <Wallet data={this.props.data} modalHandler={this.modalHandler} /> : ''}
 				</Header>
 
 				{this.props.children}

@@ -77,3 +77,35 @@ export function calculateCounterPairAmount(e, state, sp, type) {
 export function calculateSlippage(swapAmount, poolReserve) {
     return 2 * swapAmount / poolReserve
 }
+
+export function getPoolToken(pl, wt) {
+    let myPoolTokens = {};
+    wt.forEach((ele) => {
+        if (ele.denom.length > 10) {
+            myPoolTokens[ele.denom] = ele.amount;
+        }
+    });
+    return pl.map((ele) => {
+        let myTokenAmount = 0;
+        if (myPoolTokens[ele.liquidity_pool.pool_coin_denom]) {
+            myTokenAmount = myPoolTokens[ele.liquidity_pool.pool_coin_denom];
+        }
+        return {
+            coinDenom: `${ele.liquidity_pool.reserve_coin_denoms[0]
+                .substr(1)
+                .toUpperCase()}-${ele.liquidity_pool.reserve_coin_denoms[1]
+                    .substr(1)
+                    .toUpperCase()}`,
+            tokenDenom: [
+                ele.liquidity_pool.reserve_coin_denoms[0],
+                ele.liquidity_pool.reserve_coin_denoms[1]
+            ],
+            poolTokenAmount:
+                ele.liquidity_pool_metadata.pool_coin_total_supply.amount,
+            coinMinimalDenom: ele.liquidity_pool.pool_coin_denom,
+            reserveCoins: ele.liquidity_pool_metadata.reserve_coins,
+            myTokenAmount: myTokenAmount,
+            poolId: ele.liquidity_pool.pool_id
+        };
+    });
+}
