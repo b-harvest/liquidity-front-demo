@@ -34,36 +34,32 @@ export function calculateCounterPairAmount(e, state, sp, type) {
     let slippage = sp
     let counterPairAmount = 0
     let counterPair = ''
-    let swapFeeRatio = 1
 
     if (slippage >= 1) {
         slippage = 0.997
     }
 
     if (type === 'swap') {
-        swapFeeRatio = 0.997
+        const swapFeeRatio = 0.997
         const constantNumber = state.tokenAPoolAmount / 1000000 * state.tokenBPoolAmount / 1000000
         if (e.target.id === "tokenAAmount") {
             console.log('A')
             price = state.tokenBPoolAmount / state.tokenAPoolAmount
             counterPair = "tokenBAmount"
-            counterPairAmount = (state.tokenBPoolAmount / 1000000 - (constantNumber / (state.tokenAPoolAmount / 1000000 + Number(e.target.value) * 0.997)))
+            counterPairAmount = (state.tokenBPoolAmount / 1000000 - (constantNumber / (state.tokenAPoolAmount / 1000000 + Number(e.target.value) * swapFeeRatio)))
         } else {
             console.log('B')
             price = state.tokenAPoolAmount / state.tokenBPoolAmount
             counterPair = "tokenAAmount"
-            counterPairAmount = (state.tokenAPoolAmount / 1000000 - (constantNumber / (state.tokenBPoolAmount / 1000000 + Number(e.target.value))))
-            console.log(state[counterPair])
+            counterPairAmount = (state.tokenAPoolAmount / 1000000 - (constantNumber / (state.tokenBPoolAmount / 1000000 + Number(e.target.value) * 1.00309)))
         }
 
     } else {
         if (e.target.id === "tokenAAmount") {
-            console.log('A')
             price = state.tokenBPoolAmount / state.tokenAPoolAmount
             counterPair = "tokenBAmount"
             counterPairAmount = e.target.value * price
         } else {
-            console.log('B')
             price = state.tokenAPoolAmount / state.tokenBPoolAmount
             counterPair = "tokenAAmount"
             counterPairAmount = e.target.value * price
