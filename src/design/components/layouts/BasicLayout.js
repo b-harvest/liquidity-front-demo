@@ -2,39 +2,39 @@ import styled from "styled-components";
 
 export const Layout = styled.div`
 	display: flex;
-	flex-direction: column;
+	flex-flow: row nowrap;
 	align-items: center;
-	width: 740px;
-	padding-top: 120px;
-	margin: 0 auto;
-	text-align: center;
+	width: 100%;
+	height: 100vh;
 `;
 
 export const Header = styled.header`
-	text-align: center;
-	height: 120px;
-	width: 100%;
-	position: fixed;
-	top: 0;
-	left: 0;
-	background-color: #fff;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	position: relative;
+	width: 240px;
+	height: 100%;
+	background-color: #1e2129;
 
 	a {
-		text-decoration: none;
-		text-align: center;
-		font-weight: bold;
-		color: #222;
 		display: inline-block;
-		cursor: pointer;
-		margin-top: 18px;
-		padding: 12px;
-		&:not(:last-child) {
-			margin-right: 40px;
-        }
-        transition: opacity 0.3s;
-        &:hover {
-            opacity: 0.7;
-        }
+		width: 100%;
+		padding: 24px;
+		font-size: 20px;
+		font-weight: 700;
+		color: #ffffff;
+		text-align: center;
+		text-decoration: none;
+		transition: all 0.3s ease;
+
+		&:hover {
+			width: 270px;
+			border-top-right-radius: 3px;
+			border-bottom-right-radius: 3px;
+			background-color: #ffaa0d;
+			transition: all 0.2s ease;
+		}
 	}
 
 	span {
@@ -42,18 +42,14 @@ export const Header = styled.header`
 		text-decoration: none;
 		text-align: center;
 		font-weight: bold;
-		color: #222;
+		color: #ffffff;
 		display: inline-block;
 		cursor: pointer;
 		margin-top: 18px;
 		padding: 12px;
 		&:not(:last-child) {
 			margin-right: 40px;
-        }
-        transition: opacity 0.3s;
-        &:hover {
-            opacity: 0.7;
-        }
+		}
 	}
 
 	a:visit {
@@ -62,11 +58,10 @@ export const Header = styled.header`
 `;
 
 export const Connect = styled.div`
-	width: 200px;
 	display: inline-block;
-	margin-bottom: -18px;
-	margin-right: 12px;
-	border-radius: 24px;
+	position: absolute;
+	bottom: 60px;
+	width: 100%;
 	height: 42px;
 	border: 50%;
 	background-color: #4297ff;
@@ -74,9 +69,5 @@ export const Connect = styled.div`
 	line-height: 42px;
 	text-align: center;
 	color: #fff;
-    font-weight: bold;
-    transition: opacity 0.3s;
-    &:hover {
-        opacity: 0.7;
-    }
-`
+	font-weight: bold;
+`;

@@ -1,7 +1,13 @@
 import CreatePoolModal from "../components/modal/CreatePoolModal";
-import CoinImgShower from "../elements/CoinImageShower"
+import CoinImgShower from "../elements/CoinImageShower";
 import { Component } from "react";
-import { TableHeader, Row, PoolTable, GoCreatePool } from '../design/pages/Pools'
+import {
+	Wrapper,
+	TableHeader,
+	Row,
+	PoolTable,
+	GoCreatePool
+} from "../design/pages/Pools";
 
 class Pools extends Component {
 	constructor(props) {
@@ -9,19 +15,19 @@ class Pools extends Component {
 		this.state = {
 			poolsData: this.props.data.poolsData,
 			isModal: false,
-			isLoading: false,
+			isLoading: false
 		};
 	}
 
 	componentDidMount() {
 		if (this.props.data.poolsData !== null) {
-			this.setState({ poolsData: this.props.data.poolsData, isLoading: true })
+			this.setState({ poolsData: this.props.data.poolsData, isLoading: true });
 		}
 	}
 
 	componentDidUpdate(prevProps) {
 		if (prevProps.data.poolsData !== this.props.data.poolsData) {
-			this.setState({ poolsData: this.props.data.poolsData, isLoading: true })
+			this.setState({ poolsData: this.props.data.poolsData, isLoading: true });
 		}
 	}
 
@@ -37,20 +43,22 @@ class Pools extends Component {
 	}
 
 	getSecondPairPrice(item) {
-		const price = Number(item.liquidity_pool_metadata.reserve_coins[1]?.amount) / Number(item.liquidity_pool_metadata.reserve_coins[0]?.amount);
+		const price =
+			Number(item.liquidity_pool_metadata.reserve_coins[1]?.amount) /
+			Number(item.liquidity_pool_metadata.reserve_coins[0]?.amount);
 		return Number(price).toFixed(2);
 	}
 
 	createRows(data) {
 		if (!this.state.isLoading) {
-			return <div></div>
+			return <div></div>;
 		}
 		if (data === null || data === undefined || data.length === 0) {
 			return (
-				<div
-					style={{ color: "#ea5353", fontSize: "18px", fontWeight: "bold" }}
-				>There are no pools to display yet.<br />
-			Be the first to create a pool!
+				<div style={{ color: "#ea5353", fontSize: "18px", fontWeight: "bold" }}>
+					There are no pools to display yet.
+					<br />
+					Be the first to create a pool!
 				</div>
 			);
 		} else {
@@ -59,7 +67,11 @@ class Pools extends Component {
 				const secondPairPrice = this.getSecondPairPrice(item);
 				return (
 					<Row key={index}>
-						<div><CoinImgShower coin={pairs[0]} />{pairs[0]} - <CoinImgShower coin={pairs[1]} />{pairs[1]}</div>
+						<div>
+							<CoinImgShower coin={pairs[0]} />
+							{pairs[0]} - <CoinImgShower coin={pairs[1]} />
+							{pairs[1]}
+						</div>
 						<div>
 							{`1 ${pairs[0]} per`}
 							<br />
@@ -73,7 +85,7 @@ class Pools extends Component {
 
 	render() {
 		return (
-			<>
+			<Wrapper>
 				<GoCreatePool onClick={this.modalHandler}>Create Pool</GoCreatePool>
 				<PoolTable>
 					<TableHeader>
@@ -85,11 +97,11 @@ class Pools extends Component {
 				{this.state.isModal ? (
 					<CreatePoolModal modalHandler={this.modalHandler} />
 				) : (
-						""
-					)}
-			</>
+					""
+				)}
+			</Wrapper>
 		);
 	}
 }
 
-export default Pools
+export default Pools;
