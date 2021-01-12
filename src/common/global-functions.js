@@ -74,10 +74,6 @@ export function calculateCounterPairAmount(e, state, sp, type) {
     }
 }
 
-// export function calculateCounterPairAmount(e, state, sp, type) {
-
-// }
-
 export function calculateSlippage(swapAmount, poolReserve) {
     return 2 * swapAmount / poolReserve
 }
