@@ -17,11 +17,24 @@ class App extends Component {
         poolsData: null,
         walletTokenList: null,
         tokenIndexer: null
-      }
+      },
+      prevWalletData: null,
+      prevWalletDataHash: null,
+      isWalletEvent: false,
+      walletEvents: [],
     };
   }
   componentDidMount() {
     const initGetExcData = async () => {
+      const digest = async ({ algorithm = "SHA-256", message }) =>
+        Array.prototype.map
+          .call(
+            new Uint8Array(
+              await crypto.subtle.digest(algorithm, new TextEncoder().encode(message))
+            ),
+            (x) => ("0" + x.toString(16)).slice(-2)
+          )
+          .join("");
       try {
         const poolList = await getPoolList();
         let walletTokenList = null;
@@ -29,6 +42,36 @@ class App extends Component {
         if (localStorage.walletAddress) {
           walletTokenList = await getWalletTokenList();
           tokenIndexer = await getTokenIndexer(walletTokenList);
+        }
+        if (this.state.prevWalletData !== null) {
+
+          digest({ message: JSON.stringify(walletTokenList) }).then((hash) => {
+            console.log(this.state.prevWalletDataHash)
+            console.log(hash)
+            if (this.state.prevWalletDataHash !== null) {
+              if (hash !== this.state.prevWalletDataHash) {
+                console.log("Wallet Change")
+              } else {
+
+              }
+            }
+            this.setState({
+              prevWalletData: walletTokenList,
+              prevWalletDataHash: hash
+            })
+          })
+
+
+          // console.log(prevWalletData)
+          // prevWalletData.map((item, index) => {
+
+          //   return ''
+          // })
+
+        } else {
+          this.setState({
+            prevWalletData: walletTokenList,
+          })
         }
         this.setState({
           sharedData: {
