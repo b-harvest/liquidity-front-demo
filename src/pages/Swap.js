@@ -102,13 +102,18 @@ class Swap extends Component {
     }
 
     amountChangeHandler = (e) => {
-        const slippage = calculateSlippage(e.target.value * 1000000, this.state.tokenAPoolAmount)
-        const { counterPair, counterPairAmount } = calculateCounterPairAmount(e, this.state, slippage, 'swap')
-        let isExceeded = false
+        let slippage = calculateSlippage(e.target.value * 1000000, this.state.tokenAPoolAmount)
+        if (slippage > 0.997) {
+            slippage = 0.997
+        }
 
+        let isExceeded = false
         if (e.target.value > Number(getMyTokenBalance(this.state.tokenA, this.state.tokenIndexer).split(':')[1].trim())) {
             isExceeded = true
         }
+
+        const { counterPair, counterPairAmount } = calculateCounterPairAmount(e, this.state, slippage, 'swap')
+
         this.setState({
             [e.target.id]: e.target.value,
             [counterPair]: Number(counterPairAmount).toFixed(2),
