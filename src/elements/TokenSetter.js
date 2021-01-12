@@ -44,7 +44,7 @@ class TokenSetter extends Component {
                     </Left>
                     <Right>
                         <Title>{this.props.rightTitle ? `${this.props.rightTitle}` : 'amount'} </Title>
-                        <DepositInput id={`token${this.props.cssId}Amount`} placeholder="0" value={this.props.tokenAmount} onChange={this.props.amountHandler}></DepositInput>
+                        <DepositInput autoComplete="off" id={`token${this.props.cssId}Amount`} placeholder="0" value={this.props.tokenAmount} onChange={this.props.amountHandler}></DepositInput>
                     </Right>
                 </TokenCard>
             </>

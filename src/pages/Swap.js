@@ -44,7 +44,6 @@ class Swap extends Component {
         if (prevProps.data.tokenIndexer !== this.props.data.tokenIndexer) {
             try {
                 this.setState({ tokenIndexer: this.props.data.tokenIndexer })
-                console.log('this.props.data.tokenIndexer', this.props.data.tokenIndexer)
             } catch (error) {
                 console.error(error);
             }
@@ -101,7 +100,9 @@ class Swap extends Component {
     }
 
     amountChangeHandler = (e) => {
-        const { counterPair, counterPairAmount } = calculateCounterPairAmount(e, this.state)
+        const slippage = calculateSlippage(e.target.value * 1000000, this.state.tokenAPoolAmount)
+        const { counterPair, counterPairAmount } = calculateCounterPairAmount(e, this.state, slippage)
+        console.log('counterPairAmount', counterPairAmount)
         this.setState({
             [e.target.id]: e.target.value,
             [counterPair]: counterPairAmount
@@ -138,6 +139,12 @@ class Swap extends Component {
         } else {
             this.setState({
                 isPoolSelected: !this.state.isPoolSelected,
+                poolId: '',
+                poolTypeIndex: '',
+                tokenA: '',
+                tokenB: '',
+                tokenAPoolAmount: '',
+                tokenBPoolAmount: '',
             })
         }
     }
@@ -187,7 +194,7 @@ class Swap extends Component {
                             </Detail>
                             <Detail>
                                 <div>Estimated Slippage</div>
-                                <div>{calculateSlippage(this.state.tokenAAmount * 1000000, this.state.tokenAPoolAmount) * 100}%</div>
+                                <div>{(calculateSlippage(this.state.tokenBAmount * 1000000, this.state.tokenBPoolAmount) * 100).toFixed(4)}%</div>
                             </Detail>
                         </BasicButtonCard>
                     </DepositCard> :

@@ -13,7 +13,6 @@ class PoolList extends Component {
 	}
 
 	componentDidMount() {
-		console.log(this.state.poolsData)
 		if (this.props.poolsData !== null) {
 			this.setState({ poolsData: this.props.poolsData })
 		}
