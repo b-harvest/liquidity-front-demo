@@ -118,15 +118,17 @@ class Swap extends Component {
     }
 
     setSlippageColor = (slippage) => {
-        let color = {}
+        let color = ""
         if (slippage <= 1) {
-            color.color = "rgb(39, 174, 96)"
+            color = "rgb(39, 174, 96)"
+        } else if (slippage <= 3) {
+            color = ""
         } else if (slippage <= 5) {
-            color.color = "rgb(243, 132, 30)"
+            color = "rgb(243, 132, 30)"
         } else {
-            color.color = "rgb(255, 104, 113)"
+            color = "rgb(255, 104, 113)"
         }
-        return color
+        return { color: color }
     }
 
     getTokenPrice = (a, b, reverse = false) => {
