@@ -1,6 +1,7 @@
 
 import { Component } from 'react';
-import './DotLoader.css'
+import '../../design/elements/animations/DotLoader.css'
+
 class DotLoader extends Component {
     render() {
         return (

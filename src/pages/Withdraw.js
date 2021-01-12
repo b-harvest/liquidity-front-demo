@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import styled from 'styled-components'
+import { Detail, DepositCard } from '../design/pages/Withdraw'
 
 import { getMyTokenBalance } from '../common/global-functions'
 import { txGenerator, getWalletTokenList, getPoolList } from '../common/cosmos-amm'
@@ -7,10 +7,7 @@ import { txGenerator, getWalletTokenList, getPoolList } from '../common/cosmos-a
 import TokenSetter from '../elements/TokenSetter'
 import BasicButtonCard from '../elements/BasicButtonCard'
 
-
-
-
-class Deposit extends Component {
+class Withdraw extends Component {
 
     constructor(props) {
         super(props);
@@ -127,8 +124,6 @@ class Deposit extends Component {
     }
     // 로직 함수 끝
 
-
-
     tokenSelectorChangeHandler = (e) => {
         this.setState({
             [e.target.id]: e.target.value
@@ -182,33 +177,4 @@ class Deposit extends Component {
     }
 }
 
-const DepositCard = styled.div`
-    position:absolute;
-    width: 460px;
-    padding: 20px 20px 20px;
-    background-color:#fff;
-    transform: translateX( -50%);
-    top: 160px;
-    left: 50%;
-    border-radius: 8px;
-    border: 1px solid #bdbdbd;
-`
-
-
-const Detail = styled.div`
-display: flex;
-font-weight: bold;
-div {
-    flex: 1;
-    text-align:right;
-}
-div:first-child {
-    text-align: left;
-}
-
- margin-bottom: 8px;
-
-`
-
-
-export default Deposit
+export default Withdraw

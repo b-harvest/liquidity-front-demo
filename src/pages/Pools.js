@@ -1,9 +1,9 @@
 import CreatePoolModal from "../components/modal/CreatePoolModal";
 import CoinImgShower from "../elements/CoinImageShower"
 import { Component } from "react";
-import styled from "styled-components";
+import { TableHeader, Row, PoolTable, GoCreatePool } from '../design/pages/Pools'
 
-class PoolList extends Component {
+class Pools extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -92,107 +92,4 @@ class PoolList extends Component {
 	}
 }
 
-const GoCreatePool = styled.button`
-	display: inline-block;
-	text-decoration: none;
-	color: #fff;
-	background-color: #4297ff;
-	height: 36px;
-	width: 110px;
-	line-height: 36px;
-	border-radius: 40px;
-	font-size: 14px;
-	font-weight: bold;
-	margin-bottom: 20px;
-	margin-right: 70px;
-	align-self: flex-end;
-	border: none;
-	outline: none;
-	cursor: pointer;
-	transition: opacity 0.3s;
-    &:hover {
-        opacity: 0.7;
-    }
-`;
-
-const PoolTable = styled.section`
-	margin: 0 auto;
-	border-radius: 6px;
-	text-align: center;
-`;
-const Row = styled.div`
-	margin-bottom: 20px;
-	display: flex;
-	width: 540px;
-
-	div {
-		width: 50%;
-		line-height: 24px;
-	}
-
-	div:first-child {
-		line-height: 48px;
-	}
-`;
-const TableHeader = styled(Row)`
-	margin-bottom: 30px;
-	background-color: #eef5ff;
-	font-weight: bold;
-
-	div {
-		line-height: 48px;
-	}
-`;
-
-export default PoolList;
-
-//helper
-// function setWallettokenDataToPoolListData(poolListData, walletTokens) {
-//     let pd = [...poolListData]
-//     const wt = walletTokens
-
-//     pd.forEach((pool, index) => {
-//         let poolTokenTotalSupply;
-//         let myPoolTokenAmount;
-//         let myPoolTokenRatio;
-
-//         wt.some(isPoolToken)
-//         pool.myPoolToken = {
-//             balance: myPoolTokenRatio,
-//             denom: '%'
-//         }
-
-//         pool.liquidity_pool.reserve_coin_denoms.forEach((denom, denomIndex) => {
-//             wt.some(isReserveToken)
-
-//             function isReserveToken(td) {
-//                 if (td.denom === denom) {
-//                     let reserveTokenAmount;
-
-//                     for (let tokenInfo of pd[index].liquidity_pool_metadata.reserve_coins) {
-//                         if (tokenInfo.denom === denom) {
-//                             reserveTokenAmount = tokenInfo.amount
-//                         }
-//                     }
-
-//                     pd[index].liquidity_pool.reserve_coin_denoms[denomIndex] = `${reserveTokenAmount / 1000000 * myPoolTokenRatio}${denom.substr(1)}`
-//                     return true
-//                 }
-//             }
-//         })
-
-//         function isPoolToken(td) {
-//             if (pool.liquidity_pool.pool_coin_denom === td.denom) {
-//                 poolTokenTotalSupply = pool.liquidity_pool_metadata.pool_coin_total_supply.amount
-//                 myPoolTokenAmount = td.amount
-//                 myPoolTokenRatio = (myPoolTokenAmount / poolTokenTotalSupply)
-//                 console.log(`
-//                     PoolTokendenom : ${td.denom}
-//                     myPoolTokenAmount : ${myPoolTokenAmount}
-//                     poolTokenTotalSupply : ${poolTokenTotalSupply}
-//                     ratio : ${myPoolTokenRatio}
-//                     `)
-//                 return true
-//             }
-//         }
-//     });
+export default Pools
