@@ -1,27 +1,41 @@
-import styled from 'styled-components'
+import styled from "styled-components";
+
+export const Wrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 660px;
+	height: 100vh;
+	padding: 90px 0;
+	margin: 0 auto;
+`;
 
 export const DepositCard = styled.div`
-    position:absolute;
-    width: 460px;
-    padding: 20px 20px 20px;
-    background-color:#fff;
-    transform: translateX( -50%);
-    top: 160px;
-    left: 50%;
-    border-radius: 8px;
-    border: 1px solid #bdbdbd;
-`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	max-width: 500px;
+	padding: 36px;
+	background-color: #fff;
+	border-radius: 12px;
+	border: 1px solid #bdbdbd;
+`;
 
 export const Detail = styled.div`
-    display: flex;
-    font-weight: bold;
-    div {
-        flex: 1;
-        text-align:right;
-    }
-    div:first-child {
-        text-align: left;
-    }
+	display: flex;
+	justify-content: space-between;
+	font-weight: 700;
 
-    margin-bottom: 8px;
-`
+	&:nth-child(2) {
+		margin-top: 9px;
+	}
+
+	div {
+		text-align: left;
+	}
+	div:last-child {
+		text-align: right;
+	}
+`;

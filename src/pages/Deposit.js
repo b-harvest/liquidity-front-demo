@@ -174,7 +174,7 @@ class Deposit extends Component {
 			return (
 				<Wrapper>
 					<DepositCard>
-						<ResetButton onClick={this.selectPool}>{`< Go Back`}</ResetButton>
+						<ResetButton onClick={this.selectPool}>{`< Back`}</ResetButton>
 						<TokenSetter
 							currencies={currencies}
 							leftTitle="From"

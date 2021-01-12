@@ -6,6 +6,7 @@ export const TokenCard = styled.section`
 	border: 2px solid #1e2129;
 	padding: 12px 21px;
 	display: flex;
+	justify-content: space-between;
 
 	&:nth-child(2) {
 		margin-top: 24px;
@@ -18,11 +19,11 @@ export const Title = styled.div`
 	margin-bottom: 12px;
 `;
 export const Left = styled.div`
-	flex: 1;
 	text-align: left;
 	height: 60px;
 `;
 export const Right = styled(Left)`
+	width: 50%;
 	text-align: right;
 `;
 export const ArrowEraser = styled.div`
@@ -44,9 +45,10 @@ export const TokenSelector = styled.select`
 	outline: none;
 `;
 export const DepositInput = styled.input`
-	padding: 0 12px;
+	padding: 0;
 	cursor: pointer;
 	border-radius: 8px;
+	width: 100%;
 	height: 32px;
 	font-size: 18px;
 	font-weight: 700;
