@@ -17,15 +17,18 @@ export const Header = styled.header`
 	height: 100%;
 	background-color: #1e2129;
 
-	a {
+	a,
+	span {
 		display: inline-block;
 		width: 100%;
-		padding: 24px;
+		padding: 21px;
+		margin: 6px 0;
 		font-size: 20px;
 		font-weight: 700;
 		color: #ffffff;
 		text-align: center;
 		text-decoration: none;
+		cursor: pointer;
 		transition: all 0.3s ease;
 
 		&:hover {
@@ -35,26 +38,17 @@ export const Header = styled.header`
 			background-color: #ffaa0d;
 			transition: all 0.2s ease;
 		}
-	}
 
-	span {
-		display: inline-block;
-		text-decoration: none;
-		text-align: center;
-		font-weight: bold;
-		color: #ffffff;
-		display: inline-block;
-		cursor: pointer;
-		margin-top: 18px;
-		padding: 12px;
-		&:not(:last-child) {
-			margin-right: 40px;
+		&:visit {
+			text-decoration: none;
 		}
 	}
+`;
 
-	a:visit {
-		text-decoration: none;
-	}
+export const Brand = styled.div`
+	position: absolute;
+	top: 60px;
+	width: 100%;
 `;
 
 export const Connect = styled.div`
@@ -62,12 +56,16 @@ export const Connect = styled.div`
 	position: absolute;
 	bottom: 60px;
 	width: 100%;
-	height: 42px;
 	border: 50%;
-	background-color: #4297ff;
-	cursor: pointer;
-	line-height: 42px;
-	text-align: center;
+	background-color: #247bf2;
 	color: #fff;
 	font-weight: bold;
+	line-height: 46px;
+	text-align: center;
+	cursor: pointer;
+	transition: all 0.3s ease;
+
+	&:hover {
+		background-color: #66a3f6;
+	}
 `;

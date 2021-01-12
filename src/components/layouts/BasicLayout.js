@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import {
 	Layout,
 	Header,
+	Brand,
 	Connect
 } from "../../design/components/layouts/BasicLayout";
 import { GaiaApi } from "@chainapsis/cosmosjs/gaia/api";
@@ -90,6 +91,9 @@ class BasicLayout extends Component {
 		return (
 			<Layout>
 				<Header>
+					<Brand>
+						<img src="/assets/brand.svg"></img>
+					</Brand>
 					<NavLink exact to={"/"} activeStyle={this.state.activeStyle}>
 						Pools
 					</NavLink>
