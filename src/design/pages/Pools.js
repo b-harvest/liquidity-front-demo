@@ -38,6 +38,21 @@ export const PoolTable = styled.section`
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.2);
 `;
 
+export const TableHeader = styled.div`
+	display: flex;
+	margin-bottom: 27px;
+	background-color: rgba(255, 170, 13, 0.15);
+	font-size: 20px;
+	font-weight: 700;
+	border-top-left-radius: 12px;
+	border-top-right-radius: 12px;
+
+	div {
+		flex: 1;
+		line-height: 60px;
+	}
+`;
+
 export const Row = styled.div`
 	margin-bottom: 27px;
 	display: flex;
@@ -56,20 +71,5 @@ export const Row = styled.div`
 	span {
 		color: #626469;
 		margin: 0 12px;
-	}
-`;
-
-export const TableHeader = styled.div`
-	display: flex;
-	margin-bottom: 27px;
-	background-color: rgba(255, 170, 13, 0.15);
-	font-size: 20px;
-	font-weight: 700;
-	border-top-left-radius: 12px;
-	border-top-right-radius: 12px;
-
-	div {
-		flex: 1;
-		line-height: 60px;
 	}
 `;

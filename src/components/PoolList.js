@@ -1,7 +1,12 @@
-
 import { Component } from "react";
-import { DepositButton, TableHeader, PoolTable, Row } from "../design/components/PoolList"
-import CoinImgShower from "../elements/CoinImageShower"
+import {
+	Wrapper,
+	DepositButton,
+	TableHeader,
+	PoolTable,
+	Row
+} from "../design/components/PoolList";
+import CoinImgShower from "../elements/CoinImageShower";
 
 class PoolList extends Component {
 	constructor(props) {
@@ -14,13 +19,13 @@ class PoolList extends Component {
 
 	componentDidMount() {
 		if (this.props.poolsData !== null) {
-			this.setState({ poolsData: this.props.poolsData })
+			this.setState({ poolsData: this.props.poolsData });
 		}
 	}
 
 	componentDidUpdate(prevProps) {
 		if (prevProps.poolsData !== this.props.poolsData) {
-			this.setState({ poolsData: this.props.poolsData })
+			this.setState({ poolsData: this.props.poolsData });
 		}
 	}
 
@@ -45,10 +50,10 @@ class PoolList extends Component {
 	createRows = (data) => {
 		if (data === null || data === undefined || data.length === 0) {
 			return (
-				<div
-					style={{ color: "#ea5353", fontSize: "18px", fontWeight: "bold" }}
-				>There are no pools to display yet.<br />
-			Be the first to create a pool!
+				<div style={{ color: "#ea5353", fontSize: "18px", fontWeight: "bold" }}>
+					There are no pools to display yet.
+					<br />
+					Be the first to create a pool!
 				</div>
 			);
 		} else {
@@ -57,7 +62,13 @@ class PoolList extends Component {
 				const secondPairPrice = this.getSecondPairPrice(item);
 				return (
 					<Row key={index}>
-						<div><CoinImgShower coin={pairs[0]} />{pairs[0]} - <CoinImgShower coin={pairs[1]} />{pairs[1]}</div>
+						<div>
+							<CoinImgShower coin={pairs[0]} />
+							{pairs[0]}
+							<span>···</span>
+							<CoinImgShower coin={pairs[1]} />
+							{pairs[1]}
+						</div>
 						<div>
 							{`1 ${pairs[0]} per`}
 							<br />
@@ -80,7 +91,7 @@ class PoolList extends Component {
 
 	render() {
 		return (
-			<>
+			<Wrapper>
 				<PoolTable>
 					<TableHeader>
 						<div>Pool</div>
@@ -89,7 +100,7 @@ class PoolList extends Component {
 					</TableHeader>
 					{this.createRows(this.state.poolsData)}
 				</PoolTable>
-			</>
+			</Wrapper>
 		);
 	}
 }
