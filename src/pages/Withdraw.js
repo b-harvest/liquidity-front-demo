@@ -19,6 +19,7 @@ class Withdraw extends Component {
             poolTokenDataIndexer: null,
             tokenIndexer: null,
             isLoading: false,
+            isExceeded: false,
         };
     }
 
@@ -132,9 +133,24 @@ class Withdraw extends Component {
     }
 
     amountChangeHandler = (e) => {
+        let isExceeded = false;
+
+        if (
+            e.target.value >
+            Number(
+                getMyTokenBalance(this.state.tokenA, this.state.tokenIndexer)
+                    .split(":")[1]
+                    .trim()
+            )
+        ) {
+            isExceeded = true;
+        }
+
         this.setState({
-            [e.target.id]: e.target.value
+            [e.target.id]: e.target.value,
+            isExceeded: isExceeded
         })
+
     }
 
     getMyPoolTokenInfo = () => {
@@ -165,7 +181,7 @@ class Withdraw extends Component {
                         amountHandler={this.amountChangeHandler}
                         cssStyle={{ marginBottom: "20px" }} />
 
-                    <BasicButtonCard function={this.createPool} buttonName="WITHDRAW" isLoading={this.state.isLoading}>
+                    <BasicButtonCard function={this.createPool} buttonName="WITHDRAW" isLoading={this.state.isLoading} isDisabled={this.state.isExceeded}>
                         <Detail>
                             <div>Your Pool Share</div>
                             <div>{this.getMyPoolTokenInfo().myRatio}</div>
