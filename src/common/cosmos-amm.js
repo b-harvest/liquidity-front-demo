@@ -28,6 +28,10 @@ export const txGenerator = async (type, msgData, feeData = {
     amount: 2000,
     gas: "180000",
 }) => {
+    //check wallet connection
+    if (!localStorage.walletAddress) {
+        return Promise.reject('Please Connect Wallet!')
+    }
 
     // set config
     const chainId = "amm";

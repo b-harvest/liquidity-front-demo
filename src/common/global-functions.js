@@ -34,29 +34,38 @@ export function calculateCounterPairAmount(e, state, sp, type) {
     let slippage = sp
     let counterPairAmount = 0
     let counterPair = ''
-    let swapFeeRatio = 1
-
-    if (type === 'swap') {
-        swapFeeRatio = 0.997
-    }
 
     if (slippage >= 1) {
         slippage = 0.997
     }
-    console.log(state)
-    if (e.target.id === "tokenAAmount") {
-        price = state.tokenBPoolAmount / state.tokenAPoolAmount
-        counterPair = "tokenBAmount"
-        counterPairAmount = e.target.value * price
-        console.log(state.tokenAPoolAmount / 2 / 1000000)
-    } else {
-        price = state.tokenAPoolAmount / state.tokenBPoolAmount
-        counterPair = "tokenAAmount"
-        counterPairAmount = e.target.value * price
-        console.log(state[counterPair])
-    }
 
-    counterPairAmount = (counterPairAmount * (1 - slippage) * swapFeeRatio)
+    if (type === 'swap') {
+        const swapFeeRatio = 0.997
+        const constantNumber = state.tokenAPoolAmount / 1000000 * state.tokenBPoolAmount / 1000000
+        if (e.target.id === "tokenAAmount") {
+            console.log('A')
+            price = state.tokenBPoolAmount / state.tokenAPoolAmount
+            counterPair = "tokenBAmount"
+            counterPairAmount = (state.tokenBPoolAmount / 1000000 - (constantNumber / (state.tokenAPoolAmount / 1000000 + Number(e.target.value) * swapFeeRatio)))
+        } else {
+            console.log('B')
+            price = state.tokenAPoolAmount / state.tokenBPoolAmount
+            counterPair = "tokenAAmount"
+            counterPairAmount = (state.tokenAPoolAmount / 1000000 - (constantNumber / (state.tokenBPoolAmount / 1000000 + Number(e.target.value) * 1.00309)))
+        }
+
+    } else {
+        if (e.target.id === "tokenAAmount") {
+            price = state.tokenBPoolAmount / state.tokenAPoolAmount
+            counterPair = "tokenBAmount"
+            counterPairAmount = e.target.value * price
+        } else {
+            price = state.tokenAPoolAmount / state.tokenBPoolAmount
+            counterPair = "tokenAAmount"
+            counterPairAmount = e.target.value * price
+        }
+        counterPairAmount = counterPairAmount.toFixed(2)
+    }
 
     return {
         price: price,

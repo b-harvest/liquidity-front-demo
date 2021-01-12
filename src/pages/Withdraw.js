@@ -2,7 +2,7 @@ import { Component } from 'react'
 import { Detail, DepositCard } from '../design/pages/Withdraw'
 
 import { getMyTokenBalance } from '../common/global-functions'
-import { txGenerator, getWalletTokenList, getPoolList } from '../common/cosmos-amm'
+import { txGenerator } from '../common/cosmos-amm'
 
 import TokenSetter from '../elements/TokenSetter'
 import BasicButtonCard from '../elements/BasicButtonCard'
@@ -17,49 +17,39 @@ class Withdraw extends Component {
             tokenAPoolAmount: '',
             poolTokenData: null,
             poolTokenDataIndexer: null,
-            tokenIndexer: null,
             isLoading: false,
+            isExceeded: false,
         };
     }
 
     componentDidMount() {
         if (localStorage.walletAddress) {
-            const setPoolToken = async () => {
-                try {
-                    (async () => {
-                        try {
-                            let tokenIndexer = {}
-                            if (this.props.data.walletTokenList !== null) {
-                                this.props.data.walletTokenList.forEach((item) => {
-                                    tokenIndexer[item.denom] = item.amount
-                                })
-                            }
-                            this.setState({ tokenIndexer: tokenIndexer })
-                        } catch (error) {
-                            console.error(error);
-                        }
-                    })()
-                    const poolList = await getPoolList();
-                    const walletTokenList = await getWalletTokenList();
-                    const poolTokenData = getPoolToken(poolList, walletTokenList)
-                    let poolTokenDataIndexer = {}
-                    console.log('poolTokenData', poolTokenData)
-                    poolTokenData.forEach((ele, index) => {
-                        poolTokenDataIndexer[ele.coinMinimalDenom] = index
-                    })
-                    console.log('poolTokenDataIndex', poolTokenDataIndexer)
-                    this.setState({ poolTokenData: poolTokenData, poolTokenDataIndexer: poolTokenDataIndexer, tokenA: poolTokenData[0].coinMinimalDenom })
-                } catch (error) {
-                    console.error(error);
-                }
-            }
-            setPoolToken()
+            this.setPoolToken()
         } else {
             alert('Please connect the wallet')
             window.location = '/'
         }
+    }
 
+    componentDidUpdate(prevProps) {
+        if (prevProps.data.walletTokenList !== this.props.data.walletTokenList) {
+            this.setPoolToken()
+        }
+    }
 
+    setPoolToken = () => {
+        try {
+            const poolTokenData = getPoolToken(this.props.data.poolsData, this.props.data.walletTokenList)
+            let poolTokenDataIndexer = {}
+            console.log('poolTokenData', poolTokenData)
+            poolTokenData.forEach((ele, index) => {
+                poolTokenDataIndexer[ele.coinMinimalDenom] = index
+            })
+            console.log('poolTokenDataIndex', poolTokenDataIndexer)
+            this.setState({ poolTokenData: poolTokenData, poolTokenDataIndexer: poolTokenDataIndexer, tokenA: poolTokenData[0].coinMinimalDenom })
+        } catch (error) {
+            console.error(error);
+        }
 
         //helper 
         function getPoolToken(pl, wt) {
@@ -85,6 +75,7 @@ class Withdraw extends Component {
                 }
             });
         }
+
     }
 
     // 로직 함수 시작
@@ -132,9 +123,24 @@ class Withdraw extends Component {
     }
 
     amountChangeHandler = (e) => {
+        let isExceeded = false;
+
+        if (
+            e.target.value >
+            Number(
+                getMyTokenBalance(this.state.tokenA, this.props.data.tokenIndexer)
+                    .split(":")[1]
+                    .trim()
+            )
+        ) {
+            isExceeded = true;
+        }
+
         this.setState({
-            [e.target.id]: e.target.value
+            [e.target.id]: e.target.value,
+            isExceeded: isExceeded
         })
+
     }
 
     getMyPoolTokenInfo = () => {
@@ -158,14 +164,14 @@ class Withdraw extends Component {
                         currencies={this.state.poolTokenData}
                         leftTitle="Pool Token"
                         cssId="A"
-                        rightTitle={getMyTokenBalance(this.state.tokenA, this.state.tokenIndexer)}
+                        rightTitle={getMyTokenBalance(this.state.tokenA, this.props.data.tokenIndexer)}
                         token={this.state.tokenA}
                         tokenAmount={this.tokenAAmount}
                         selectorHandler={this.tokenSelectorChangeHandler}
                         amountHandler={this.amountChangeHandler}
                         cssStyle={{ marginBottom: "20px" }} />
 
-                    <BasicButtonCard function={this.createPool} buttonName="WITHDRAW" isLoading={this.state.isLoading}>
+                    <BasicButtonCard function={this.createPool} buttonName="WITHDRAW" isLoading={this.state.isLoading} isDisabled={this.state.isExceeded}>
                         <Detail>
                             <div>Your Pool Share</div>
                             <div>{this.getMyPoolTokenInfo().myRatio}</div>

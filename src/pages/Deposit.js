@@ -51,10 +51,6 @@ class Deposit extends Component {
 		if (prevProps.data.tokenIndexer !== this.props.data.tokenIndexer) {
 			try {
 				this.setState({ tokenIndexer: this.props.data.tokenIndexer });
-				console.log(
-					"this.props.data.tokenIndexer",
-					this.props.data.tokenIndexer
-				);
 			} catch (error) {
 				console.error(error);
 			}
@@ -144,7 +140,7 @@ class Deposit extends Component {
 			return (
 				<span>
 					1 {this.state.tokenA.substr(1).toUpperCase()} ={" "}
-					{parseFloat(price.toFixed(6))}{" "}
+					{parseFloat(price.toFixed(4))}{" "}
 					{this.state.tokenB.substr(1).toUpperCase()}
 				</span>
 			);
@@ -154,7 +150,7 @@ class Deposit extends Component {
 	};
 
 	selectPool = (item) => {
-		console.log(item);
+		console.log(item.liquidity_pool_metadata?.reserve_coins);
 		if (item.liquidity_pool_metadata?.reserve_coins) {
 			this.setState({
 				isPoolSelected: !this.state.isPoolSelected,
@@ -166,7 +162,9 @@ class Deposit extends Component {
 			});
 		} else {
 			this.setState({
-				isPoolSelected: !this.state.isPoolSelected
+				isPoolSelected: !this.state.isPoolSelected,
+				tokenAAmount: "",
+				tokenBAmount: ""
 			});
 		}
 	};
@@ -176,7 +174,7 @@ class Deposit extends Component {
 			return (
 				<Wrapper>
 					<DepositCard>
-						<ResetButton onClick={this.selectPool}>{`< Back`}</ResetButton>
+						<ResetButton onClick={this.selectPool}>{`< Go Back`}</ResetButton>
 						<TokenSetter
 							currencies={currencies}
 							leftTitle="From"

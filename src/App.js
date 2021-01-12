@@ -58,7 +58,7 @@ class App extends Component {
 						Thanks!
 					</div>
 				</div>
-				<BasicLayout walletTokenList={this.state.SwapwalletTokenList}>
+				<BasicLayout walletTokenList={this.state.sharedData}>
 					<Switch>
 						<Route exact path="/">
 							<Pools data={this.state.sharedData} />
