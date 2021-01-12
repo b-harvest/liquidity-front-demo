@@ -46,7 +46,6 @@ export const GoCreatePool = styled.button`
 
 export const PoolTable = styled.section`
 	width: 100%;
-	margin: 0 auto;
 	background-color: #ffffff;
 	border-radius: 12px;
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.2);

@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
 export const TokenCard = styled.section`
-	margin: 0 auto;
+	width: 100%;
+	margin: 0;
 	border-radius: 8px;
 	border: 2px solid #1e2129;
 	padding: 12px 21px;
