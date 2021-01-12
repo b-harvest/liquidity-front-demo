@@ -51,7 +51,23 @@ class App extends Component {
             if (this.state.prevWalletDataHash !== null) {
               if (hash !== this.state.prevWalletDataHash) {
                 console.log("Wallet Change")
-              } else {
+
+
+                if (walletTokenList.length !== this.state.prevWalletData.length) {
+                  // new coin
+                  // walletTokenList.map((item, index) => {
+
+                  // })
+                } else {
+                  walletTokenList.map((item, index) => {
+                    if (item.amount !== this.state.prevWalletData[index].amount) {
+                      console.log(item.denom, (Number(item.amount) - Number(this.state.prevWalletData[index].amount)) / 1000000)
+                      console.log(this.state.prevWalletData[index])
+                      // alert(item.denom)
+                    }
+                  })
+                }
+
 
               }
             }
