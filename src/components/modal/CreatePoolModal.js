@@ -2,6 +2,7 @@ import { Component } from "react";
 import { Modal, Detail } from "../../design/components/modal/CreatePoolModal"
 
 import { txGenerator } from "../../common/cosmos-amm";
+import { getMyTokenBalance } from "../../common/global-functions";
 import { currencies } from "../../common/config";
 
 import BlackOverLay from "../overlays/BlackOverLay";
@@ -16,6 +17,7 @@ class CreatePoolModal extends Component {
 			tokenB: currencies[0].coinMinimalDenom,
 			tokenAAmount: "",
 			tokenBAmount: "",
+			isExceeded: false,
 			isLoading: false
 		};
 	}
@@ -95,8 +97,20 @@ class CreatePoolModal extends Component {
 	};
 
 	amountChangeHandler = (e) => {
+		let isExceeded = false;
+		if (
+			e.target.value >
+			Number(
+				getMyTokenBalance(this.state.tokenA, this.props.data.tokenIndexer)
+					.split(":")[1]
+					.trim()
+			)
+		) {
+			isExceeded = true;
+		}
 		this.setState({
-			[e.target.id]: e.target.value
+			[e.target.id]: e.target.value,
+			isExceeded: isExceeded
 		});
 	};
 
@@ -123,7 +137,10 @@ class CreatePoolModal extends Component {
 					<TokenSetter
 						currencies={currencies}
 						leftTitle="Token A"
-						rightTitle="Amount"
+						rightTitle={getMyTokenBalance(
+							this.state.tokenA,
+							this.props.data.tokenIndexer
+						)}
 						cssId="A"
 						token={this.state.tokenA}
 						tokenAmount={this.tokenAAmount}
@@ -135,7 +152,10 @@ class CreatePoolModal extends Component {
 					<TokenSetter
 						currencies={currencies}
 						leftTitle="Token B"
-						rightTitle="Amount"
+						rightTitle={getMyTokenBalance(
+							this.state.tokenB,
+							this.props.data.tokenIndexer
+						)}
 						cssId="B"
 						token={this.state.tokenB}
 						tokenAmount={this.tokenBAmount}
@@ -147,6 +167,7 @@ class CreatePoolModal extends Component {
 						function={this.createPool}
 						buttonName="CREATE POOL"
 						isLoading={this.state.isLoading}
+						isDisabled={this.state.isExceeded}
 					>
 						<Detail>
 							<div>Initial Pool Price</div>

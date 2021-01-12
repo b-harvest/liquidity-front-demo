@@ -103,10 +103,10 @@ class Pools extends Component {
 					{this.createRows(this.state.poolsData)}
 				</PoolTable>
 				{this.state.isModal ? (
-					<CreatePoolModal modalHandler={this.modalHandler} />
+					<CreatePoolModal modalHandler={this.modalHandler} data={this.props.data} />
 				) : (
-					""
-				)}
+						""
+					)}
 			</Wrapper>
 		);
 	}
