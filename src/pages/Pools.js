@@ -3,6 +3,7 @@ import CoinImgShower from "../elements/CoinImageShower";
 import { Component } from "react";
 import {
 	Wrapper,
+	SectionHead,
 	TableHeader,
 	Row,
 	PoolTable,
@@ -90,11 +91,14 @@ class Pools extends Component {
 	render() {
 		return (
 			<Wrapper>
-				<GoCreatePool onClick={this.modalHandler}>Create Pool</GoCreatePool>
+				<SectionHead>
+					<div>Pools</div>
+					<GoCreatePool onClick={this.modalHandler}>Create Pool</GoCreatePool>
+				</SectionHead>
 				<PoolTable>
 					<TableHeader>
-						<div>Pool List</div>
-						<div>Pool Price</div>
+						<div>Pool</div>
+						<div>Price</div>
 					</TableHeader>
 					{this.createRows(this.state.poolsData)}
 				</PoolTable>

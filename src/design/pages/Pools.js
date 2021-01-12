@@ -9,6 +9,21 @@ export const Wrapper = styled.div`
 	margin: 0 auto;
 `;
 
+export const SectionHead = styled.div`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	padding: 0 12px;
+	margin-bottom: 27px;
+
+	div:first-child {
+		font-size: 36px;
+		font-weight: 700;
+		line-height: 46px;
+	}
+`;
+
 export const GoCreatePool = styled.button`
 	align-self: flex-end;
 	text-decoration: none;
@@ -21,7 +36,6 @@ export const GoCreatePool = styled.button`
 	border-radius: 26px;
 	border: none;
 	outline: none;
-	margin-bottom: 18px;
 	cursor: pointer;
 	transition: opacity 0.3s;
 

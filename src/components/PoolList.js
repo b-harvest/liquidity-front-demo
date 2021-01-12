@@ -1,6 +1,7 @@
 import { Component } from "react";
 import {
 	Wrapper,
+	SectionHead,
 	DepositButton,
 	TableHeader,
 	PoolTable,
@@ -50,8 +51,10 @@ class PoolList extends Component {
 	createRows = (data) => {
 		if (data === null || data === undefined || data.length === 0) {
 			return (
-				<div style={{ color: "#ea5353", fontSize: "18px", fontWeight: "bold" }}>
-					There are no pools to display yet.
+				<div
+					style={{ color: "#a5a6a9", lineHeight: 1.5, marginBottom: "27px" }}
+				>
+					There are no pools created yet.
 					<br />
 					Be the first to create a pool!
 				</div>
@@ -80,7 +83,7 @@ class PoolList extends Component {
 									this.selectPool(item);
 								}}
 							>
-								{this.props.actionName ? this.props.actionName : "Select"}
+								{this.props.actionType}
 							</DepositButton>
 						</div>
 					</Row>
@@ -92,11 +95,14 @@ class PoolList extends Component {
 	render() {
 		return (
 			<Wrapper>
+				<SectionHead>
+					<div>{this.props.actionType}</div>
+				</SectionHead>
 				<PoolTable>
 					<TableHeader>
 						<div>Pool</div>
 						<div>Price</div>
-						<div>Action</div>
+						<div>Select</div>
 					</TableHeader>
 					{this.createRows(this.state.poolsData)}
 				</PoolTable>

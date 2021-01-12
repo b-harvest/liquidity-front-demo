@@ -304,6 +304,7 @@ class Swap extends Component {
 				<PoolList
 					poolsData={this.props.data.poolsData}
 					selectPool={this.selectPool}
+					actionType="Swap"
 				/>
 			);
 		}

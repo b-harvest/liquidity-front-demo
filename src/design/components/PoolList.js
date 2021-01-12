@@ -9,6 +9,21 @@ export const Wrapper = styled.div`
 	margin: 0 auto;
 `;
 
+export const SectionHead = styled.div`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	padding: 0 12px;
+	margin-bottom: 27px;
+
+	div:first-child {
+		font-size: 36px;
+		font-weight: 700;
+		line-height: 46px;
+	}
+`;
+
 export const PoolTable = styled.section`
 	width: 100%;
 	margin: 0 auto;
@@ -27,8 +42,16 @@ export const TableHeader = styled.div`
 	border-top-right-radius: 12px;
 
 	div {
-		flex: 1;
+		width: 30%;
 		line-height: 60px;
+	}
+
+	div:first-child {
+		width: 40%;
+	}
+
+	div:last-child {
+		width: 30%;
 	}
 `;
 
@@ -38,13 +61,20 @@ export const Row = styled.div`
 	width: 100%;
 
 	div {
-		width: 50%;
-		line-height: 24px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 30%;
+		height: 48px;
 	}
 
 	div:first-child {
+		width: 40%;
 		font-weight: 500;
-		line-height: 48px;
+	}
+
+	div:last-child {
+		width: 30%;
 	}
 
 	span {
@@ -54,16 +84,20 @@ export const Row = styled.div`
 `;
 
 export const DepositButton = styled.button`
-	width: 120px;
-	height: 24px;
-	border-radius: 12px;
-	border: none;
-	background-color: #4297ff;
+	align-self: flex-end;
+	text-decoration: none;
 	color: #fff;
-	font-weight: bold;
-	cursor: pointer;
+	line-height: 1;
+	font-size: 16px;
+	font-weight: 700;
+	padding: 9px 24px;
+	background-color: #ffaa0d;
+	border-radius: 26px;
+	border: none;
 	outline: none;
+	cursor: pointer;
 	transition: opacity 0.3s;
+
 	&:hover {
 		opacity: 0.7;
 	}
