@@ -2,6 +2,7 @@ import { Component } from "react";
 import { NavLink } from "react-router-dom";
 import {
 	Layout,
+	HeaderPlaceholder,
 	Header,
 	Brand,
 	Connect
@@ -90,6 +91,7 @@ class BasicLayout extends Component {
 	render() {
 		return (
 			<Layout>
+				<HeaderPlaceholder />
 				<Header>
 					<Brand>
 						<img src="/assets/bh-logo.png" alt="Image seems to be missing" />

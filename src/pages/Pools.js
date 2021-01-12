@@ -55,8 +55,10 @@ class Pools extends Component {
 		}
 		if (data === null || data === undefined || data.length === 0) {
 			return (
-				<div style={{ color: "#ea5353", fontSize: "18px", fontWeight: "bold" }}>
-					There are no pools to display yet.
+				<div
+					style={{ color: "#a5a6a9", lineHeight: 1.5, marginBottom: "27px" }}
+				>
+					There are no pools created yet.
 					<br />
 					Be the first to create a pool!
 				</div>
@@ -91,8 +93,8 @@ class Pools extends Component {
 				<GoCreatePool onClick={this.modalHandler}>Create Pool</GoCreatePool>
 				<PoolTable>
 					<TableHeader>
-						<div>Pool</div>
-						<div>Price</div>
+						<div>Pool List</div>
+						<div>Pool Price</div>
 					</TableHeader>
 					{this.createRows(this.state.poolsData)}
 				</PoolTable>

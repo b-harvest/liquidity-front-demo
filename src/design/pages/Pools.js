@@ -3,45 +3,45 @@ import styled from "styled-components";
 export const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
-	flex: 1;
-	justify-content: center;
 	align-items: center;
+	width: 660px;
+	padding: 120px 0;
+	margin: 0 auto;
 `;
 
 export const GoCreatePool = styled.button`
-	display: inline-block;
+	align-self: flex-end;
 	text-decoration: none;
 	color: #fff;
-	background-color: #4297ff;
-	height: 36px;
-	width: 110px;
-	line-height: 36px;
-	border-radius: 40px;
-	font-size: 14px;
-	font-weight: bold;
-	margin-bottom: 20px;
-	margin-right: 70px;
-	align-self: flex-end;
+	line-height: 1;
+	font-size: 16px;
+	font-weight: 700;
+	padding: 15px 21px;
+	background-color: #ffaa0d;
+	border-radius: 26px;
 	border: none;
 	outline: none;
+	margin-bottom: 18px;
 	cursor: pointer;
 	transition: opacity 0.3s;
+
 	&:hover {
 		opacity: 0.7;
 	}
 `;
 
 export const PoolTable = styled.section`
+	width: 100%;
+	margin: 0 auto;
 	background-color: #ffffff;
 	border-radius: 12px;
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.2);
-	margin: 0 auto;
 `;
 
 export const Row = styled.div`
-	margin-bottom: 20px;
+	margin-bottom: 27px;
 	display: flex;
-	width: 540px;
+	width: 100%;
 
 	div {
 		width: 50%;
@@ -61,8 +61,8 @@ export const Row = styled.div`
 
 export const TableHeader = styled.div`
 	display: flex;
-	margin-bottom: 30px;
-	background-color: rgba(255, 170, 13, 0.2);
+	margin-bottom: 27px;
+	background-color: rgba(255, 170, 13, 0.15);
 	font-size: 20px;
 	font-weight: 700;
 	border-top-left-radius: 12px;

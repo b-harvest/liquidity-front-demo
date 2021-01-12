@@ -3,16 +3,22 @@ import styled from "styled-components";
 export const Layout = styled.div`
 	display: flex;
 	flex-flow: row nowrap;
-	align-items: center;
 	width: 100%;
-	height: 100vh;
+`;
+
+export const HeaderPlaceholder = styled.div`
+	position: relative;
+	width: 240px;
+	height: 100%;
 `;
 
 export const Header = styled.header`
+	position: fixed;
+	top: 0;
+	left: 0;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	position: relative;
 	width: 240px;
 	height: 100%;
 	background-color: #1e2129;
