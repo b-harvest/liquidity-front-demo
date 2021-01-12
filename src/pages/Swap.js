@@ -85,6 +85,7 @@ class Swap extends Component {
             if (String(response).includes("Error")) {
                 throw response
             }
+            this.reset()
             alert("Swap Success!")
         } catch (error) {
             alert(error)
@@ -121,7 +122,12 @@ class Swap extends Component {
         }
     }
 
-    setTokenAmount
+    reset = () => {
+        this.setState({
+            tokenAAmount: '',
+            tokenBAmount: ''
+        })
+    }
 
     selectPool = (item) => {
         console.log(item)
@@ -136,14 +142,17 @@ class Swap extends Component {
                 tokenBPoolAmount: item.liquidity_pool_metadata.reserve_coins[1].amount,
             })
         } else {
+            this.reset()
             this.setState({
-                isPoolSelected: !this.state.isPoolSelected,
                 poolId: '',
                 poolTypeIndex: '',
                 tokenA: '',
                 tokenB: '',
+                tokenAAmount: '',
+                tokenBAmount: '',
                 tokenAPoolAmount: '',
                 tokenBPoolAmount: '',
+                isPoolSelected: !this.state.isPoolSelected
             })
         }
     }
