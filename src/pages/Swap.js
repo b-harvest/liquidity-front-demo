@@ -101,7 +101,7 @@ class Swap extends Component {
     }
 
     amountChangeHandler = (e) => {
-        const { counterPair, counterPairAmount, price } = calculateCounterPairAmount(e, this.state)
+        const { counterPair, counterPairAmount } = calculateCounterPairAmount(e, this.state)
         this.setState({
             [e.target.id]: e.target.value,
             [counterPair]: counterPairAmount

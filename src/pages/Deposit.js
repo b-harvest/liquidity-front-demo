@@ -3,7 +3,7 @@ import { Detail, ResetButton, DepositCard } from '../design/pages/Deposit'
 
 import { txGenerator } from '../common/cosmos-amm'
 import { currencies } from '../common/config'
-import { getMyTokenBalance, sortReserveCoinDenoms, getDepositCoins } from '../common/global-functions'
+import { getMyTokenBalance, sortReserveCoinDenoms, getDepositCoins, calculateCounterPairAmount } from '../common/global-functions'
 
 import PoolList from '../components/PoolList'
 import TokenSetter from '../elements/TokenSetter';
@@ -96,8 +96,10 @@ class Deposit extends Component {
     }
 
     amountChangeHandler = (e) => {
+        const { counterPair, counterPairAmount } = calculateCounterPairAmount(e, this.state)
         this.setState({
-            [e.target.id]: e.target.value
+            [e.target.id]: e.target.value,
+            [counterPair]: counterPairAmount
         })
     }
 
@@ -141,7 +143,7 @@ class Deposit extends Component {
                             rightTitle={getMyTokenBalance(this.state.tokenA, this.state.tokenIndexer)}
                             cssId="A"
                             token={this.state.tokenA}
-                            tokenAmount={this.tokenAAmount}
+                            tokenAmount={this.state.tokenAAmount}
                             selectorHandler={this.tokenSelectorChangeHandler}
                             amountHandler={this.amountChangeHandler}
                             readOnly={true}
@@ -155,7 +157,7 @@ class Deposit extends Component {
                             rightTitle={getMyTokenBalance(this.state.tokenB, this.state.tokenIndexer)}
                             cssId="B"
                             token={this.state.tokenB}
-                            tokenAmount={this.tokenBAmount}
+                            tokenAmount={this.state.tokenBAmount}
                             selectorHandler={this.tokenSelectorChangeHandler}
                             readOnly={true}
                             amountHandler={this.amountChangeHandler} />
