@@ -34,6 +34,9 @@ export function calculateCounterPairAmount(e, state, slippage, type) {
     let counterPairAmount = 0;
     let counterPair = ''
     let swapFeeRatio = 1
+
+    console.log(slippage)
+
     if (type === 'swap') {
         swapFeeRatio = 0.997
     }

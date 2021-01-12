@@ -24,7 +24,7 @@ class Swap extends Component {
             poolId: '',
             poolTypeIndex: '',
             tokenIndexer: this.props.data.tokenIndexer,
-            priceBForA: 0,
+            slippage: 0,
             isLoading: false,
             isPoolSelected: false
         };
@@ -105,7 +105,8 @@ class Swap extends Component {
         const { counterPair, counterPairAmount } = calculateCounterPairAmount(e, this.state, slippage, 'swap')
         this.setState({
             [e.target.id]: e.target.value,
-            [counterPair]: Number(counterPairAmount).toFixed(2)
+            [counterPair]: Number(counterPairAmount).toFixed(2),
+            slippage: slippage
         })
     }
 
@@ -113,9 +114,9 @@ class Swap extends Component {
         const price = b / a
         if (price && price !== Infinity) {
             if (reverse) {
-                return <span>1 {this.state.tokenB.substr(1).toUpperCase()} = {parseFloat(price.toFixed(6))} {this.state.tokenA.substr(1).toUpperCase()}</span>
+                return <span>1 {this.state.tokenB.substr(1).toUpperCase()} = {parseFloat(price.toFixed(2))} {this.state.tokenA.substr(1).toUpperCase()}</span>
             } else {
-                return <span>1 {this.state.tokenA.substr(1).toUpperCase()} = {parseFloat(price.toFixed(6))} {this.state.tokenB.substr(1).toUpperCase()}</span>
+                return <span>1 {this.state.tokenA.substr(1).toUpperCase()} = {parseFloat(price.toFixed(2))} {this.state.tokenB.substr(1).toUpperCase()}</span>
             }
         } else {
             return "?"
@@ -168,6 +169,8 @@ class Swap extends Component {
     }
 
     render() {
+        // const slippage = parseFloat((calculateSlippage(this.state.tokenBAmount * 1000000, this.state.tokenBPoolAmount) * 100).toFixed(4))
+        console.log('render slippage', this.state.slippage)
         return (
             <div>
                 { this.state.isPoolSelected ?
@@ -204,7 +207,7 @@ class Swap extends Component {
                             </Detail>
                             <Detail>
                                 <div>Estimated Slippage</div>
-                                <div>{parseFloat((calculateSlippage(this.state.tokenBAmount * 1000000, this.state.tokenBPoolAmount) * 100).toFixed(4))}%</div>
+                                <div>{(this.state.slippage * 100).toFixed(2)}%</div>
                             </Detail>
                         </BasicButtonCard>
                     </DepositCard> :
