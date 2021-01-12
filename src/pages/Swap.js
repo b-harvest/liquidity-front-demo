@@ -117,6 +117,18 @@ class Swap extends Component {
         })
     }
 
+    setSlippageColor = (slippage) => {
+        let color = {}
+        if (slippage <= 1) {
+            color.color = "rgb(39, 174, 96)"
+        } else if (slippage <= 5) {
+            color.color = "rgb(243, 132, 30)"
+        } else {
+            color.color = "rgb(255, 104, 113)"
+        }
+        return color
+    }
+
     getTokenPrice = (a, b, reverse = false) => {
         const price = b / a
         if (price && price !== Infinity) {
@@ -180,6 +192,7 @@ class Swap extends Component {
     }
 
     render() {
+        const slippage = (this.state.slippage * 100).toFixed(2)
         return (
             <div>
                 { this.state.isPoolSelected ?
@@ -216,7 +229,7 @@ class Swap extends Component {
                             </Detail>
                             <Detail>
                                 <div>Estimated Slippage</div>
-                                <div>{(this.state.slippage * 100).toFixed(2)}%</div>
+                                <div style={this.setSlippageColor(slippage)}>{slippage}%</div>
                             </Detail>
                         </BasicButtonCard>
                     </DepositCard> :
