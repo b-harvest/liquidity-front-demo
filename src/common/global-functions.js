@@ -50,3 +50,7 @@ export function calculateCounterPairAmount(e, state) {
         counterPairAmount: counterPairAmount.toFixed(4),
     }
 }
+
+export function calculateSlippage(swapAmount, poolReserve) {
+    return (2 * swapAmount / poolReserve).toFixed(4)
+}

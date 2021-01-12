@@ -3,7 +3,7 @@ import { Detail, ResetButton, DepositCard } from '../design/pages/Swap'
 
 import { currencies } from '../common/config'
 import { txGenerator } from '../common/cosmos-amm'
-import { getMyTokenBalance, calculateCounterPairAmount } from '../common/global-functions'
+import { getMyTokenBalance, calculateCounterPairAmount, calculateSlippage } from '../common/global-functions'
 
 import PoolList from '../components/PoolList'
 import TokenSetter from '../elements/TokenSetter'
@@ -170,7 +170,7 @@ class Swap extends Component {
                         <ChangeButton func={this.tokenChange} />
                         <TokenSetter
                             currencies={currencies}
-                            leftTitle="To(estimated)"
+                            leftTitle="To (estimated)"
                             rightTitle={getMyTokenBalance(this.state.tokenB, this.state.tokenIndexer)}
                             cssId="B"
                             token={this.state.tokenB}
@@ -184,6 +184,10 @@ class Swap extends Component {
                             <Detail>
                                 <div>Pool Price</div>
                                 <div>{this.getTokenPrice(this.state.tokenAPoolAmount, this.state.tokenBPoolAmount)}</div>
+                            </Detail>
+                            <Detail>
+                                <div>Estimated Slippage</div>
+                                <div>{calculateSlippage(this.state.tokenAAmount * 1000000, this.state.tokenAPoolAmount) * 100}%</div>
                             </Detail>
                         </BasicButtonCard>
                     </DepositCard> :
