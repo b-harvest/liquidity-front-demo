@@ -102,7 +102,7 @@ class Swap extends Component {
 
     amountChangeHandler = (e) => {
         const slippage = calculateSlippage(e.target.value * 1000000, this.state.tokenAPoolAmount)
-        const { counterPair, counterPairAmount } = calculateCounterPairAmount(e, this.state, slippage)
+        const { counterPair, counterPairAmount } = calculateCounterPairAmount(e, this.state, slippage, 'swap')
         this.setState({
             [e.target.id]: e.target.value,
             [counterPair]: Number(counterPairAmount).toFixed(2)
@@ -160,9 +160,11 @@ class Swap extends Component {
     tokenChange = () => {
         let tokenA = this.state.tokenB
         let tokenB = this.state.tokenA
+        let tokenAAmount = ''
+        let tokenBAmount = ''
         let tokenAPoolAmount = this.state.tokenBPoolAmount
         let tokenBPoolAmount = this.state.tokenAPoolAmount
-        this.setState({ tokenA: tokenA, tokenB: tokenB, tokenAPoolAmount: tokenAPoolAmount, tokenBPoolAmount: tokenBPoolAmount })
+        this.setState({ tokenA: tokenA, tokenB: tokenB, tokenAAmount: tokenAAmount, tokenBAmount: tokenBAmount, tokenAPoolAmount: tokenAPoolAmount, tokenBPoolAmount: tokenBPoolAmount })
     }
 
     render() {
@@ -202,7 +204,7 @@ class Swap extends Component {
                             </Detail>
                             <Detail>
                                 <div>Estimated Slippage</div>
-                                <div>{(calculateSlippage(this.state.tokenBAmount * 1000000, this.state.tokenBPoolAmount) * 100).toFixed(4)}%</div>
+                                <div>{parseFloat((calculateSlippage(this.state.tokenBAmount * 1000000, this.state.tokenBPoolAmount) * 100).toFixed(4))}%</div>
                             </Detail>
                         </BasicButtonCard>
                     </DepositCard> :

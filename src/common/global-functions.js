@@ -29,10 +29,14 @@ export function getDepositCoins(denoms, amounts) {
     return { denoms: [denoms[0], denoms[1]], amounts: [amounts[denoms[0]], amounts[denoms[1]]] }
 }
 
-export function calculateCounterPairAmount(e, state, slippage) {
+export function calculateCounterPairAmount(e, state, slippage, type) {
     let price = null;
     let counterPairAmount = 0;
     let counterPair = ''
+    let swapFeeRatio = 1
+    if (type === 'swap') {
+        swapFeeRatio = 0.997
+    }
 
     if (e.target.id === "tokenAAmount") {
         price = state.tokenBPoolAmount / state.tokenAPoolAmount
@@ -43,7 +47,7 @@ export function calculateCounterPairAmount(e, state, slippage) {
         counterPair = "tokenAAmount"
         counterPairAmount = e.target.value * price
     }
-    counterPairAmount = (counterPairAmount * (1 - slippage) * 0.997).toFixed(4)
+    counterPairAmount = (counterPairAmount * (1 - slippage) * swapFeeRatio)
 
     return {
         price: price,

@@ -96,7 +96,7 @@ class Deposit extends Component {
     }
 
     amountChangeHandler = (e) => {
-        const { counterPair, counterPairAmount } = calculateCounterPairAmount(e, this.state)
+        const { counterPair, counterPairAmount } = calculateCounterPairAmount(e, this.state, 0, 'deposit')
         this.setState({
             [e.target.id]: e.target.value,
             [counterPair]: counterPairAmount
