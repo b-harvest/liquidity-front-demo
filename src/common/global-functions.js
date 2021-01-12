@@ -33,7 +33,6 @@ export function calculateCounterPairAmount(e, state, slippage) {
     let price = null;
     let counterPairAmount = 0;
     let counterPair = ''
-    console.log(' calculateCounterPairAmount, slippage', slippage)
 
     if (e.target.id === "tokenAAmount") {
         price = state.tokenBPoolAmount / state.tokenAPoolAmount
@@ -54,9 +53,5 @@ export function calculateCounterPairAmount(e, state, slippage) {
 }
 
 export function calculateSlippage(swapAmount, poolReserve) {
-    // console.log('swapAmount', swapAmount)
-    // console.log('poolReserve', poolReserve)
-    // console.log('2 * swapAmount / poolReserve', (2 * swapAmount / poolReserve))
-    console.log(2 * swapAmount / poolReserve)
     return 2 * swapAmount / poolReserve
 }

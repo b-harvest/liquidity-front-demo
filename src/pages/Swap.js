@@ -102,10 +102,9 @@ class Swap extends Component {
     amountChangeHandler = (e) => {
         const slippage = calculateSlippage(e.target.value * 1000000, this.state.tokenAPoolAmount)
         const { counterPair, counterPairAmount } = calculateCounterPairAmount(e, this.state, slippage)
-        console.log('counterPairAmount', counterPairAmount)
         this.setState({
             [e.target.id]: e.target.value,
-            [counterPair]: counterPairAmount
+            [counterPair]: Number(counterPairAmount).toFixed(2)
         })
     }
 
