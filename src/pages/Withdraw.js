@@ -1,5 +1,10 @@
 import { Component } from "react";
-import { Wrapper, Detail, DepositCard } from "../design/pages/Withdraw";
+import {
+	Wrapper,
+	SectionHead,
+	Detail,
+	DepositCard
+} from "../design/pages/Withdraw";
 
 import { getMyTokenBalance } from "../common/global-functions";
 import { txGenerator } from "../common/cosmos-amm";
@@ -200,6 +205,9 @@ class Withdraw extends Component {
 		if (this.state.poolTokenData) {
 			return (
 				<Wrapper>
+					<SectionHead>
+						<div>Withdraw</div>
+					</SectionHead>
 					<DepositCard>
 						<TokenSetter
 							currencies={this.state.poolTokenData}

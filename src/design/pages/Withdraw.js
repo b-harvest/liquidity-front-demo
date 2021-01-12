@@ -11,6 +11,21 @@ export const Wrapper = styled.div`
 	margin: 0 auto;
 `;
 
+export const SectionHead = styled.div`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 500px;
+	padding: 0 12px;
+	margin-bottom: 27px;
+
+	div:first-child {
+		font-size: 36px;
+		font-weight: 700;
+		line-height: 46px;
+	}
+`;
+
 export const DepositCard = styled.div`
 	display: flex;
 	flex-direction: column;
