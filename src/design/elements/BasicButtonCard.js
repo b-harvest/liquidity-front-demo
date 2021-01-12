@@ -1,26 +1,31 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Card = styled.div`
-    border-radius: 8px;
-    background-color:#eef5ff;
-    padding: 20px;
-    margin-top: 30px;
-`
-
+	width: 100%;
+	border-radius: 8px;
+	background-color: rgba(255, 170, 13, 0.15);
+	padding: 24px 21px;
+	margin-top: 36px;
+`;
 
 export const Button = styled.div`
-    margin: 20px auto 0 auto;
-    display:inline-block;
-    padding: 0 40px;
-    border-radius:24px;
-    cursor:pointer;
-    height: 40px;
-    font-size: 20px;
-    line-height: 40px;
-    color: #fff;
-    background-color: #4297ff;
-    transition: opacity 0.3s;
-    &:hover {
-        opacity: 0.7;
-    }
-`
+	align-self: flex-end;
+	text-decoration: none;
+	color: #fff;
+	line-height: 44px;
+	font-size: 16px;
+	font-weight: 700;
+	height: 46px;
+	padding: 0 21px;
+	margin-top: 24px;
+	background-color: #ffaa0d;
+	border-radius: 26px;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	transition: opacity 0.3s;
+
+	&:hover {
+		opacity: 0.7;
+	}
+`;

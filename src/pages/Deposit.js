@@ -1,5 +1,10 @@
 import { Component } from "react";
-import { Detail, ResetButton, DepositCard } from "../design/pages/Deposit";
+import {
+	Wrapper,
+	Detail,
+	ResetButton,
+	DepositCard
+} from "../design/pages/Deposit";
 
 import { txGenerator } from "../common/cosmos-amm";
 import { currencies } from "../common/config";
@@ -169,52 +174,67 @@ class Deposit extends Component {
 	render() {
 		if (this.state.isPoolSelected) {
 			return (
-				<DepositCard>
-					<ResetButton onClick={this.selectPool}>{`< Go Back`}</ResetButton>
-					<TokenSetter
-						currencies={currencies}
-						leftTitle="From"
-						rightTitle={getMyTokenBalance(
-							this.state.tokenA,
-							this.state.tokenIndexer
-						)}
-						cssId="A"
-						token={this.state.tokenA}
-						tokenAmount={this.state.tokenAAmount}
-						selectorHandler={this.tokenSelectorChangeHandler}
-						amountHandler={this.amountChangeHandler}
-						readOnly={true}
-					/>
+				<Wrapper>
+					<DepositCard>
+						<ResetButton onClick={this.selectPool}>{`< Back`}</ResetButton>
+						<TokenSetter
+							currencies={currencies}
+							leftTitle="From"
+							rightTitle={getMyTokenBalance(
+								this.state.tokenA,
+								this.state.tokenIndexer
+							)}
+							cssId="A"
+							token={this.state.tokenA}
+							tokenAmount={this.state.tokenAAmount}
+							selectorHandler={this.tokenSelectorChangeHandler}
+							amountHandler={this.amountChangeHandler}
+							readOnly={true}
+						/>
 
-					<div style={{ fontSize: "30px", margin: "5x 0" }}>+</div>
+						<div
+							style={{
+								outline: "none",
+								backgroundColor: "#ffffff",
+								width: "36px",
+								border: "none",
+								fontSize: "30px",
+								fontWeight: 700,
+								margin: "15px 0 18px 0",
+								cursor: "default"
+							}}
+						>
+							+
+						</div>
 
-					<TokenSetter
-						currencies={currencies}
-						leftTitle="To"
-						rightTitle={getMyTokenBalance(
-							this.state.tokenB,
-							this.state.tokenIndexer
-						)}
-						cssId="B"
-						token={this.state.tokenB}
-						tokenAmount={this.state.tokenBAmount}
-						selectorHandler={this.tokenSelectorChangeHandler}
-						readOnly={true}
-						amountHandler={this.amountChangeHandler}
-					/>
+						<TokenSetter
+							currencies={currencies}
+							leftTitle="To"
+							rightTitle={getMyTokenBalance(
+								this.state.tokenB,
+								this.state.tokenIndexer
+							)}
+							cssId="B"
+							token={this.state.tokenB}
+							tokenAmount={this.state.tokenBAmount}
+							selectorHandler={this.tokenSelectorChangeHandler}
+							readOnly={true}
+							amountHandler={this.amountChangeHandler}
+						/>
 
-					<BasicButtonCard
-						function={this.createPool}
-						buttonName="DEPOSIT"
-						isLoading={this.state.isLoading}
-						isDisabled={this.state.isExceeded}
-					>
-						<Detail>
-							<div>Pool Price</div>
-							<div>{this.getTokenPrice()}</div>
-						</Detail>
-					</BasicButtonCard>
-				</DepositCard>
+						<BasicButtonCard
+							function={this.createPool}
+							buttonName="DEPOSIT"
+							isLoading={this.state.isLoading}
+							isDisabled={this.state.isExceeded}
+						>
+							<Detail>
+								<div>Pool Price</div>
+								<div>{this.getTokenPrice()}</div>
+							</Detail>
+						</BasicButtonCard>
+					</DepositCard>
+				</Wrapper>
 			);
 		} else {
 			return (

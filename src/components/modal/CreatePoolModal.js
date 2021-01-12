@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { Modal, Detail } from "../../design/components/modal/CreatePoolModal"
+import { Modal, Detail } from "../../design/components/modal/CreatePoolModal";
 
 import { txGenerator } from "../../common/cosmos-amm";
 import { currencies } from "../../common/config";
@@ -111,7 +111,7 @@ class CreatePoolModal extends Component {
 				</span>
 			);
 		} else {
-			return "?";
+			return "0";
 		}
 	};
 
@@ -129,7 +129,6 @@ class CreatePoolModal extends Component {
 						tokenAmount={this.tokenAAmount}
 						selectorHandler={this.tokenSelectorChangeHandler}
 						amountHandler={this.amountChangeHandler}
-						cssStyle={{ marginBottom: "20px" }}
 					/>
 
 					<TokenSetter

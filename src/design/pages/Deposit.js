@@ -1,39 +1,52 @@
-import styled from 'styled-components';
+import styled from "styled-components";
+
+export const Wrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 660px;
+	padding: 90px 0;
+	margin: 0 auto;
+`;
 
 export const DepositCard = styled.div`
-    position:absolute;
-    width: 460px;
-    padding: 96px 20px 20px;
-    background-color:#fff;
-    transform: translateX( -50%);
-    top: 120px;
-    left: 50%;
-    border-radius: 8px;
-    border: 1px solid #bdbdbd;
-`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	max-width: 500px;
+	padding: 36px;
+	background-color: #fff;
+	border-radius: 12px;
+	border: 1px solid #bdbdbd;
+`;
 
 export const ResetButton = styled.div`
-    display:inline-block;
-    width: 120px;
-    height: 24px;
-    color: black;
-    font-size:20px;
-    line-height: 24px;
-    position: absolute;
-    left: 20px;
-    top: 36px;
-    border-radius:24px;
-    cursor:pointer;
-    font-weight:bold;
-`
+	display: inline-block;
+	align-self: flex-start;
+	font-size: 18px;
+	font-weight: 700;
+	cursor: pointer;
+	transition: all 0.2s ease;
+
+	&:hover {
+		opacity: 0.7;
+	}
+`;
+
 export const Detail = styled.div`
-    display: flex;
-    font-weight: bold;
-    div {
-        flex: 1;
-        text-align:right;
-    }
-    div:first-child {
-        text-align: left;
-    }
-`
+	display: flex;
+	justify-content: space-between;
+	font-weight: 700;
+
+	&:nth-child(2) {
+		margin-top: 9px;
+	}
+
+	div {
+		text-align: left;
+	}
+	div:last-child {
+		text-align: right;
+	}
+`;

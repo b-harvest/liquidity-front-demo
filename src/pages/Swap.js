@@ -1,5 +1,10 @@
 import { Component } from "react";
-import { Detail, ResetButton, DepositCard } from "../design/pages/Swap";
+import {
+	Wrapper,
+	Detail,
+	ResetButton,
+	DepositCard
+} from "../design/pages/Swap";
 
 import { currencies } from "../common/config";
 import { txGenerator } from "../common/cosmos-amm";
@@ -245,59 +250,61 @@ class Swap extends Component {
 
 		if (this.state.isPoolSelected) {
 			return (
-				<DepositCard>
-					<ResetButton onClick={this.selectPool}>{`< Go Back`}</ResetButton>
-					<TokenSetter
-						currencies={currencies}
-						leftTitle="From"
-						rightTitle={getMyTokenBalance(
-							this.state.tokenA,
-							this.state.tokenIndexer
-						)}
-						cssId="A"
-						token={this.state.tokenA}
-						tokenAmount={this.state.tokenAAmount}
-						selectorHandler={this.tokenSelectorChangeHandler}
-						amountHandler={this.amountChangeHandler}
-						readOnly={true}
-					/>
-					<ChangeButton func={this.tokenChange} />
-					<TokenSetter
-						currencies={currencies}
-						leftTitle="To (estimated)"
-						rightTitle={getMyTokenBalance(
-							this.state.tokenB,
-							this.state.tokenIndexer
-						)}
-						cssId="B"
-						token={this.state.tokenB}
-						tokenAmount={this.state.tokenBAmount}
-						selectorHandler={this.tokenSelectorChangeHandler}
-						amountHandler={this.amountChangeHandler}
-						readOnly={true}
-					/>
+				<Wrapper>
+					<DepositCard>
+						<ResetButton onClick={this.selectPool}>{`< Back`}</ResetButton>
+						<TokenSetter
+							currencies={currencies}
+							leftTitle="From"
+							rightTitle={getMyTokenBalance(
+								this.state.tokenA,
+								this.state.tokenIndexer
+							)}
+							cssId="A"
+							token={this.state.tokenA}
+							tokenAmount={this.state.tokenAAmount}
+							selectorHandler={this.tokenSelectorChangeHandler}
+							amountHandler={this.amountChangeHandler}
+							readOnly={true}
+						/>
+						<ChangeButton func={this.tokenChange} />
+						<TokenSetter
+							currencies={currencies}
+							leftTitle="To (estimated)"
+							rightTitle={getMyTokenBalance(
+								this.state.tokenB,
+								this.state.tokenIndexer
+							)}
+							cssId="B"
+							token={this.state.tokenB}
+							tokenAmount={this.state.tokenBAmount}
+							selectorHandler={this.tokenSelectorChangeHandler}
+							amountHandler={this.amountChangeHandler}
+							readOnly={true}
+						/>
 
-					<BasicButtonCard
-						function={this.createPool}
-						buttonName="SWAP"
-						isLoading={this.state.isLoading}
-						isDisabled={this.state.isExceeded}
-					>
-						<Detail>
-							<div>Pool Price</div>
-							<div>
-								{this.getTokenPrice(
-									this.state.tokenAPoolAmount,
-									this.state.tokenBPoolAmount
-								)}
-							</div>
-						</Detail>
-						<Detail>
-							<div>Estimated Slippage</div>
-							<div style={this.setSlippageColor(slippage)}>{slippage}%</div>
-						</Detail>
-					</BasicButtonCard>
-				</DepositCard>
+						<BasicButtonCard
+							function={this.createPool}
+							buttonName="SWAP"
+							isLoading={this.state.isLoading}
+							isDisabled={this.state.isExceeded}
+						>
+							<Detail>
+								<div>Pool Price</div>
+								<div>
+									{this.getTokenPrice(
+										this.state.tokenAPoolAmount,
+										this.state.tokenBPoolAmount
+									)}
+								</div>
+							</Detail>
+							<Detail>
+								<div>Estimated Slippage</div>
+								<div style={this.setSlippageColor(slippage)}>{slippage}%</div>
+							</Detail>
+						</BasicButtonCard>
+					</DepositCard>
+				</Wrapper>
 			);
 		} else {
 			return (

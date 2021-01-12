@@ -2,23 +2,25 @@ import styled from "styled-components";
 
 export const Modal = styled.div`
 	position: absolute;
-	width: 460px;
-	height: 340px;
-	padding: 20px;
-	background-color: #fff;
-	transform: translate(-50%, -50%);
 	top: 50%;
 	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 100%;
+	max-width: 500px;
+	padding: 36px;
+	background-color: #ffffff;
 	border-radius: 8px;
 `;
 
 export const Detail = styled.div`
 	display: flex;
-	font-weight: bold;
+	justify-content: space-between;
+	font-weight: 700;
+
 	div {
-		flex: 1;
 		text-align: right;
 	}
+
 	div:first-child {
 		text-align: left;
 	}
