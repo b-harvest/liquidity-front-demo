@@ -10,8 +10,8 @@ class BasicButtonCard extends Component {
             <>
                 <Card>
                     {this.props.children}
-                    <Button onClick={this.props.function} style={this.props.isLoading ? { pointerEvents: "none" } : {}}>
-                        {this.props.isLoading ? <DotLoader /> : this.props.buttonName ? this.props.buttonName : "Button"}
+                    <Button onClick={this.props.function} style={this.props.isLoading ? { pointerEvents: "none" } : {}, this.props.isDisabled ? { backgroundColor: 'rgb(64, 68, 79)', color: 'rgb(108, 114, 132)', pointerEvents: "none" } : {}}>
+                        {this.props.isLoading ? <DotLoader /> : this.props.buttonName ? this.props.isDisabled ? "Insufficient Balance" : this.props.buttonName : "Button"}
                     </Button>
                 </Card>
             </>

@@ -26,6 +26,7 @@ class Swap extends Component {
             tokenIndexer: this.props.data.tokenIndexer,
             slippage: 0,
             isLoading: false,
+            isExceeded: false,
             isPoolSelected: false
         };
     }
@@ -103,10 +104,16 @@ class Swap extends Component {
     amountChangeHandler = (e) => {
         const slippage = calculateSlippage(e.target.value * 1000000, this.state.tokenAPoolAmount)
         const { counterPair, counterPairAmount } = calculateCounterPairAmount(e, this.state, slippage, 'swap')
+        let isExceeded = false
+
+        if (e.target.value > Number(getMyTokenBalance(this.state.tokenA, this.state.tokenIndexer).split(':')[1].trim())) {
+            isExceeded = true
+        }
         this.setState({
             [e.target.id]: e.target.value,
             [counterPair]: Number(counterPairAmount).toFixed(2),
-            slippage: slippage
+            slippage: slippage,
+            isExceeded: isExceeded
         })
     }
 
@@ -141,6 +148,8 @@ class Swap extends Component {
                 tokenB: item.liquidity_pool_metadata.reserve_coins[1].denom,
                 tokenAPoolAmount: item.liquidity_pool_metadata.reserve_coins[0].amount,
                 tokenBPoolAmount: item.liquidity_pool_metadata.reserve_coins[1].amount,
+                slippage: 0,
+                isExceeded: false
             })
         } else {
             this.reset()
@@ -153,6 +162,8 @@ class Swap extends Component {
                 tokenBAmount: '',
                 tokenAPoolAmount: '',
                 tokenBPoolAmount: '',
+                slippage: 0,
+                isExceeded: false,
                 isPoolSelected: !this.state.isPoolSelected
             })
         }
@@ -165,12 +176,10 @@ class Swap extends Component {
         let tokenBAmount = ''
         let tokenAPoolAmount = this.state.tokenBPoolAmount
         let tokenBPoolAmount = this.state.tokenAPoolAmount
-        this.setState({ tokenA: tokenA, tokenB: tokenB, tokenAAmount: tokenAAmount, tokenBAmount: tokenBAmount, tokenAPoolAmount: tokenAPoolAmount, tokenBPoolAmount: tokenBPoolAmount })
+        this.setState({ slippage: 0, tokenA: tokenA, tokenB: tokenB, tokenAAmount: tokenAAmount, tokenBAmount: tokenBAmount, tokenAPoolAmount: tokenAPoolAmount, tokenBPoolAmount: tokenBPoolAmount })
     }
 
     render() {
-        // const slippage = parseFloat((calculateSlippage(this.state.tokenBAmount * 1000000, this.state.tokenBPoolAmount) * 100).toFixed(4))
-        console.log('render slippage', this.state.slippage)
         return (
             <div>
                 { this.state.isPoolSelected ?
@@ -200,7 +209,7 @@ class Swap extends Component {
                             readOnly={true}
                         />
 
-                        <BasicButtonCard function={this.createPool} buttonName="SWAP" isLoading={this.state.isLoading}>
+                        <BasicButtonCard function={this.createPool} buttonName="SWAP" isLoading={this.state.isLoading} isDisabled={this.state.isExceeded}>
                             <Detail>
                                 <div>Pool Price</div>
                                 <div>{this.getTokenPrice(this.state.tokenAPoolAmount, this.state.tokenBPoolAmount)}</div>

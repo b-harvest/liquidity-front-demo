@@ -97,9 +97,15 @@ class Deposit extends Component {
 
     amountChangeHandler = (e) => {
         const { counterPair, counterPairAmount } = calculateCounterPairAmount(e, this.state, 0, 'deposit')
+        let isExceeded = false
+
+        if (e.target.value > Number(getMyTokenBalance(this.state.tokenA, this.state.tokenIndexer).split(':')[1].trim())) {
+            isExceeded = true
+        }
         this.setState({
             [e.target.id]: e.target.value,
-            [counterPair]: counterPairAmount
+            [counterPair]: counterPairAmount,
+            isExceeded: isExceeded
         })
     }
 
@@ -162,7 +168,7 @@ class Deposit extends Component {
                             readOnly={true}
                             amountHandler={this.amountChangeHandler} />
 
-                        <BasicButtonCard function={this.createPool} buttonName="DEPOSIT" isLoading={this.state.isLoading}>
+                        <BasicButtonCard function={this.createPool} buttonName="DEPOSIT" isLoading={this.state.isLoading} isDisabled={this.state.isExceeded}>
                             <Detail>
                                 <div>Pool Price</div>
                                 <div>{this.getTokenPrice()}</div>
