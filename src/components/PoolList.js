@@ -66,10 +66,10 @@ class PoolList extends Component {
 				return (
 					<Row key={index}>
 						<div>
-							<CoinImgShower coin={pairs[0]} />
+							<CoinImgShower style={{ marginBottom: "0" }} coin={pairs[0]} />
 							{pairs[0]}
 							<span>···</span>
-							<CoinImgShower coin={pairs[1]} />
+							<CoinImgShower style={{ marginBottom: "0" }} coin={pairs[1]} />
 							{pairs[1]}
 						</div>
 						<div>

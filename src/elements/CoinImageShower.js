@@ -13,6 +13,7 @@ class CoinImageShower extends Component {
 	render() {
 		return (
 			<CoinImgShower
+				style={this.props.style}
 				src={`/assets/${this.setTokenName(String(this.props.coin))}.png`}
 			/>
 		);
