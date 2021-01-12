@@ -35,13 +35,20 @@ export const Header = styled.header`
 			width: 270px;
 			border-top-right-radius: 3px;
 			border-bottom-right-radius: 3px;
-			background-color: #ffaa0d;
 			transition: all 0.2s ease;
 		}
 
 		&:visit {
 			text-decoration: none;
 		}
+	}
+
+	a:hover {
+		background-color: #ffaa0d;
+	}
+
+	span:hover {
+		background-color: #0abf7e;
 	}
 `;
 

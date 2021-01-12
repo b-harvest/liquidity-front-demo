@@ -52,6 +52,11 @@ export const Row = styled.div`
 		font-weight: 500;
 		line-height: 48px;
 	}
+
+	span {
+		color: #626469;
+		margin: 0 12px;
+	}
 `;
 
 export const TableHeader = styled.div`

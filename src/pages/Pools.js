@@ -69,7 +69,9 @@ class Pools extends Component {
 					<Row key={index}>
 						<div>
 							<CoinImgShower coin={pairs[0]} />
-							{pairs[0]} - <CoinImgShower coin={pairs[1]} />
+							{pairs[0]}
+							<span>···</span>
+							<CoinImgShower coin={pairs[1]} />
 							{pairs[1]}
 						</div>
 						<div>
