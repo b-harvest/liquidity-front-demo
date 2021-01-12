@@ -92,7 +92,8 @@ class BasicLayout extends Component {
 			<Layout>
 				<Header>
 					<Brand>
-						<img src="/assets/brand.svg"></img>
+						<img src="/assets/bh-logo.png" alt="Image seems to be missing" />
+						<img src="/assets/amm-demo.svg" alt="Image seems to be missing" />
 					</Brand>
 					<NavLink exact to={"/"} activeStyle={this.state.activeStyle}>
 						Pools
@@ -114,7 +115,7 @@ class BasicLayout extends Component {
 								: {}
 						}
 					>
-						{this.state.isSent ? "Wait 💸" : "Faucet 💸"}
+						{this.state.isSent ? "Waiting... 💸" : "Faucet 💸"}
 					</span>
 					<Connect onClick={this.connectWallet}>
 						{this.state.address

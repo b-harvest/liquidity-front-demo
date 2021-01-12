@@ -56,6 +56,18 @@ export const Brand = styled.div`
 	position: absolute;
 	top: 60px;
 	width: 100%;
+	text-align: right;
+
+	img {
+		width: 166px;
+		margin-right: 37px;
+
+		&:last-child {
+			width: 105px;
+			opacity: 0.7;
+			margin-top: 3px;
+		}
+	}
 `;
 
 export const Connect = styled.div`
@@ -70,9 +82,11 @@ export const Connect = styled.div`
 	line-height: 46px;
 	text-align: center;
 	cursor: pointer;
-	transition: all 0.3s ease;
+	transition: all 0.15s ease-in;
 
 	&:hover {
+		bottom: 56px;
+		line-height: 56px;
 		background-color: #66a3f6;
 	}
 `;
