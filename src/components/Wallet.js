@@ -3,6 +3,7 @@ import styled from "styled-components";
 import CoinImgShower from "../elements/CoinImageShower"
 import BlackOverLay from "./overlays/BlackOverLay";
 import { getPoolToken } from "../common/global-functions";
+import { toast } from "react-toastify";
 class Wallet extends Component {
     constructor(props) {
         super(props);
@@ -16,7 +17,6 @@ class Wallet extends Component {
     }
 
     componentDidUpdate(prevProps) {
-
 
     }
 

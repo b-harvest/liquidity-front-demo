@@ -1,6 +1,7 @@
 import { Component } from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
+import { toastGenerator } from "../../common/global-functions"
 import {
 	Layout,
 	HeaderPlaceholder,
@@ -42,6 +43,11 @@ class BasicLayout extends Component {
 			return;
 		}
 
+		if (isClick) {
+			this.modalHandler()
+			return
+		}
+
 		await window.keplr.experimentalSuggestChain(chainInfo);
 
 		const cosmosJS = new GaiaApi({
@@ -61,16 +67,12 @@ class BasicLayout extends Component {
 		this.bech32Address = keys[0].bech32Address;
 
 		localStorage.setItem("walletAddress", this.bech32Address);
+		toastGenerator('connect')
 
 		this.setState({
 			cosmosJS,
 			address: this.bech32Address
 		});
-
-		if (isClick) {
-			this.modalHandler()
-		}
-
 	};
 
 	getModifiedAddress = (address) => {
@@ -78,21 +80,25 @@ class BasicLayout extends Component {
 	};
 
 	sendFaucetRequest = async () => {
-		try {
-			alert("send a request! it takes about 10 seconds :)");
-			this.setState({ isSent: true });
-			const response = await Axios.get(
-				`https://dev.bharvest.io/faucet/?address=${localStorage.getItem(
-					"walletAddress"
-				)}`
-			);
-			alert(response.data);
-			this.setState({ isSent: false });
-			console.log("Faucet response", response);
-		} catch (error) {
-			alert(error.data);
-			this.setState({ isSent: false });
-			console.log(error);
+		if (localStorage.walletAddress) {
+			try {
+				alert("send a request! it takes about 10 seconds :)");
+				this.setState({ isSent: true });
+				const response = await Axios.get(
+					`https://dev.bharvest.io/faucet/?address=${localStorage.getItem(
+						"walletAddress"
+					)}`
+				);
+				alert(response.data);
+				this.setState({ isSent: false });
+				console.log("Faucet response", response);
+			} catch (error) {
+				alert(error.data);
+				this.setState({ isSent: false });
+				console.log(error);
+			}
+		} else {
+			alert('Please Connect Wallet!')
 		}
 	};
 

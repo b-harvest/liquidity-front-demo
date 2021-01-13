@@ -9,6 +9,8 @@ import Deposit from "./pages/Deposit";
 import Withdraw from "./pages/Withdraw";
 import Swap from "./pages/Swap";
 
+import { ToastContainer } from 'react-toastify'
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -136,6 +138,17 @@ class App extends Component {
             </Route>
           </Switch>
         </BasicLayout>
+        <ToastContainer
+          position="bottom-left"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
       </Router>
     );
   }

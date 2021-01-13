@@ -1,3 +1,6 @@
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
 export function getTokenIndexer(wtl) {
     let tokenIndexer = {}
     if (wtl) {
@@ -109,3 +112,43 @@ export function getPoolToken(pl, wt) {
         };
     });
 }
+
+export const toastGenerator = (type) => {
+    let toastFunc = null
+    switch (type) {
+        case "error":
+
+            break;
+        case "success":
+
+            break;
+        case "new":
+            toastFunc = toast('🦄 Wow so easy!', {
+                position: "bottom-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
+
+            break;
+        case "connect":
+            toastFunc = toast.success('👛 Wallet Connected!', {
+                position: "bottom-left",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
+
+            break;
+        default:
+            break;
+    }
+    return toastFunc
+}
+
