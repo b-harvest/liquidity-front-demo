@@ -111,7 +111,7 @@ class App extends Component {
 		return (
 			<Router>
 				<div id="mobileView">
-					<img src="/assets/small-screen-sign.png"></img>
+					<img src="/assets/small-screen-sign.png" alt="small screen info"></img>
 					<div>The interface will soon be updated to support mobile and tablet screens. Please access the demo from a desktop in the meantime. Thanks!</div>
 				</div>
 				<BasicLayout data={this.state.sharedData} isWalletEvent={this.state.isWalletEvent} walletEventHandler={this.walletEventHandler}>

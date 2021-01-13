@@ -16,7 +16,7 @@ class Wallet extends Component {
 		this.props.walletEventHandler();
 	}
 
-	componentDidUpdate(prevProps) {}
+	componentDidUpdate(prevProps) { }
 
 	getPoolTokenIndexer = () => {
 		let poolTokenIndexer = {};
@@ -57,7 +57,7 @@ class Wallet extends Component {
 				<BlackOverLay modalHandler={this.props.modalHandler}></BlackOverLay>
 				<WalletWrapper>
 					<WalletClose>
-						<img src="/assets/arrow-left.svg" onClick={this.props.modalHandler} />
+						<img src="/assets/arrow-left.svg" alt="left arrow" onClick={this.props.modalHandler} />
 					</WalletClose>
 					<WalletHeader>
 						<div>My Wallet</div>

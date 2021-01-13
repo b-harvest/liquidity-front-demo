@@ -233,7 +233,7 @@ class Swap extends Component {
 				<Wrapper>
 					<DepositCard>
 						<GoBack onClick={this.selectPool}>
-							<img src="/assets/arrow-left.svg" onClick={this.props.modalHandler} />
+							<img src="/assets/arrow-left.svg" alt="left arrow" onClick={this.props.modalHandler} />
 						</GoBack>
 						<TokenSetter currencies={currencies} leftTitle="From" rightTitle={getMyTokenBalance(this.state.tokenA, this.state.tokenIndexer)} cssId="A" token={this.state.tokenA} tokenAmount={this.state.tokenAAmount} selectorHandler={this.tokenSelectorChangeHandler} amountHandler={this.amountChangeHandler} readOnly={true} />
 						<ChangeButton func={this.tokenChange} />
