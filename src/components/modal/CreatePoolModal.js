@@ -60,7 +60,7 @@ class CreatePoolModal extends Component {
 			if (JSON.stringify(response).includes("TypeError")) {
 				throw response;
 			}
-			alert("Pool Create Success!");
+			alert("A new pool has been created successfully");
 			this.props.modalHandler();
 		} catch (error) {
 			alert(error);

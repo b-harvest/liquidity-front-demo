@@ -99,7 +99,7 @@ class Swap extends Component {
 				throw response;
 			}
 			this.reset();
-			alert("Swap Success!");
+			alert("Your tokens have been swapped successfully");
 		} catch (error) {
 			alert(error);
 			this.setState({ isLoading: false });

@@ -82,7 +82,9 @@ class BasicLayout extends Component {
 	sendFaucetRequest = async () => {
 		if (localStorage.walletAddress) {
 			try {
-				alert("send a request! it takes about 10 seconds :)");
+				alert(
+					"Request has been sent successfully. This may take up to 10 seconds."
+				);
 				this.setState({ isSent: true });
 				const response = await Axios.get(
 					`https://dev.bharvest.io/faucet/?address=${localStorage.getItem(
@@ -98,7 +100,9 @@ class BasicLayout extends Component {
 				console.log(error);
 			}
 		} else {
-			alert("Please Connect Wallet!");
+			alert(
+				"Please connect your wallet with Keplr extension in order to continue"
+			);
 		}
 	};
 
