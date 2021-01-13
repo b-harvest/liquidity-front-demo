@@ -8,6 +8,7 @@ import {
 
 import { getMyTokenBalance } from "../common/global-functions";
 import { txGenerator } from "../common/cosmos-amm";
+import { toastGenerator } from "../common/global-functions"
 
 import TokenSetter from "../elements/TokenSetter";
 import BasicButtonCard from "../elements/BasicButtonCard";
@@ -30,9 +31,7 @@ class Withdraw extends Component {
 		if (localStorage.walletAddress) {
 			this.setPoolToken();
 		} else {
-			alert(
-				"Please connect your wallet with Keplr extension in order to continue"
-			);
+			toastGenerator("info", "🙏 Please connect your wallet with Keplr extension in order to continue");
 			window.location = "/";
 		}
 	}
@@ -83,8 +82,8 @@ class Withdraw extends Component {
 					coinDenom: `${ele.liquidity_pool.reserve_coin_denoms[0]
 						.substr(1)
 						.toUpperCase()}-${ele.liquidity_pool.reserve_coin_denoms[1]
-						.substr(1)
-						.toUpperCase()}`,
+							.substr(1)
+							.toUpperCase()}`,
 					tokenDenom: [
 						ele.liquidity_pool.reserve_coin_denoms[0],
 						ele.liquidity_pool.reserve_coin_denoms[1]
@@ -134,7 +133,7 @@ class Withdraw extends Component {
 			if (String(response).includes("Error")) {
 				throw response;
 			}
-			alert("Your tokens have been withdrawn successfully");
+			// alert("Your tokens have been withdrawn successfully");
 		} catch (error) {
 			alert(error);
 			this.setState({ isLoading: false });
@@ -183,24 +182,24 @@ class Withdraw extends Component {
 			returns = `0${String(tokenData.reserveCoins[0].denom)
 				.substr(1)
 				.toUpperCase()} + 0${String(tokenData.reserveCoins[1].denom)
-				.substr(1)
-				.toUpperCase()}`;
+					.substr(1)
+					.toUpperCase()}`;
 		} else {
 			returns = `${Number(
 				(tokenData.reserveCoins[0].amount / 100000000) *
-					amount *
-					myRatio *
-					amount
+				amount *
+				myRatio *
+				amount
 			).toFixed(2)}${String(tokenData.reserveCoins[0].denom)
 				.substr(1)
 				.toUpperCase()} + ${Number(
-				(tokenData.reserveCoins[1].amount / 100000000) *
+					(tokenData.reserveCoins[1].amount / 100000000) *
 					amount *
 					myRatio *
 					amount
-			).toFixed(2)}${String(tokenData.reserveCoins[1].denom)
-				.substr(1)
-				.toUpperCase()}`;
+				).toFixed(2)}${String(tokenData.reserveCoins[1].denom)
+					.substr(1)
+					.toUpperCase()}`;
 		}
 		return { myRatio: `${myRatio}%`, returns: returns };
 	};

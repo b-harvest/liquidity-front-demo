@@ -13,6 +13,7 @@ import Wallet from "../Wallet";
 import { GaiaApi } from "@chainapsis/cosmosjs/gaia/api";
 import { chainInfo } from "../../common/config";
 import Axios from "axios";
+import { toast } from "react-toastify";
 
 class BasicLayout extends Component {
 	constructor(props) {
@@ -34,12 +35,12 @@ class BasicLayout extends Component {
 
 	connectWallet = async (isClick) => {
 		if (!window.cosmosJSWalletProvider) {
-			alert("Please install the Keplr extension");
+			toastGenerator("info", "🙏  Please install the Keplr extension");
 			return;
 		}
 
 		if (!window.keplr?.experimentalSuggestChain) {
-			alert("Please use the latest version of Keplr extension");
+			toastGenerator("info", "🙏 Please use the latest version of Keplr extension");
 			return;
 		}
 
@@ -82,27 +83,24 @@ class BasicLayout extends Component {
 	sendFaucetRequest = async () => {
 		if (localStorage.walletAddress) {
 			try {
-				alert(
-					"Request has been sent successfully. This may take up to 2 seconds."
-				);
+				toastGenerator("info", "Request has been sent successfully. This may take up to 2 seconds. ⏳");
 				this.setState({ isSent: true });
 				const response = await Axios.get(
 					`https://dev.bharvest.io/faucet/?address=${localStorage.getItem(
 						"walletAddress"
 					)}`
 				);
-				alert(response.data);
+				toast.clearWaitingQueue()
+				toastGenerator('', response.data)
 				this.setState({ isSent: false });
 				console.log("Faucet response", response);
 			} catch (error) {
-				alert(error.data);
+				toastGenerator('error', error.data)
 				this.setState({ isSent: false });
 				console.log(error);
 			}
 		} else {
-			alert(
-				"Please connect your wallet with Keplr extension in order to continue"
-			);
+			toastGenerator("info", "🙏 Please connect your wallet with Keplr extension in order to continue");
 		}
 	};
 
