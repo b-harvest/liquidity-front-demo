@@ -12,7 +12,7 @@ class Wallet extends Component {
     }
 
     componentDidMount() {
-
+        this.props.walletEventHandler()
     }
 
     componentDidUpdate(prevProps) {
@@ -33,7 +33,7 @@ class Wallet extends Component {
 
     createTokenList = (data) => {
         console.log(data)
-        if (data === null) {
+        if (data === null || data === undefined) {
             return <div></div>
         }
         return data.map((item, index) => {

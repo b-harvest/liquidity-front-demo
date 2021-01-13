@@ -134,12 +134,12 @@ class BasicLayout extends Component {
 						{this.state.isSent ? "Waiting... 💸" : "Faucet 💸"}
 					</span>
 					<Connect onClick={this.connectWallet}>
-						{this.props.isWalletEvent ? <Alarm>New</Alarm> : ''}
+						{this.state.address && this.props.isWalletEvent ? <Alarm>New</Alarm> : ''}
 						{this.state.address
 							? `${this.getModifiedAddress(this.state.address)}`
 							: "CONNECT WALLET"}
 					</Connect>
-					{this.state.isWallet ? <Wallet data={this.props.data} modalHandler={this.modalHandler} /> : ''}
+					{this.state.isWallet ? <Wallet data={this.props.data} modalHandler={this.modalHandler} walletEventHandler={this.props.walletEventHandler} /> : ''}
 				</Header>
 
 				{this.props.children}
