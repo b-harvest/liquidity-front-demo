@@ -55,7 +55,7 @@ class App extends Component {
                 console.log("Wallet Change")
                 this.setState({ isWalletEvent: true })
 
-                if (walletTokenList.length !== this.state.prevWalletData.length) {
+                if (walletTokenList?.length !== this.state.prevWalletData.length) {
                   // new coin
                   // walletTokenList.map((item, index) => {
 
