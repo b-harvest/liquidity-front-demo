@@ -70,7 +70,6 @@ export const Brand = styled.div`
 
 		&:last-child {
 			width: 105px;
-			opacity: 0.7;
 			margin-top: 3px;
 		}
 	}

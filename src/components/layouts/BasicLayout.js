@@ -1,7 +1,7 @@
 import { Component } from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
-import { toastGenerator } from "../../common/global-functions"
+import { toastGenerator } from "../../common/global-functions";
 import {
 	Layout,
 	HeaderPlaceholder,
@@ -9,7 +9,7 @@ import {
 	Brand,
 	Connect
 } from "../../design/components/layouts/BasicLayout";
-import Wallet from "../Wallet"
+import Wallet from "../Wallet";
 import { GaiaApi } from "@chainapsis/cosmosjs/gaia/api";
 import { chainInfo } from "../../common/config";
 import Axios from "axios";
@@ -22,7 +22,7 @@ class BasicLayout extends Component {
 				backgroundColor: "#ffaa0d"
 			},
 			isSent: false,
-			isWallet: false,
+			isWallet: false
 		};
 	}
 
@@ -44,8 +44,8 @@ class BasicLayout extends Component {
 		}
 
 		if (isClick) {
-			this.modalHandler()
-			return
+			this.modalHandler();
+			return;
 		}
 
 		await window.keplr.experimentalSuggestChain(chainInfo);
@@ -67,7 +67,7 @@ class BasicLayout extends Component {
 		this.bech32Address = keys[0].bech32Address;
 
 		localStorage.setItem("walletAddress", this.bech32Address);
-		toastGenerator('connect')
+		toastGenerator("connect");
 
 		this.setState({
 			cosmosJS,
@@ -98,15 +98,15 @@ class BasicLayout extends Component {
 				console.log(error);
 			}
 		} else {
-			alert('Please Connect Wallet!')
+			alert("Please Connect Wallet!");
 		}
 	};
 
 	modalHandler = () => {
 		this.setState({
 			isWallet: !this.state.isWallet
-		})
-	}
+		});
+	};
 
 	render() {
 		return (
@@ -114,8 +114,8 @@ class BasicLayout extends Component {
 				<HeaderPlaceholder />
 				<Header>
 					<Brand>
-						<img src="/assets/bh-logo.png" alt="seems to be missing" />
-						<img src="/assets/amm-demo.svg" alt="seems to be missing" />
+						<img src="/assets/bh-logo.png" alt="Image seems to be missing" />
+						<img src="/assets/amm-demo.png" alt="Image seems to be missing" />
 					</Brand>
 					<NavLink exact to={"/"} activeStyle={this.state.activeStyle}>
 						Pools
@@ -140,12 +140,24 @@ class BasicLayout extends Component {
 						{this.state.isSent ? "Waiting... 💸" : "Faucet 💸"}
 					</span>
 					<Connect onClick={this.connectWallet}>
-						{this.state.address && this.props.isWalletEvent ? <Alarm>New</Alarm> : ''}
+						{this.state.address && this.props.isWalletEvent ? (
+							<Alarm>New</Alarm>
+						) : (
+							""
+						)}
 						{this.state.address
 							? `${this.getModifiedAddress(this.state.address)}`
 							: "CONNECT WALLET"}
 					</Connect>
-					{this.state.isWallet ? <Wallet data={this.props.data} modalHandler={this.modalHandler} walletEventHandler={this.props.walletEventHandler} /> : ''}
+					{this.state.isWallet ? (
+						<Wallet
+							data={this.props.data}
+							modalHandler={this.modalHandler}
+							walletEventHandler={this.props.walletEventHandler}
+						/>
+					) : (
+						""
+					)}
 				</Header>
 
 				{this.props.children}
@@ -155,30 +167,29 @@ class BasicLayout extends Component {
 }
 
 const Alarm = styled.div`
-position:absolute;
-left: 14px;
-top: -6px;
-font-size: 14px;
-font-weight: bold;
-color: #f22424;
-// background-color:red;
-// border-radius: 50%;
+	position: absolute;
+	left: 14px;
+	top: -6px;
+	font-size: 14px;
+	font-weight: bold;
+	color: #f22424;
+	// background-color:red;
+	// border-radius: 50%;
 
-animation: blink 2s infinite;
-@keyframes blink {
-    0% {
-      opacity:0;
-    }
-  
-    50% {
-      opacity:1;
-	}
-	
-	100% {
-		opacity: 0;
-	}
-  }
+	animation: blink 2s infinite;
+	@keyframes blink {
+		0% {
+			opacity: 0;
+		}
 
-`
+		50% {
+			opacity: 1;
+		}
+
+		100% {
+			opacity: 0;
+		}
+	}
+`;
 
 export default BasicLayout;

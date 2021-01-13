@@ -86,7 +86,7 @@ class Swap extends Component {
 		console.log(msgData.orderPrice);
 
 		const feeData = {
-			denom: "uatomswap",
+			denom: "uatom",
 			amount: 2000,
 			gas: "180000"
 		};
