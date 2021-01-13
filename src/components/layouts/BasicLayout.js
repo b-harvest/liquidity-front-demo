@@ -1,4 +1,5 @@
 import { Component } from "react";
+import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import {
 	Layout,
@@ -133,6 +134,7 @@ class BasicLayout extends Component {
 						{this.state.isSent ? "Waiting... 💸" : "Faucet 💸"}
 					</span>
 					<Connect onClick={this.connectWallet}>
+						{this.props.isWalletEvent ? <Alarm>New</Alarm> : ''}
 						{this.state.address
 							? `${this.getModifiedAddress(this.state.address)}`
 							: "CONNECT WALLET"}
@@ -145,5 +147,32 @@ class BasicLayout extends Component {
 		);
 	}
 }
+
+const Alarm = styled.div`
+position:absolute;
+left: 14px;
+top: -6px;
+font-size: 14px;
+font-weight: bold;
+color: #f22424;
+// background-color:red;
+// border-radius: 50%;
+
+animation: blink 2s infinite;
+@keyframes blink {
+    0% {
+      opacity:0;
+    }
+  
+    50% {
+      opacity:1;
+	}
+	
+	100% {
+		opacity: 0;
+	}
+  }
+
+`
 
 export default BasicLayout;

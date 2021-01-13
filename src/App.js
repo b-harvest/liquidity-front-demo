@@ -20,7 +20,7 @@ class App extends Component {
       },
       prevWalletData: null,
       prevWalletDataHash: null,
-      isWalletEvent: false,
+      isWalletEvent: true,
       walletEvents: [],
     };
   }
@@ -51,7 +51,7 @@ class App extends Component {
             if (this.state.prevWalletDataHash !== null) {
               if (hash !== this.state.prevWalletDataHash) {
                 console.log("Wallet Change")
-
+                this.setState({ isWalletEvent: true })
 
                 if (walletTokenList.length !== this.state.prevWalletData.length) {
                   // new coin
@@ -106,6 +106,9 @@ class App extends Component {
       initGetExcData();
     }, 5000);
   }
+  walletEventHandler = () => {
+    this.setState({ isWalletEvent: !this.state.isWalletEvent })
+  }
 
   render() {
     return (
@@ -117,7 +120,7 @@ class App extends Component {
             Thanks!
 					</div>
         </div>
-        <BasicLayout data={this.state.sharedData}>
+        <BasicLayout data={this.state.sharedData} isWalletEvent={this.state.isWalletEvent} walletEventHandler={this.walletEventHandler}>
           <Switch>
             <Route exact path="/">
               <Pools data={this.state.sharedData} />
