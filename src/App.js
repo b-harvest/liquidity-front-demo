@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Component } from "react";
 import { getPoolList, getWalletTokenList } from "./common/cosmos-amm";
-import { getTokenIndexer } from "./common/global-functions";
+import { getTokenIndexer, toastGenerator } from "./common/global-functions";
 
 import BasicLayout from "./components/layouts/BasicLayout";
 import Pools from "./pages/Pools";
@@ -54,7 +54,8 @@ class App extends Component {
 						console.log(hash);
 						if (this.state.prevWalletDataHash !== null) {
 							if (hash !== this.state.prevWalletDataHash) {
-								console.log("Wallet Change");
+								console.log("Wallet Change")
+								toastGenerator("success", '🦄  Tx Success!')
 								this.setState({ isWalletEvent: true });
 
 								if (
@@ -65,15 +66,8 @@ class App extends Component {
 									// })
 								} else {
 									walletTokenList.map((item, index) => {
-										if (
-											item.amount !== this.state.prevWalletData[index].amount
-										) {
-											console.log(
-												item.denom,
-												(Number(item.amount) -
-													Number(this.state.prevWalletData[index].amount)) /
-													1000000
-											);
+										if (item.amount !== this.state.prevWalletData[index].amount) {
+											console.log(item.denom, (Number(item.amount) - Number(this.state.prevWalletData[index].amount)) / 1000000);
 											console.log(this.state.prevWalletData[index]);
 											// alert(item.denom)
 										}

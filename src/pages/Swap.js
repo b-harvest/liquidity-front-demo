@@ -77,11 +77,7 @@ class Swap extends Component {
 				amount: String(amountA)
 			},
 			demandCoinDenom: tokenB,
-			orderPrice: Number(
-				(Number(this.state.tokenBPoolAmount) /
-					Number(this.state.tokenAPoolAmount)) *
-					0.9
-			).toFixed(18)
+			orderPrice: Number((Number(this.state.tokenBPoolAmount) / Number(this.state.tokenAPoolAmount) * 1.1)).toFixed(18)
 		};
 		console.log(msgData.orderPrice);
 
@@ -114,32 +110,17 @@ class Swap extends Component {
 	};
 
 	amountChangeHandler = (e) => {
-		let slippage = calculateSlippage(
-			e.target.value * 1000000,
-			this.state.tokenAPoolAmount
-		);
+		let slippage = calculateSlippage(e.target.value * 1000000, this.state.tokenAPoolAmount)
 		if (slippage > 0.997) {
 			slippage = 0.997;
 		}
 
 		let isExceeded = false;
-		if (
-			e.target.value >
-			Number(
-				getMyTokenBalance(this.state.tokenA, this.state.tokenIndexer)
-					.split(":")[1]
-					.trim()
-			)
-		) {
+		if (e.target.value > Number(getMyTokenBalance(this.state.tokenA, this.state.tokenIndexer).split(":")[1].trim())) {
 			isExceeded = true;
 		}
 
-		const { counterPair, counterPairAmount } = calculateCounterPairAmount(
-			e,
-			this.state,
-			slippage,
-			"swap"
-		);
+		const { counterPair, counterPairAmount } = calculateCounterPairAmount(e, this.state, slippage, "swap");
 
 		this.setState({
 			[e.target.id]: e.target.value,
@@ -292,10 +273,7 @@ class Swap extends Component {
 							<Detail>
 								<div>Pool Price</div>
 								<div>
-									{this.getTokenPrice(
-										this.state.tokenAPoolAmount,
-										this.state.tokenBPoolAmount
-									)}
+									{this.getTokenPrice(this.state.tokenAPoolAmount, this.state.tokenBPoolAmount)}
 								</div>
 							</Detail>
 							<Detail>
