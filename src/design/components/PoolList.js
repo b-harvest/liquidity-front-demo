@@ -85,7 +85,7 @@ export const Row = styled.div`
 export const DepositButton = styled.button`
 	align-self: flex-end;
 	text-decoration: none;
-	color: #fff;
+	color: #ffffff;
 	line-height: 1;
 	font-size: 16px;
 	font-weight: 700;

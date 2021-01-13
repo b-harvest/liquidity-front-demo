@@ -11,7 +11,7 @@ export const Card = styled.div`
 export const Button = styled.div`
 	align-self: flex-end;
 	text-decoration: none;
-	color: #fff;
+	color: #ffffff;
 	line-height: 44px;
 	font-size: 16px;
 	font-weight: 700;

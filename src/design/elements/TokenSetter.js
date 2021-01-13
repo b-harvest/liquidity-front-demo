@@ -30,8 +30,10 @@ export const Right = styled(Left)`
 export const ArrowEraser = styled.div`
 	width: 16px;
 	height: 16px;
-	background-color: #fff;
+	background-color: #ffffff;
 	display: inline-block;
+	position: relative;
+	z-index: -1;
 	transform: translate(-14px, 0);
 `;
 export const TokenSelector = styled.select`

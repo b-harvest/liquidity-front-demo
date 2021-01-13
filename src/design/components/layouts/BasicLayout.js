@@ -82,7 +82,7 @@ export const Connect = styled.div`
 	width: 100%;
 	border: 50%;
 	background-color: #247bf2;
-	color: #fff;
+	color: #ffffff;
 	font-weight: bold;
 	line-height: 46px;
 	text-align: center;

@@ -128,6 +128,7 @@ const WalletClose = styled.div`
 `;
 
 const WalletHeader = styled.div`
+	width: 100%;
 	margin: 12px 0;
 
 	div:first-child {
