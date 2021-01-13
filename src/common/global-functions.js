@@ -25,7 +25,7 @@ export function getMyTokenBalance(token, indexer) {
 }
 
 export function sortReserveCoinDenoms(x, y) {
-    return [x, y]
+    return [x, y].sort()
 }
 
 export function getDepositCoins(denoms, amounts) {
