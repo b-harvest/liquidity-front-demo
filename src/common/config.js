@@ -2,45 +2,45 @@ import { defaultBech32Config } from "@chainapsis/cosmosjs/core/bech32Config";
 
 export const currencies = [
   {
-    coinDenom: "SCRTS",
-    coinMinimalDenom: "uscrtswap",
+    coinDenom: "SCRT",
+    coinMinimalDenom: "uscrt",
     coinDecimals: 6
   },
   {
-    coinDenom: "ATOMS",
-    coinMinimalDenom: "uatomswap",
+    coinDenom: "ATOM",
+    coinMinimalDenom: "uatom",
     coinDecimals: 6
   },
   {
-    coinDenom: "IRISS",
-    coinMinimalDenom: "uirisswap",
+    coinDenom: "IRIS",
+    coinMinimalDenom: "uiris",
     coinDecimals: 6
   },
   {
-    coinDenom: "BANDS",
-    coinMinimalDenom: "ubandswap",
+    coinDenom: "BAND",
+    coinMinimalDenom: "uband",
     coinDecimals: 6
   },
   {
-    coinDenom: "KAVAS",
-    coinMinimalDenom: "ukavaswap",
+    coinDenom: "KAVA",
+    coinMinimalDenom: "ukava",
     coinDecimals: 6
   },
   {
-    coinDenom: "LUNAS",
-    coinMinimalDenom: "ulunaswap",
+    coinDenom: "LUNA",
+    coinMinimalDenom: "uluna",
     coinDecimals: 6
   },
   {
-    coinDenom: "USDTS",
-    coinMinimalDenom: "uusdtswap",
+    coinDenom: "USDT",
+    coinMinimalDenom: "uusdt",
     coinDecimals: 6
   },
 ];
 
 export const stakingCurrency = {
-  coinDenom: "ATOMS",
-  coinMinimalDenom: "uatomswap",
+  coinDenom: "ATOM",
+  coinMinimalDenom: "uatom",
   coinDecimals: 6
 };
 
@@ -57,8 +57,8 @@ export const chainInfo = {
   currencies: [stakingCurrency].concat(currencies),
   feeCurrencies: [
     {
-      coinDenom: "ATOMS",
-      coinMinimalDenom: "uatomswap",
+      coinDenom: "ATOM",
+      coinMinimalDenom: "uatom",
       coinDecimals: 6
     }
   ],
