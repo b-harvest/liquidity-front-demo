@@ -169,37 +169,14 @@ class Withdraw extends Component {
 	};
 
 	getMyPoolTokenInfo = () => {
-		const tokenData = this.state.poolTokenData[
-			this.state.poolTokenDataIndexer[this.state.tokenA]
-		];
-		const amount =
-			(this.state.tokenAAmount * 1000000) / tokenData.myTokenAmount;
-		const myRatio = Number(
-			(tokenData.myTokenAmount / tokenData.poolTokenAmount) * 100
-		).toFixed(4);
+		const tokenData = this.state.poolTokenData[this.state.poolTokenDataIndexer[this.state.tokenA]];
+		const amount = (this.state.tokenAAmount * 1000000) / tokenData.myTokenAmount;
+		const myRatio = Number((tokenData.myTokenAmount / tokenData.poolTokenAmount) * 100).toFixed(4);
 		let returns = null;
 		if (tokenData.myTokenAmount <= 0) {
-			returns = `0${String(tokenData.reserveCoins[0].denom)
-				.substr(1)
-				.toUpperCase()} + 0${String(tokenData.reserveCoins[1].denom)
-					.substr(1)
-					.toUpperCase()}`;
+			returns = `0${String(tokenData.reserveCoins[0].denom).substr(1).toUpperCase()} + 0${String(tokenData.reserveCoins[1].denom).substr(1).toUpperCase()}`;
 		} else {
-			returns = `${Number(
-				(tokenData.reserveCoins[0].amount / 100000000) *
-				amount *
-				myRatio *
-				amount
-			).toFixed(2)}${String(tokenData.reserveCoins[0].denom)
-				.substr(1)
-				.toUpperCase()} + ${Number(
-					(tokenData.reserveCoins[1].amount / 100000000) *
-					amount *
-					myRatio *
-					amount
-				).toFixed(2)}${String(tokenData.reserveCoins[1].denom)
-					.substr(1)
-					.toUpperCase()}`;
+			returns = `${Number((tokenData.reserveCoins[0].amount / 100000000) * amount * myRatio * amount).toFixed(2)}${String(tokenData.reserveCoins[0].denom).substr(1).toUpperCase()} + ${Number((tokenData.reserveCoins[1].amount / 100000000) * amount * myRatio * amount).toFixed(2)}${String(tokenData.reserveCoins[1].denom).substr(1).toUpperCase()}`;
 		}
 		return { myRatio: `${myRatio}%`, returns: returns };
 	};
