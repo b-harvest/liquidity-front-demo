@@ -8,5 +8,5 @@ export const OverLay = styled.div`
 	height: 100%;
 	background-color: #000000;
 	opacity: 0.7;
-	transition: all 0.2s;
+	transition: all 0.3s;
 `;
