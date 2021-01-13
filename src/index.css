@@ -73,6 +73,12 @@ code {
 }
 
 .Toastify__toast--success {
-	border-radius: 3px !important;
 	background-color: #0abf7e !important;
+}
+
+.Toastify__toast {
+	padding: 12px 18px !important;
+	border-radius: 3px !important;
+	line-height: 1.5 !important;
+	border-radius: 3px !important;
 }
