@@ -83,7 +83,7 @@ class BasicLayout extends Component {
 		if (localStorage.walletAddress) {
 			try {
 				alert(
-					"Request has been sent successfully. This may take up to 10 seconds."
+					"Request has been sent successfully. This may take up to 2 seconds."
 				);
 				this.setState({ isSent: true });
 				const response = await Axios.get(
