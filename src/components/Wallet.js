@@ -16,7 +16,7 @@ class Wallet extends Component {
 		this.props.walletEventHandler();
 	}
 
-	componentDidUpdate(prevProps) {}
+	componentDidUpdate(prevProps) { }
 
 	getPoolTokenIndexer = () => {
 		let poolTokenIndexer = {};
@@ -78,6 +78,7 @@ class Wallet extends Component {
 }
 
 const WalletWrapper = styled.div`
+	z-index: 20;
 	display: flex;
 	flex-direction: column;
 	align-items: center;

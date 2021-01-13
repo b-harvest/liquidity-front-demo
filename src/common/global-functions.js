@@ -54,7 +54,7 @@ export function calculateCounterPairAmount(e, state, sp, type) {
             console.log('B')
             price = state.tokenAPoolAmount / state.tokenBPoolAmount
             counterPair = "tokenAAmount"
-            counterPairAmount = (state.tokenAPoolAmount / 1000000 - (constantNumber / (state.tokenBPoolAmount / 1000000 + Number(e.target.value) * 1.00309)))
+            counterPairAmount = (state.tokenAPoolAmount / 1000000 - (constantNumber / (state.tokenBPoolAmount / 1000000 + Number(e.target.value) * 1.001502)))
         }
 
     } else {
