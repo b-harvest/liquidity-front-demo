@@ -41,16 +41,16 @@ export const TableHeader = styled.div`
 	border-top-right-radius: 12px;
 
 	div {
-		width: 30%;
+		width: 25%;
 		line-height: 60px;
 	}
 
 	div:first-child {
-		width: 40%;
+		width: 50%;
 	}
 
 	div:last-child {
-		width: 30%;
+		width: 25%;
 	}
 `;
 
@@ -63,17 +63,17 @@ export const Row = styled.div`
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		width: 30%;
+		width: 25%;
 		height: 48px;
 	}
 
 	div:first-child {
-		width: 40%;
+		width: 50%;
 		font-weight: 500;
 	}
 
 	div:last-child {
-		width: 30%;
+		width: 25%;
 	}
 
 	span {
