@@ -2,13 +2,7 @@ import { Component } from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import { toastGenerator } from "../../common/global-functions";
-import {
-	Layout,
-	HeaderPlaceholder,
-	Header,
-	Brand,
-	Connect
-} from "../../design/components/layouts/BasicLayout";
+import { Layout, HeaderPlaceholder, Header, Brand, Connect } from "../../design/components/layouts/BasicLayout";
 import Wallet from "../Wallet";
 import { GaiaApi } from "@chainapsis/cosmosjs/gaia/api";
 import { chainInfo } from "../../common/config";
@@ -83,16 +77,12 @@ class BasicLayout extends Component {
 			try {
 				toastGenerator("info", "Request has been sent successfully. This may take up to 2 seconds. ⏳");
 				this.setState({ isSent: true });
-				const response = await Axios.get(
-					`https://dev.bharvest.io/faucet/?address=${localStorage.getItem(
-						"walletAddress"
-					)}`
-				);
-				toastGenerator('', response.data)
+				const response = await Axios.get(`https://dev.bharvest.io/faucet/?address=${localStorage.getItem("walletAddress")}`);
+				toastGenerator("", response.data);
 				this.setState({ isSent: false });
 				console.log("Faucet response", response);
 			} catch (error) {
-				toastGenerator('error', error.data)
+				toastGenerator("error", error.data);
 				this.setState({ isSent: false });
 				console.log(error);
 			}
@@ -134,19 +124,11 @@ class BasicLayout extends Component {
 					</span>
 
 					<Connect onClick={this.connectWallet}>
-						{this.state.address && this.props.isWalletEvent ? (<Alarm>New</Alarm>) : ("")}
+						{this.state.address && this.props.isWalletEvent ? <Alarm>New</Alarm> : ""}
 						{this.state.address ? `${this.getModifiedAddress(this.state.address)}` : "CONNECT WALLET"}
 					</Connect>
 
-					{this.state.isWallet ? (
-						<Wallet
-							data={this.props.data}
-							modalHandler={this.modalHandler}
-							walletEventHandler={this.props.walletEventHandler}
-						/>
-					) : (
-							""
-						)}
+					{this.state.isWallet ? <Wallet data={this.props.data} modalHandler={this.modalHandler} walletEventHandler={this.props.walletEventHandler} /> : ""}
 				</Header>
 
 				{this.props.children}
@@ -161,9 +143,7 @@ const Alarm = styled.div`
 	top: -6px;
 	font-size: 14px;
 	font-weight: bold;
-	color: #f22424;
-	// background-color:red;
-	// border-radius: 50%;
+	color: #00ffa3;
 
 	animation: blink 2s infinite;
 	@keyframes blink {

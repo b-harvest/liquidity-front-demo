@@ -45,28 +45,26 @@ class App extends Component {
 							if (hash !== this.state.prevWalletDataHash) {
 								console.log("Wallet Change");
 
-
-
 								if (walletTokenList?.length !== this.state.prevWalletData.length) {
 									toastGenerator("success", "🦄  Tx Success!");
 									this.setState({ isWalletEvent: true });
 								} else {
-									let counter = 0
+									let counter = 0;
 									walletTokenList.map((item, index) => {
 										if (item.amount !== this.state.prevWalletData[index].amount) {
 											console.log(item.denom, (Number(item.amount) - Number(this.state.prevWalletData[index].amount)) / 1000000);
 											console.log(this.state.prevWalletData[index]);
-											counter += 1
+											counter += 1;
 											// alert(item.denom)
 										}
-										return ''
+										return "";
 									});
-									console.log('counter', counter)
+									console.log("counter", counter);
 									if (counter > 1) {
 										toastGenerator("success", "🦄  Tx Success!");
 										this.setState({ isWalletEvent: true });
 									} else {
-										toastGenerator("error", "Tx fail! 😅");
+										toastGenerator("error", "😅 Tx Failed");
 									}
 								}
 							}
