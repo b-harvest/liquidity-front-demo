@@ -1,19 +1,9 @@
 import { Component } from "react";
-import {
-	Wrapper,
-	Detail,
-	ResetButton,
-	DepositCard
-} from "../design/pages/Deposit";
+import { Wrapper, Detail, ResetButton, DepositCard } from "../design/pages/Deposit";
 
 import { txGenerator } from "../common/cosmos-amm";
 import { currencies } from "../common/config";
-import {
-	getMyTokenBalance,
-	sortReserveCoinDenoms,
-	getDepositCoins,
-	calculateCounterPairAmount
-} from "../common/global-functions";
+import { getMyTokenBalance, sortReserveCoinDenoms, getDepositCoins, calculateCounterPairAmount } from "../common/global-functions";
 
 import PoolList from "../components/PoolList";
 import TokenSetter from "../elements/TokenSetter";
@@ -85,11 +75,7 @@ class Deposit extends Component {
 
 		try {
 			this.setState({ isLoading: true });
-			const response = await txGenerator(
-				"MsgDepositToLiquidityPool",
-				msgData,
-				feeData
-			);
+			const response = await txGenerator("MsgDepositToLiquidityPool", msgData, feeData);
 			this.setState({ isLoading: false });
 			if (String(response).includes("TypeError")) {
 				throw response;
@@ -109,22 +95,10 @@ class Deposit extends Component {
 	};
 
 	amountChangeHandler = (e) => {
-		const { counterPair, counterPairAmount } = calculateCounterPairAmount(
-			e,
-			this.state,
-			0,
-			"deposit"
-		);
+		const { counterPair, counterPairAmount } = calculateCounterPairAmount(e, this.state, 0, "deposit");
 		let isExceeded = false;
 
-		if (
-			e.target.value >
-			Number(
-				getMyTokenBalance(this.state.tokenA, this.state.tokenIndexer)
-					.split(":")[1]
-					.trim()
-			)
-		) {
+		if (e.target.value > Number(getMyTokenBalance(this.state.tokenA, this.state.tokenIndexer).split(":")[1].trim())) {
 			isExceeded = true;
 		}
 		this.setState({
@@ -139,9 +113,7 @@ class Deposit extends Component {
 		if (price && price !== Infinity) {
 			return (
 				<span>
-					1 {this.state.tokenA.substr(1).toUpperCase()} ={" "}
-					{parseFloat(price.toFixed(4))}{" "}
-					{this.state.tokenB.substr(1).toUpperCase()}
+					1 {this.state.tokenA.substr(1).toUpperCase()} = {parseFloat(price.toFixed(4))} {this.state.tokenB.substr(1).toUpperCase()}
 				</span>
 			);
 		} else {
@@ -175,20 +147,7 @@ class Deposit extends Component {
 				<Wrapper>
 					<DepositCard>
 						<ResetButton onClick={this.selectPool}>{`< Back`}</ResetButton>
-						<TokenSetter
-							currencies={currencies}
-							leftTitle="From"
-							rightTitle={getMyTokenBalance(
-								this.state.tokenA,
-								this.state.tokenIndexer
-							)}
-							cssId="A"
-							token={this.state.tokenA}
-							tokenAmount={this.state.tokenAAmount}
-							selectorHandler={this.tokenSelectorChangeHandler}
-							amountHandler={this.amountChangeHandler}
-							readOnly={true}
-						/>
+						<TokenSetter currencies={currencies} leftTitle="From" rightTitle={getMyTokenBalance(this.state.tokenA, this.state.tokenIndexer)} cssId="A" token={this.state.tokenA} tokenAmount={this.state.tokenAAmount} selectorHandler={this.tokenSelectorChangeHandler} amountHandler={this.amountChangeHandler} readOnly={true} />
 
 						<div
 							style={{
@@ -205,27 +164,9 @@ class Deposit extends Component {
 							+
 						</div>
 
-						<TokenSetter
-							currencies={currencies}
-							leftTitle="To"
-							rightTitle={getMyTokenBalance(
-								this.state.tokenB,
-								this.state.tokenIndexer
-							)}
-							cssId="B"
-							token={this.state.tokenB}
-							tokenAmount={this.state.tokenBAmount}
-							selectorHandler={this.tokenSelectorChangeHandler}
-							readOnly={true}
-							amountHandler={this.amountChangeHandler}
-						/>
+						<TokenSetter currencies={currencies} leftTitle="To" rightTitle={getMyTokenBalance(this.state.tokenB, this.state.tokenIndexer)} cssId="B" token={this.state.tokenB} tokenAmount={this.state.tokenBAmount} selectorHandler={this.tokenSelectorChangeHandler} readOnly={true} amountHandler={this.amountChangeHandler} />
 
-						<BasicButtonCard
-							function={this.createPool}
-							buttonName="DEPOSIT"
-							isLoading={this.state.isLoading}
-							isDisabled={this.state.isExceeded}
-						>
+						<BasicButtonCard function={this.createPool} buttonName="DEPOSIT" isLoading={this.state.isLoading} isDisabled={this.state.isExceeded}>
 							<Detail>
 								<div>Pool Price</div>
 								<div>{this.getTokenPrice()}</div>
@@ -235,13 +176,7 @@ class Deposit extends Component {
 				</Wrapper>
 			);
 		} else {
-			return (
-				<PoolList
-					poolsData={this.props.data.poolsData}
-					selectPool={this.selectPool}
-					actionType="Deposit"
-				/>
-			);
+			return <PoolList poolsData={this.props.data.poolsData} selectPool={this.selectPool} actionType="Deposit" />;
 		}
 	}
 }
