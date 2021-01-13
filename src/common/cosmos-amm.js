@@ -34,7 +34,7 @@ export const txGenerator = async (type, msgData, feeData = {
     }
 
     // set config
-    const chainId = "amm";
+    const chainId = "swap-testnet-2001";
     await window.keplr.enable(chainId);
     const offlineSigner = window.getOfflineSigner(chainId);
     const accounts = await offlineSigner.getAccounts();
