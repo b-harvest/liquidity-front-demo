@@ -80,7 +80,7 @@ class Deposit extends Component {
 			if (String(response).includes("TypeError")) {
 				throw response;
 			}
-			alert("Your tokens have been deposited successfully");
+			// alert("Your tokens have been deposited successfully");
 		} catch (error) {
 			alert(error);
 			this.setState({ isLoading: false });

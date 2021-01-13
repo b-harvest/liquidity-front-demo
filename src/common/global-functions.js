@@ -138,8 +138,19 @@ export const toastGenerator = (type = '', msg = '') => {
                 progress: undefined,
             })
             break;
-        case "new":
-            toastFunc = toast('🦄 Wow so easy!', {
+        case "warning":
+            toastFunc = toast.warning(msg, {
+                position: "bottom-left",
+                autoClose: 6000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
+            break;
+        case "info":
+            toastFunc = toast.info(msg, {
                 position: "bottom-left",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -161,9 +172,9 @@ export const toastGenerator = (type = '', msg = '') => {
             })
             break;
         default:
-            toastFunc = toast('🦄 Wow so easy!', {
+            toastFunc = toast(msg, {
                 position: "bottom-left",
-                autoClose: 5000,
+                autoClose: 3000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,

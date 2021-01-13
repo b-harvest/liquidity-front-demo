@@ -92,7 +92,7 @@ class Swap extends Component {
 				throw response;
 			}
 			this.reset();
-			alert("Your tokens have been swapped successfully");
+			// alert("Your tokens have been swapped successfully");
 		} catch (error) {
 			alert(error);
 			this.setState({ isLoading: false });
