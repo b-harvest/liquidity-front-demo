@@ -24,7 +24,7 @@ export const getWalletTokenList = async () => {
 }
 
 export const txGenerator = async (type, msgData, feeData = {
-    denom: "ustake",
+    denom: "uatomswap",
     amount: 2000,
     gas: "180000",
 }) => {
@@ -34,7 +34,7 @@ export const txGenerator = async (type, msgData, feeData = {
     }
 
     // set config
-    const chainId = "amm";
+    const chainId = "swap-testnet-2001";
     await window.keplr.enable(chainId);
     const offlineSigner = window.getOfflineSigner(chainId);
     const accounts = await offlineSigner.getAccounts();
@@ -79,7 +79,7 @@ export const txGenerator = async (type, msgData, feeData = {
                     value: {
                         pool_creator_address: accounts[0].address,
                         pool_type_index: msgData.pool_type_index,
-                        reserve_coin_denoms: msgData.reserve_coin_denoms,
+                        //reserve_coin_denoms: msgData.reserve_coin_denoms,
                         deposit_coins: [coin(msgData.deposit_coins.amounts[0], msgData.deposit_coins.denoms[0]), coin(msgData.deposit_coins.amounts[1], msgData.deposit_coins.denoms[1])]
                     },
                 };
@@ -98,7 +98,7 @@ export const txGenerator = async (type, msgData, feeData = {
                     value: {
                         swap_requester_address: accounts[0].address,
                         pool_id: String(msgData.poolId),
-                        pool_type_index: msgData.poolTypeIndex,
+                        //pool_type_index: msgData.poolTypeIndex,
                         swap_type: msgData.swapType,
                         offer_coin: msgData.offerCoin,
                         demand_coin_denom: msgData.demandCoinDenom,

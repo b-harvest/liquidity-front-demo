@@ -1,5 +1,7 @@
 import { Component } from "react";
+import styled from "styled-components";
 import { NavLink } from "react-router-dom";
+import { toastGenerator } from "../../common/global-functions";
 import {
 	Layout,
 	HeaderPlaceholder,
@@ -7,6 +9,7 @@ import {
 	Brand,
 	Connect
 } from "../../design/components/layouts/BasicLayout";
+import Wallet from "../Wallet";
 import { GaiaApi } from "@chainapsis/cosmosjs/gaia/api";
 import { chainInfo } from "../../common/config";
 import Axios from "axios";
@@ -18,7 +21,8 @@ class BasicLayout extends Component {
 			activeStyle: {
 				backgroundColor: "#ffaa0d"
 			},
-			isSent: false
+			isSent: false,
+			isWallet: false
 		};
 	}
 
@@ -28,7 +32,7 @@ class BasicLayout extends Component {
 		};
 	}
 
-	connectWallet = async () => {
+	connectWallet = async (isClick) => {
 		if (!window.cosmosJSWalletProvider) {
 			alert("Please install the Keplr extension");
 			return;
@@ -36,6 +40,11 @@ class BasicLayout extends Component {
 
 		if (!window.keplr?.experimentalSuggestChain) {
 			alert("Please use the latest version of Keplr extension");
+			return;
+		}
+
+		if (isClick) {
+			this.modalHandler();
 			return;
 		}
 
@@ -58,6 +67,7 @@ class BasicLayout extends Component {
 		this.bech32Address = keys[0].bech32Address;
 
 		localStorage.setItem("walletAddress", this.bech32Address);
+		toastGenerator("connect");
 
 		this.setState({
 			cosmosJS,
@@ -70,22 +80,32 @@ class BasicLayout extends Component {
 	};
 
 	sendFaucetRequest = async () => {
-		try {
-			alert("Request! it takes about 10 seconds :)");
-			this.setState({ isSent: true });
-			const response = await Axios.get(
-				`https://dev.bharvest.io/faucet/?address=${localStorage.getItem(
-					"walletAddress"
-				)}`
-			);
-			alert(response.data);
-			this.setState({ isSent: false });
-			console.log("Faucet response", response);
-		} catch (error) {
-			alert(error.data);
-			this.setState({ isSent: false });
-			console.log(error);
+		if (localStorage.walletAddress) {
+			try {
+				alert("send a request! it takes about 10 seconds :)");
+				this.setState({ isSent: true });
+				const response = await Axios.get(
+					`https://dev.bharvest.io/faucet/?address=${localStorage.getItem(
+						"walletAddress"
+					)}`
+				);
+				alert(response.data);
+				this.setState({ isSent: false });
+				console.log("Faucet response", response);
+			} catch (error) {
+				alert(error.data);
+				this.setState({ isSent: false });
+				console.log(error);
+			}
+		} else {
+			alert("Please Connect Wallet!");
 		}
+	};
+
+	modalHandler = () => {
+		this.setState({
+			isWallet: !this.state.isWallet
+		});
 	};
 
 	render() {
@@ -120,10 +140,24 @@ class BasicLayout extends Component {
 						{this.state.isSent ? "Waiting... 💸" : "Faucet 💸"}
 					</span>
 					<Connect onClick={this.connectWallet}>
+						{this.state.address && this.props.isWalletEvent ? (
+							<Alarm>New</Alarm>
+						) : (
+							""
+						)}
 						{this.state.address
 							? `${this.getModifiedAddress(this.state.address)}`
 							: "CONNECT WALLET"}
 					</Connect>
+					{this.state.isWallet ? (
+						<Wallet
+							data={this.props.data}
+							modalHandler={this.modalHandler}
+							walletEventHandler={this.props.walletEventHandler}
+						/>
+					) : (
+						""
+					)}
 				</Header>
 
 				{this.props.children}
@@ -131,5 +165,31 @@ class BasicLayout extends Component {
 		);
 	}
 }
+
+const Alarm = styled.div`
+	position: absolute;
+	left: 14px;
+	top: -6px;
+	font-size: 14px;
+	font-weight: bold;
+	color: #f22424;
+	// background-color:red;
+	// border-radius: 50%;
+
+	animation: blink 2s infinite;
+	@keyframes blink {
+		0% {
+			opacity: 0;
+		}
+
+		50% {
+			opacity: 1;
+		}
+
+		100% {
+			opacity: 0;
+		}
+	}
+`;
 
 export default BasicLayout;

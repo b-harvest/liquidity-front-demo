@@ -44,7 +44,7 @@ class CreatePoolModal extends Component {
 		};
 
 		const feeData = {
-			denom: "ustake",
+			denom: "uatomswap",
 			amount: 2000,
 			gas: "180000"
 		};
