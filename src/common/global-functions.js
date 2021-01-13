@@ -43,7 +43,7 @@ export function calculateCounterPairAmount(e, state, sp, type) {
     }
 
     if (type === 'swap') {
-        const swapFeeRatio = 0.997
+        const swapFeeRatio = 0.9985
         const constantNumber = state.tokenAPoolAmount / 1000000 * state.tokenBPoolAmount / 1000000
         if (e.target.id === "tokenAAmount") {
             console.log('A')

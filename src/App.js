@@ -66,15 +66,8 @@ class App extends Component {
 									// })
 								} else {
 									walletTokenList.map((item, index) => {
-										if (
-											item.amount !== this.state.prevWalletData[index].amount
-										) {
-											console.log(
-												item.denom,
-												(Number(item.amount) -
-													Number(this.state.prevWalletData[index].amount)) /
-												1000000
-											);
+										if (item.amount !== this.state.prevWalletData[index].amount) {
+											console.log(item.denom, (Number(item.amount) - Number(this.state.prevWalletData[index].amount)) / 1000000);
 											console.log(this.state.prevWalletData[index]);
 											// alert(item.denom)
 										}

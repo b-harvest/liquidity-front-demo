@@ -133,26 +133,16 @@ class BasicLayout extends Component {
 					<NavLink exact to={"/withdraw"} activeStyle={this.state.activeStyle}>
 						Withdraw
 					</NavLink>
-					<span
-						onClick={this.sendFaucetRequest}
-						style={
-							this.state.isSent
-								? { color: "#a7a7a7", pointerEvents: "none" }
-								: {}
-						}
-					>
+
+					<span onClick={this.sendFaucetRequest} style={this.state.isSent ? { color: "#a7a7a7", pointerEvents: "none" } : {}}>
 						{this.state.isSent ? "Waiting... 💸" : "Faucet 💸"}
 					</span>
+
 					<Connect onClick={this.connectWallet}>
-						{this.state.address && this.props.isWalletEvent ? (
-							<Alarm>New</Alarm>
-						) : (
-							""
-						)}
-						{this.state.address
-							? `${this.getModifiedAddress(this.state.address)}`
-							: "CONNECT WALLET"}
+						{this.state.address && this.props.isWalletEvent ? (<Alarm>New</Alarm>) : ("")}
+						{this.state.address ? `${this.getModifiedAddress(this.state.address)}` : "CONNECT WALLET"}
 					</Connect>
+
 					{this.state.isWallet ? (
 						<Wallet
 							data={this.props.data}
@@ -160,8 +150,8 @@ class BasicLayout extends Component {
 							walletEventHandler={this.props.walletEventHandler}
 						/>
 					) : (
-						""
-					)}
+							""
+						)}
 				</Header>
 
 				{this.props.children}
