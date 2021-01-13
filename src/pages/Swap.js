@@ -51,13 +51,19 @@ class Swap extends Component {
 	}
 
 	// 로직 함수 시작
-	createPool = async () => {
+	swap = async () => {
 		console.log(`From : ${this.state.tokenA} ${this.state.tokenAAmount}`);
 		console.log(`To : ${this.state.tokenB} ${this.state.tokenBAmount}`);
 
 		const tokenA = this.state.tokenA;
 		const tokenB = this.state.tokenB;
 		const amountA = Math.floor(Number(this.state.tokenAAmount) * 1000000);
+
+		let isReverse = false;
+
+		if ([tokenA, tokenB].sort()[0] !== tokenA) {
+			isReverse = true;
+		}
 
 		const msgData = {
 			poolId: this.state.poolId,
@@ -68,7 +74,7 @@ class Swap extends Component {
 				amount: String(amountA)
 			},
 			demandCoinDenom: tokenB,
-			orderPrice: Number((Number(this.state.tokenBPoolAmount) / Number(this.state.tokenAPoolAmount)) * 1.1).toFixed(18)
+			orderPrice: Number((Number(this.state.tokenBPoolAmount) / Number(this.state.tokenAPoolAmount)) * isReverse ? 1.1 : 0.9).toFixed(18)
 		};
 		console.log(msgData.orderPrice);
 
@@ -227,7 +233,7 @@ class Swap extends Component {
 						<ChangeButton func={this.tokenChange} />
 						<TokenSetter currencies={currencies} leftTitle="To (estimated)" rightTitle={getMyTokenBalance(this.state.tokenB, this.state.tokenIndexer)} cssId="B" token={this.state.tokenB} tokenAmount={this.state.tokenBAmount} selectorHandler={this.tokenSelectorChangeHandler} amountHandler={this.amountChangeHandler} readOnly={true} />
 
-						<BasicButtonCard function={this.createPool} buttonName="SWAP" isLoading={this.state.isLoading} isDisabled={this.state.isExceeded}>
+						<BasicButtonCard function={this.swap} buttonName="SWAP" isLoading={this.state.isLoading} isDisabled={this.state.isExceeded}>
 							<Detail>
 								<div>Pool Price</div>
 								<div>{this.getTokenPrice(this.state.tokenAPoolAmount, this.state.tokenBPoolAmount)}</div>
