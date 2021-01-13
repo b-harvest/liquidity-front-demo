@@ -28,18 +28,7 @@ class App extends Component {
 	}
 	componentDidMount() {
 		const initGetExcData = async () => {
-			const digest = async ({ algorithm = "SHA-256", message }) =>
-				Array.prototype.map
-					.call(
-						new Uint8Array(
-							await crypto.subtle.digest(
-								algorithm,
-								new TextEncoder().encode(message)
-							)
-						),
-						(x) => ("0" + x.toString(16)).slice(-2)
-					)
-					.join("");
+			const digest = async ({ algorithm = "SHA-256", message }) => Array.prototype.map.call(new Uint8Array(await crypto.subtle.digest(algorithm, new TextEncoder().encode(message))), (x) => ("0" + x.toString(16)).slice(-2)).join("");
 			try {
 				const poolList = await getPoolList();
 				let walletTokenList = null;
@@ -54,13 +43,11 @@ class App extends Component {
 						console.log(hash);
 						if (this.state.prevWalletDataHash !== null) {
 							if (hash !== this.state.prevWalletDataHash) {
-								console.log("Wallet Change")
-								toastGenerator("success", '🦄  Tx Success!')
+								console.log("Wallet Change");
+								toastGenerator("success", "🦄  Tx Success!");
 								this.setState({ isWalletEvent: true });
 
-								if (
-									walletTokenList?.length !== this.state.prevWalletData.length
-								) {
+								if (walletTokenList?.length !== this.state.prevWalletData.length) {
 									// new coin
 									// walletTokenList.map((item, index) => {
 									// })
@@ -117,17 +104,9 @@ class App extends Component {
 			<Router>
 				<div id="mobileView">
 					<img src="/assets/small-screen-sign.png"></img>
-					<div>
-						The interface will soon be updated to support mobile and tablet
-						screens. Please access the demo from a desktop in the meantime.
-						Thanks!
-					</div>
+					<div>The interface will soon be updated to support mobile and tablet screens. Please access the demo from a desktop in the meantime. Thanks!</div>
 				</div>
-				<BasicLayout
-					data={this.state.sharedData}
-					isWalletEvent={this.state.isWalletEvent}
-					walletEventHandler={this.walletEventHandler}
-				>
+				<BasicLayout data={this.state.sharedData} isWalletEvent={this.state.isWalletEvent} walletEventHandler={this.walletEventHandler}>
 					<Switch>
 						<Route exact path="/">
 							<Pools data={this.state.sharedData} />
@@ -143,17 +122,7 @@ class App extends Component {
 						</Route>
 					</Switch>
 				</BasicLayout>
-				<ToastContainer
-					position="bottom-left"
-					autoClose={5000}
-					hideProgressBar={false}
-					newestOnTop={false}
-					closeOnClick
-					rtl={false}
-					pauseOnFocusLoss
-					draggable
-					pauseOnHover
-				/>
+				<ToastContainer position="bottom-left" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
 			</Router>
 		);
 	}

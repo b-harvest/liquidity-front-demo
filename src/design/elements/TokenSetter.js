@@ -9,7 +9,7 @@ export const TokenCard = styled.section`
 	display: flex;
 	justify-content: space-between;
 
-	&:nth-child(2) {
+	&:nth-child(3) {
 		margin-top: 24px;
 	}
 `;

@@ -78,7 +78,7 @@ export const Brand = styled.div`
 export const Connect = styled.div`
 	display: inline-block;
 	position: absolute;
-	bottom: 135px;
+	bottom: 100px;
 	width: 100%;
 	border: 50%;
 	background-color: #247bf2;
@@ -87,10 +87,10 @@ export const Connect = styled.div`
 	line-height: 46px;
 	text-align: center;
 	cursor: pointer;
-	transition: all 0.15s ease-in;
+	transition: all 0.1s ease-out;
 
 	&:hover {
-		bottom: 131px;
+		bottom: 95px;
 		line-height: 56px;
 		background-color: #66a3f6;
 	}

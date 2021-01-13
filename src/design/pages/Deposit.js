@@ -23,16 +23,22 @@ export const DepositCard = styled.div`
 	border: 1px solid #bdbdbd;
 `;
 
-export const ResetButton = styled.div`
-	display: inline-block;
+export const GoBack = styled.div`
 	align-self: flex-start;
-	font-size: 18px;
-	font-weight: 700;
-	cursor: pointer;
-	transition: all 0.2s ease;
+	margin-bottom: 20px;
 
-	&:hover {
-		opacity: 0.7;
+	img {
+		display: inline-block;
+		width: 42px;
+		color: #1e2129;
+		cursor: pointer;
+		padding: 9px;
+		border-radius: 30px;
+		transition: all 0.2s ease;
+
+		&:hover {
+			background-color: #c7c8ca;
+		}
 	}
 `;
 

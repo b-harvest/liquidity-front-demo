@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { Wrapper, Detail, ResetButton, DepositCard } from "../design/pages/Deposit";
+import { Wrapper, Detail, GoBack, DepositCard } from "../design/pages/Deposit";
 
 import { txGenerator } from "../common/cosmos-amm";
 import { currencies } from "../common/config";
@@ -146,7 +146,9 @@ class Deposit extends Component {
 			return (
 				<Wrapper>
 					<DepositCard>
-						<ResetButton onClick={this.selectPool}>{`< Back`}</ResetButton>
+						<GoBack onClick={this.selectPool}>
+							<img src="/assets/arrow-left.svg" onClick={this.props.modalHandler} />
+						</GoBack>
 						<TokenSetter currencies={currencies} leftTitle="From" rightTitle={getMyTokenBalance(this.state.tokenA, this.state.tokenIndexer)} cssId="A" token={this.state.tokenA} tokenAmount={this.state.tokenAAmount} selectorHandler={this.tokenSelectorChangeHandler} amountHandler={this.amountChangeHandler} readOnly={true} />
 
 						<div

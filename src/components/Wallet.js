@@ -67,10 +67,12 @@ class Wallet extends Component {
 						<ListHeader>My Tokens</ListHeader>
 						<TokenWrapper>{this.createTokenList(this.props.data.walletTokenList)}</TokenWrapper>
 					</ListWrapper>
+					{/*
 					<ListWrapper style={{ margin: "30px 0 48px" }}>
 						<ListHeader>Recent Activity</ListHeader>
 						<EventWrapper>{this.createTokenList(this.props.data.walletTokenList)}</EventWrapper>
 					</ListWrapper>
+					*/}
 				</WalletWrapper>
 			</>
 		);
@@ -140,6 +142,8 @@ const WalletHeader = styled.div`
 		color: #838589;
 		line-height: 1;
 		text-align: center;
+		word-break: break-all;
+		line-height: 1.5;
 		margin-top: 15px;
 	}
 `;
@@ -160,8 +164,11 @@ const ListHeader = styled.h3`
 `;
 
 const TokenWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	width: 100%;
-	height: 240px;
+	height: calc(100vh - 300px);
 	overflow-x: hidden;
 	overflow-y: auto;
 	border-radius: 12px;

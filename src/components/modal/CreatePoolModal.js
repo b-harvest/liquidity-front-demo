@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { Modal, Detail } from "../../design/components/modal/CreatePoolModal";
+import { Modal, Detail, GoBack } from "../../design/components/modal/CreatePoolModal";
 
 import { txGenerator } from "../../common/cosmos-amm";
 import { getMyTokenBalance } from "../../common/global-functions";
@@ -51,11 +51,7 @@ class CreatePoolModal extends Component {
 
 		try {
 			this.setState({ isLoading: true });
-			const response = await txGenerator(
-				"MsgCreateLiquidityPool",
-				msgData,
-				feeData
-			);
+			const response = await txGenerator("MsgCreateLiquidityPool", msgData, feeData);
 			this.setState({ isLoading: false });
 			if (JSON.stringify(response).includes("TypeError")) {
 				throw response;
@@ -98,14 +94,7 @@ class CreatePoolModal extends Component {
 
 	amountChangeHandler = (e) => {
 		let isExceeded = false;
-		if (
-			e.target.value >
-			Number(
-				getMyTokenBalance(this.state.tokenA, this.props.data.tokenIndexer)
-					.split(":")[1]
-					.trim()
-			)
-		) {
+		if (e.target.value > Number(getMyTokenBalance(this.state.tokenA, this.props.data.tokenIndexer).split(":")[1].trim())) {
 			isExceeded = true;
 		}
 		this.setState({
@@ -119,9 +108,7 @@ class CreatePoolModal extends Component {
 		if (price && price !== Infinity) {
 			return (
 				<span>
-					{parseFloat(price.toFixed(6))}{" "}
-					{this.state.tokenA.substr(1).toUpperCase()} = 1{" "}
-					{this.state.tokenB.substr(1).toUpperCase()}
+					{parseFloat(price.toFixed(6))} {this.state.tokenA.substr(1).toUpperCase()} = 1 {this.state.tokenB.substr(1).toUpperCase()}
 				</span>
 			);
 		} else {
@@ -134,40 +121,15 @@ class CreatePoolModal extends Component {
 			<>
 				<BlackOverLay modalHandler={this.props.modalHandler} />
 				<Modal>
-					<TokenSetter
-						currencies={currencies}
-						leftTitle="Token A"
-						rightTitle={getMyTokenBalance(
-							this.state.tokenA,
-							this.props.data.tokenIndexer
-						)}
-						cssId="A"
-						token={this.state.tokenA}
-						tokenAmount={this.tokenAAmount}
-						selectorHandler={this.tokenSelectorChangeHandler}
-						amountHandler={this.amountChangeHandler}
-					/>
+					<GoBack>
+						<img src="/assets/arrow-left.svg" onClick={this.props.modalHandler} />
+					</GoBack>
 
-					<TokenSetter
-						currencies={currencies}
-						leftTitle="Token B"
-						rightTitle={getMyTokenBalance(
-							this.state.tokenB,
-							this.props.data.tokenIndexer
-						)}
-						cssId="B"
-						token={this.state.tokenB}
-						tokenAmount={this.tokenBAmount}
-						selectorHandler={this.tokenSelectorChangeHandler}
-						amountHandler={this.amountChangeHandler}
-					/>
+					<TokenSetter currencies={currencies} leftTitle="Token A" rightTitle={getMyTokenBalance(this.state.tokenA, this.props.data.tokenIndexer)} cssId="A" token={this.state.tokenA} tokenAmount={this.tokenAAmount} selectorHandler={this.tokenSelectorChangeHandler} amountHandler={this.amountChangeHandler} />
 
-					<BasicButtonCard
-						function={this.createPool}
-						buttonName="CREATE POOL"
-						isLoading={this.state.isLoading}
-						isDisabled={this.state.isExceeded}
-					>
+					<TokenSetter currencies={currencies} leftTitle="Token B" rightTitle={getMyTokenBalance(this.state.tokenB, this.props.data.tokenIndexer)} cssId="B" token={this.state.tokenB} tokenAmount={this.tokenBAmount} selectorHandler={this.tokenSelectorChangeHandler} amountHandler={this.amountChangeHandler} />
+
+					<BasicButtonCard function={this.createPool} buttonName="CREATE POOL" isLoading={this.state.isLoading} isDisabled={this.state.isExceeded}>
 						<Detail>
 							<div>Initial Pool Price</div>
 							<div>{this.getTokenPrice()}</div>

@@ -1,18 +1,9 @@
 import { Component } from "react";
-import {
-	Wrapper,
-	Detail,
-	ResetButton,
-	DepositCard
-} from "../design/pages/Swap";
+import { Wrapper, Detail, GoBack, DepositCard } from "../design/pages/Swap";
 
 import { currencies } from "../common/config";
 import { txGenerator } from "../common/cosmos-amm";
-import {
-	getMyTokenBalance,
-	calculateCounterPairAmount,
-	calculateSlippage
-} from "../common/global-functions";
+import { getMyTokenBalance, calculateCounterPairAmount, calculateSlippage } from "../common/global-functions";
 
 import PoolList from "../components/PoolList";
 import TokenSetter from "../elements/TokenSetter";
@@ -77,7 +68,7 @@ class Swap extends Component {
 				amount: String(amountA)
 			},
 			demandCoinDenom: tokenB,
-			orderPrice: Number((Number(this.state.tokenBPoolAmount) / Number(this.state.tokenAPoolAmount) * 1.1)).toFixed(18)
+			orderPrice: Number((Number(this.state.tokenBPoolAmount) / Number(this.state.tokenAPoolAmount)) * 1.1).toFixed(18)
 		};
 		console.log(msgData.orderPrice);
 
@@ -110,7 +101,7 @@ class Swap extends Component {
 	};
 
 	amountChangeHandler = (e) => {
-		let slippage = calculateSlippage(e.target.value * 1000000, this.state.tokenAPoolAmount)
+		let slippage = calculateSlippage(e.target.value * 1000000, this.state.tokenAPoolAmount);
 		if (slippage > 0.997) {
 			slippage = 0.997;
 		}
@@ -150,17 +141,13 @@ class Swap extends Component {
 			if (reverse) {
 				return (
 					<span>
-						1 {this.state.tokenB.substr(1).toUpperCase()} ={" "}
-						{parseFloat(price.toFixed(2))}{" "}
-						{this.state.tokenA.substr(1).toUpperCase()}
+						1 {this.state.tokenB.substr(1).toUpperCase()} = {parseFloat(price.toFixed(2))} {this.state.tokenA.substr(1).toUpperCase()}
 					</span>
 				);
 			} else {
 				return (
 					<span>
-						1 {this.state.tokenA.substr(1).toUpperCase()} ={" "}
-						{parseFloat(price.toFixed(2))}{" "}
-						{this.state.tokenB.substr(1).toUpperCase()}
+						1 {this.state.tokenA.substr(1).toUpperCase()} = {parseFloat(price.toFixed(2))} {this.state.tokenB.substr(1).toUpperCase()}
 					</span>
 				);
 			}
@@ -233,48 +220,17 @@ class Swap extends Component {
 			return (
 				<Wrapper>
 					<DepositCard>
-						<ResetButton onClick={this.selectPool}>{`< Back`}</ResetButton>
-						<TokenSetter
-							currencies={currencies}
-							leftTitle="From"
-							rightTitle={getMyTokenBalance(
-								this.state.tokenA,
-								this.state.tokenIndexer
-							)}
-							cssId="A"
-							token={this.state.tokenA}
-							tokenAmount={this.state.tokenAAmount}
-							selectorHandler={this.tokenSelectorChangeHandler}
-							amountHandler={this.amountChangeHandler}
-							readOnly={true}
-						/>
+						<GoBack onClick={this.selectPool}>
+							<img src="/assets/arrow-left.svg" onClick={this.props.modalHandler} />
+						</GoBack>
+						<TokenSetter currencies={currencies} leftTitle="From" rightTitle={getMyTokenBalance(this.state.tokenA, this.state.tokenIndexer)} cssId="A" token={this.state.tokenA} tokenAmount={this.state.tokenAAmount} selectorHandler={this.tokenSelectorChangeHandler} amountHandler={this.amountChangeHandler} readOnly={true} />
 						<ChangeButton func={this.tokenChange} />
-						<TokenSetter
-							currencies={currencies}
-							leftTitle="To (estimated)"
-							rightTitle={getMyTokenBalance(
-								this.state.tokenB,
-								this.state.tokenIndexer
-							)}
-							cssId="B"
-							token={this.state.tokenB}
-							tokenAmount={this.state.tokenBAmount}
-							selectorHandler={this.tokenSelectorChangeHandler}
-							amountHandler={this.amountChangeHandler}
-							readOnly={true}
-						/>
+						<TokenSetter currencies={currencies} leftTitle="To (estimated)" rightTitle={getMyTokenBalance(this.state.tokenB, this.state.tokenIndexer)} cssId="B" token={this.state.tokenB} tokenAmount={this.state.tokenBAmount} selectorHandler={this.tokenSelectorChangeHandler} amountHandler={this.amountChangeHandler} readOnly={true} />
 
-						<BasicButtonCard
-							function={this.createPool}
-							buttonName="SWAP"
-							isLoading={this.state.isLoading}
-							isDisabled={this.state.isExceeded}
-						>
+						<BasicButtonCard function={this.createPool} buttonName="SWAP" isLoading={this.state.isLoading} isDisabled={this.state.isExceeded}>
 							<Detail>
 								<div>Pool Price</div>
-								<div>
-									{this.getTokenPrice(this.state.tokenAPoolAmount, this.state.tokenBPoolAmount)}
-								</div>
+								<div>{this.getTokenPrice(this.state.tokenAPoolAmount, this.state.tokenBPoolAmount)}</div>
 							</Detail>
 							<Detail>
 								<div>Estimated Slippage</div>
@@ -285,13 +241,7 @@ class Swap extends Component {
 				</Wrapper>
 			);
 		} else {
-			return (
-				<PoolList
-					poolsData={this.props.data.poolsData}
-					selectPool={this.selectPool}
-					actionType="Swap"
-				/>
-			);
+			return <PoolList poolsData={this.props.data.poolsData} selectPool={this.selectPool} actionType="Swap" />;
 		}
 	}
 }

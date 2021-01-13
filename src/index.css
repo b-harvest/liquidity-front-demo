@@ -6,17 +6,14 @@ body {
 	color: #1e2129;
 	background-color: #f3f4f5;
 	margin: 0;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-		"Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-		sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 	text-align: center;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
 
 code {
-	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-		monospace;
+	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
 #mobileView {
@@ -27,13 +24,7 @@ code {
 	display: none;
 	background: #1e2129;
 	border: 8px solid;
-	border-image-source: linear-gradient(
-		42deg,
-		#ffaa0d 0%,
-		#1e2129 30%,
-		#1e2129 70%,
-		#ffaa0d 100%
-	);
+	border-image-source: linear-gradient(42deg, #ffaa0d 0%, #1e2129 30%, #1e2129 70%, #ffaa0d 100%);
 	border-image-slice: 1;
 	z-index: 999;
 }
@@ -79,4 +70,9 @@ code {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
 	background: #838589;
+}
+
+.Toastify__toast--success {
+	border-radius: 3px !important;
+	background-color: #0abf7e !important;
 }
