@@ -1,4 +1,4 @@
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 export function getTokenIndexer(wtl) {
@@ -113,14 +113,30 @@ export function getPoolToken(pl, wt) {
     });
 }
 
-export const toastGenerator = (type) => {
+export const toastGenerator = (type = '', msg = '') => {
     let toastFunc = null
     switch (type) {
         case "error":
-
+            toastFunc = toast('🦄 Wow so easy!', {
+                position: "bottom-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
             break;
         case "success":
-
+            toastFunc = toast.success(msg, {
+                position: "bottom-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
             break;
         case "new":
             toastFunc = toast('🦄 Wow so easy!', {
@@ -132,7 +148,6 @@ export const toastGenerator = (type) => {
                 draggable: true,
                 progress: undefined,
             })
-
             break;
         case "connect":
             toastFunc = toast.success('👛 Wallet Connected!', {
@@ -144,9 +159,17 @@ export const toastGenerator = (type) => {
                 draggable: true,
                 progress: undefined,
             })
-
             break;
         default:
+            toastFunc = toast('🦄 Wow so easy!', {
+                position: "bottom-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
             break;
     }
     return toastFunc
