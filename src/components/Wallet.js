@@ -169,7 +169,8 @@ const TokenWrapper = styled.div`
 	flex-direction: column;
 	align-items: center;
 	width: 100%;
-	height: calc(100vh - 300px);
+	min-height: 120px;
+	max-height: calc(100vh - 300px);
 	overflow-x: hidden;
 	overflow-y: auto;
 	border-radius: 12px;
