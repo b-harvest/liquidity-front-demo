@@ -25,13 +25,21 @@ code {
 	height: 100vh;
 	padding: 0 24px;
 	display: none;
-	justify-content: center;
-	align-items: center;
 	background: #1e2129;
-	border: 8px solid;
-	border-image-source: linear-gradient(45deg, #0abf7e 0%, #ffaa0d 75%);
+	border: 6px solid;
+	border-image-source: linear-gradient(
+		42deg,
+		#ffaa0d 0%,
+		#1e2129 30%,
+		#1e2129 70%,
+		#ffaa0d 100%
+	);
 	border-image-slice: 1;
 	z-index: 999;
+}
+
+#mobileView img {
+	max-width: 200px;
 }
 
 #mobileView div {
@@ -39,10 +47,14 @@ code {
 	color: #ffffff;
 	line-height: 2;
 	text-align: center;
+	margin: 36px 0;
 }
 
 @media (max-width: 960px) {
 	#mobileView {
 		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
 	}
 }
