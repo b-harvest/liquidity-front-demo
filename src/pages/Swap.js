@@ -77,11 +77,7 @@ class Swap extends Component {
 				amount: String(amountA)
 			},
 			demandCoinDenom: tokenB,
-			orderPrice: Number(
-				(Number(this.state.tokenBPoolAmount) /
-					Number(this.state.tokenAPoolAmount)) *
-					0.9
-			).toFixed(18)
+			orderPrice: Number((Number(this.state.tokenBPoolAmount) / Number(this.state.tokenAPoolAmount) * 1.1)).toFixed(18)
 		};
 		console.log(msgData.orderPrice);
 

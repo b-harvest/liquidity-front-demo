@@ -131,7 +131,11 @@ export const txGenerator = async (
 						swap_type: msgData.swapType,
 						offer_coin: msgData.offerCoin,
 						demand_coin_denom: msgData.demandCoinDenom,
-						order_price: String(msgData.orderPrice)
+						order_price: String(msgData.orderPrice),
+						offer_coin_fee: {
+							denom: msgData.offerCoin.denom,
+							amount: Number(Number(msgData.offerCoin.amount) * 0.003 * 0.5).toFixed(0)
+						}
 					}
 				};
 			case "MsgWithdrawFromLiquidityPool":
