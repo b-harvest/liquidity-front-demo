@@ -27,12 +27,16 @@ code {
 	display: none;
 	justify-content: center;
 	align-items: center;
-	background-color: #ffffff;
+	background: #1e2129;
+	border: 8px solid;
+	border-image-source: linear-gradient(45deg, #0abf7e 0%, #ffaa0d 75%);
+	border-image-slice: 1;
 	z-index: 999;
 }
 
 #mobileView div {
 	width: 100%;
+	color: #ffffff;
 	line-height: 2;
 	text-align: center;
 }

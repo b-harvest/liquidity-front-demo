@@ -71,7 +71,7 @@ class BasicLayout extends Component {
 
 	sendFaucetRequest = async () => {
 		try {
-			alert("send a request! it takes about 10 seconds :)");
+			alert("Request! it takes about 10 seconds :)");
 			this.setState({ isSent: true });
 			const response = await Axios.get(
 				`https://dev.bharvest.io/faucet/?address=${localStorage.getItem(
@@ -95,7 +95,7 @@ class BasicLayout extends Component {
 				<Header>
 					<Brand>
 						<img src="/assets/bh-logo.png" alt="Image seems to be missing" />
-						<img src="/assets/amm-demo.svg" alt="Image seems to be missing" />
+						<img src="/assets/amm-demo.png" alt="Image seems to be missing" />
 					</Brand>
 					<NavLink exact to={"/"} activeStyle={this.state.activeStyle}>
 						Pools
