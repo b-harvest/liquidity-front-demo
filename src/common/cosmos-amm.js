@@ -1,4 +1,6 @@
 import Axios from "axios";
+import { toast } from "react-toastify";
+import { toastGenerator } from "./global-functions"
 const { SigningCosmosClient, coins, coin } = require("cosmjs-amm/launchpad");
 
 export const getPoolList = async () => {
@@ -7,7 +9,7 @@ export const getPoolList = async () => {
 			"https://dev.bharvest.io/rest/liquidity/pools"
 		);
 		const poolListData = response.data.pools;
-		console.log("getPoolList", poolListData);
+		// console.log("getPoolList", poolListData);
 		return poolListData;
 	} catch (error) {
 		console.error("getPoolList", error);
@@ -22,7 +24,7 @@ export const getWalletTokenList = async () => {
 			)}`
 		);
 		const walletTokenList = response.data.result;
-		console.log("getWalletTokenList", walletTokenList);
+		// console.log("getWalletTokenList", walletTokenList);
 		return walletTokenList;
 	} catch (error) {
 		console.error("getWalletTokenList", error);
@@ -74,6 +76,7 @@ export const txGenerator = async (
 			return Promise.reject(getErrorMsg(response.code));
 		} else {
 			// success
+			toastGenerator('', 'Tx Pending ⏳')
 			return response;
 		}
 	} catch (error) {

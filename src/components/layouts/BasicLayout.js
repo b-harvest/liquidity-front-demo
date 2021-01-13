@@ -43,11 +43,6 @@ class BasicLayout extends Component {
 			return;
 		}
 
-		if (isClick) {
-			this.modalHandler();
-			return;
-		}
-
 		await window.keplr.experimentalSuggestChain(chainInfo);
 
 		const cosmosJS = new GaiaApi({
@@ -65,10 +60,14 @@ class BasicLayout extends Component {
 			throw new Error("there is no key");
 		}
 		this.bech32Address = keys[0].bech32Address;
-
+		if (!localStorage.walletAddress) {
+			toastGenerator("connect");
+		}
+		if (isClick && localStorage.walletAddress) {
+			this.modalHandler();
+			return;
+		}
 		localStorage.setItem("walletAddress", this.bech32Address);
-		toastGenerator("connect");
-
 		this.setState({
 			cosmosJS,
 			address: this.bech32Address

@@ -117,7 +117,7 @@ export const toastGenerator = (type = '', msg = '') => {
     let toastFunc = null
     switch (type) {
         case "error":
-            toastFunc = toast('🦄 Wow so easy!', {
+            toastFunc = toast.error(msg, {
                 position: "bottom-left",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -130,7 +130,7 @@ export const toastGenerator = (type = '', msg = '') => {
         case "success":
             toastFunc = toast.success(msg, {
                 position: "bottom-left",
-                autoClose: 5000,
+                autoClose: 3000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -174,7 +174,7 @@ export const toastGenerator = (type = '', msg = '') => {
         default:
             toastFunc = toast(msg, {
                 position: "bottom-left",
-                autoClose: 3000,
+                autoClose: 4300,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
