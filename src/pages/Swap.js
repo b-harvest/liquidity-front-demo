@@ -59,13 +59,18 @@ class Swap extends Component {
 		const tokenB = this.state.tokenB;
 		const amountA = Math.floor(Number(this.state.tokenAAmount) * 1000000);
 
-		let isReverse = false;
+		let orderPrice = null
 
+		//is reverse?
 		if ([tokenA, tokenB].sort()[0] !== tokenA) {
-			isReverse = true;
+			orderPrice = Number(this.state.tokenBPoolAmount) / Number(this.state.tokenAPoolAmount) * 0.9
+		} else {
+			orderPrice = Number(this.state.tokenAPoolAmount) / Number(this.state.tokenBPoolAmount) * 1.1
 		}
-		console.log(this.state.tokenAPoolAmount, this.state.tokenBPoolAmount)
-		console.log(this.state.tokenBPoolAmount / this.state.tokenAPoolAmount)
+
+
+
+
 		const msgData = {
 			poolId: this.state.poolId,
 			poolTypeIndex: this.state.poolTypeIndex,
@@ -75,9 +80,9 @@ class Swap extends Component {
 				amount: String(amountA)
 			},
 			demandCoinDenom: tokenB,
-			orderPrice: Number((Number(this.state.tokenBPoolAmount) / Number(this.state.tokenAPoolAmount)) * (isReverse ? 0.9 : 1.1)).toFixed(18)
+			orderPrice: Number(orderPrice).toFixed(18)
 		};
-		console.log(msgData.orderPrice);
+		console.log('OrderPrice', msgData.orderPrice);
 
 		const feeData = {
 			denom: "uatom",
