@@ -16,7 +16,7 @@ class Wallet extends Component {
 		this.props.walletEventHandler();
 	}
 
-	componentDidUpdate(prevProps) { }
+	componentDidUpdate(prevProps) {}
 
 	getPoolTokenIndexer = () => {
 		let poolTokenIndexer = {};
@@ -31,7 +31,7 @@ class Wallet extends Component {
 	createTokenList = (data) => {
 		console.log(data);
 		if (data === null || data === undefined) {
-			return <div></div>;
+			return <div style={{ width: "100%", padding: "0 18px", margin: "auto 0", fontSize: "15px", color: "#a5a6a9", lineHeight: 1.5 }}>You do not have any tokens yet. Click on Faucet in the menu to receive test tokens.</div>;
 		}
 		return data.map((item, index) => {
 			const denom = String(item.denom).substr(1);
