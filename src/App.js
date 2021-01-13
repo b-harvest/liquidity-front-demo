@@ -22,7 +22,7 @@ class App extends Component {
 			},
 			prevWalletData: null,
 			prevWalletDataHash: null,
-			isWalletEvent: true,
+			isWalletEvent: false,
 			walletEvents: []
 		};
 	}

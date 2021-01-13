@@ -64,7 +64,8 @@ class Swap extends Component {
 		if ([tokenA, tokenB].sort()[0] !== tokenA) {
 			isReverse = true;
 		}
-
+		console.log(this.state.tokenAPoolAmount, this.state.tokenBPoolAmount)
+		console.log(this.state.tokenBPoolAmount / this.state.tokenAPoolAmount)
 		const msgData = {
 			poolId: this.state.poolId,
 			poolTypeIndex: this.state.poolTypeIndex,
@@ -74,7 +75,7 @@ class Swap extends Component {
 				amount: String(amountA)
 			},
 			demandCoinDenom: tokenB,
-			orderPrice: Number((Number(this.state.tokenBPoolAmount) / Number(this.state.tokenAPoolAmount)) * isReverse ? 1.1 : 0.9).toFixed(18)
+			orderPrice: Number((Number(this.state.tokenBPoolAmount) / Number(this.state.tokenAPoolAmount)) * (isReverse ? 0.9 : 1.1)).toFixed(18)
 		};
 		console.log(msgData.orderPrice);
 

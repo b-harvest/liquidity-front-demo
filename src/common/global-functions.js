@@ -117,7 +117,7 @@ export const toastGenerator = (type = '', msg = '') => {
     let toastFunc = null
     switch (type) {
         case "error":
-            toastFunc = toast('🦄 Wow so easy!', {
+            toastFunc = toast.error(msg, {
                 position: "bottom-left",
                 autoClose: 5000,
                 hideProgressBar: false,
