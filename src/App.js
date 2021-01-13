@@ -122,7 +122,7 @@ class App extends Component {
 						</Route>
 					</Switch>
 				</BasicLayout>
-				<ToastContainer position="bottom-left" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+				<ToastContainer position="bottom-left" autoClose={5000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
 			</Router>
 		);
 	}

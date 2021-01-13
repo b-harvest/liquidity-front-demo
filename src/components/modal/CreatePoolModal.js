@@ -56,7 +56,7 @@ class CreatePoolModal extends Component {
 			if (JSON.stringify(response).includes("TypeError")) {
 				throw response;
 			}
-			alert("A new pool has been created successfully");
+			// alert("A new pool has been created successfully");
 			this.props.modalHandler();
 		} catch (error) {
 			alert(error);
@@ -65,7 +65,7 @@ class CreatePoolModal extends Component {
 
 		// helpers
 		function sortReserveCoinDenoms(x, y) {
-			return [x, y];
+			return [x, y].sort();
 		}
 
 		function getDepositCoins(denoms, amounts) {
