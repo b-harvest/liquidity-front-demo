@@ -2,53 +2,53 @@ import { defaultBech32Config } from "@chainapsis/cosmosjs/core/bech32Config";
 
 export const currencies = [
   {
-    coinDenom: "SCRT",
-    coinMinimalDenom: "uscrt",
+    coinDenom: "SCRTS",
+    coinMinimalDenom: "uscrtswap",
     coinDecimals: 6
   },
   {
-    coinDenom: "ATOM",
-    coinMinimalDenom: "uatom",
+    coinDenom: "ATOMS",
+    coinMinimalDenom: "uatomswap",
     coinDecimals: 6
   },
   {
-    coinDenom: "IRIS",
-    coinMinimalDenom: "uiris",
+    coinDenom: "IRISS",
+    coinMinimalDenom: "uirisswap",
     coinDecimals: 6
   },
   {
-    coinDenom: "BAND",
-    coinMinimalDenom: "uband",
+    coinDenom: "BANDS",
+    coinMinimalDenom: "ubandswap",
     coinDecimals: 6
   },
   {
-    coinDenom: "KAVA",
-    coinMinimalDenom: "ukava",
+    coinDenom: "KAVAS",
+    coinMinimalDenom: "ukavaswap",
     coinDecimals: 6
   },
   {
-    coinDenom: "LUNA",
-    coinMinimalDenom: "uluna",
+    coinDenom: "LUNAS",
+    coinMinimalDenom: "ulunaswap",
     coinDecimals: 6
   },
   {
-    coinDenom: "USDT",
-    coinMinimalDenom: "uusdt",
+    coinDenom: "USDTS",
+    coinMinimalDenom: "uusdtswap",
     coinDecimals: 6
   },
 ];
 
 export const stakingCurrency = {
-  coinDenom: "STAKE",
-  coinMinimalDenom: "ustake",
+  coinDenom: "ATOMS",
+  coinMinimalDenom: "uatomswap",
   coinDecimals: 6
 };
 
 export const chainInfo = {
   rpc: "https://dev.bharvest.io/rpc",
   rest: "https://dev.bharvest.io/rest",
-  chainId: "amm",
-  chainName: "amm",
+  chainId: "swap-testnet-2001",
+  chainName: "Swap Testnet",
   stakeCurrency: stakingCurrency,
   bip44: {
     coinType: 118
@@ -57,8 +57,8 @@ export const chainInfo = {
   currencies: [stakingCurrency].concat(currencies),
   feeCurrencies: [
     {
-      coinDenom: "STAKE",
-      coinMinimalDenom: "ustake",
+      coinDenom: "ATOMS",
+      coinMinimalDenom: "uatomswap",
       coinDecimals: 6
     }
   ],
