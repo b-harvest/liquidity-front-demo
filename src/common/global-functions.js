@@ -113,13 +113,53 @@ export function getPoolToken(pl, wt) {
     });
 }
 
-export const toastGenerator = (type) => {
+export const toastGenerator = (type = 'default', msg) => {
     let toastFunc = null
     switch (type) {
         case "error":
+            toastFunc = toast.error('🦄 Wow so easy!', {
+                position: "bottom-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
 
             break;
         case "success":
+            toastFunc = toast.success(msg, {
+                position: "bottom-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
+            break;
+        case "info":
+            toastFunc = toast.info(msg, {
+                position: "bottom-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
+            break
+        case "warning":
+            toastFunc = toast.warning(msg, {
+                position: "bottom-left",
+                autoClose: 8000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
 
             break;
         case "new":
@@ -146,7 +186,20 @@ export const toastGenerator = (type) => {
             })
 
             break;
+        case "clear":
+            toastFunc = toast.clearWaitingQueue()
+
+            break;
         default:
+            toastFunc = toast(msg, {
+                position: "bottom-left",
+                autoClose: 6000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
             break;
     }
     return toastFunc
