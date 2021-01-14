@@ -1,5 +1,7 @@
+
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ReactGA from 'react-ga';
+
 import { createBrowserHistory } from 'history';
 import { Component } from "react";
 import { getPoolList, getWalletTokenList } from "./common/cosmos-amm";
@@ -12,7 +14,7 @@ import Withdraw from "./pages/Withdraw";
 import Swap from "./pages/Swap";
 
 import { ToastContainer, Flip } from "react-toastify";
-
+require('dotenv').config()
 class App extends Component {
 	constructor(props) {
 		super(props);
@@ -107,14 +109,9 @@ class App extends Component {
 		}, 5000);
 
 		//GA
-		const history = createBrowserHistory();
-
 		if (window.location.host === "swap.bharvest.io") {
-			let trackingId = null
-
-			import('./env').then((res) => {
-				trackingId = res.GA_KEY
-			})
+			const history = createBrowserHistory();
+			let trackingId = process.env.REACT_APP_GA_KEY
 
 			ReactGA.initialize(trackingId);
 
@@ -124,7 +121,6 @@ class App extends Component {
 				ReactGA.pageview(location.pathname); // Record a pageview for the given page
 			});
 		}
-
 	}
 	walletEventHandler = () => {
 		this.setState({ isWalletEvent: !this.state.isWalletEvent });
@@ -132,8 +128,7 @@ class App extends Component {
 
 	render() {
 		return (
-			// eslint-disable-next-line no-restricted-globals
-			<Router history={history}>
+			<Router>
 				<div id="mobileView">
 					<img src="/assets/small-screen-sign.png" alt="small screen info"></img>
 					<div>The interface will soon be updated to support mobile and tablet screens. Please access the demo from a desktop in the meantime. Thanks!</div>
