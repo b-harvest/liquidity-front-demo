@@ -7,6 +7,7 @@ import Wallet from "../Wallet";
 import { GaiaApi } from "@chainapsis/cosmosjs/gaia/api";
 import { chainInfo } from "../../common/config";
 import Axios from "axios";
+import { toast } from "react-toastify";
 
 class BasicLayout extends Component {
 	constructor(props) {

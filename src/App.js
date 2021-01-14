@@ -9,7 +9,7 @@ import Deposit from "./pages/Deposit";
 import Withdraw from "./pages/Withdraw";
 import Swap from "./pages/Swap";
 
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, Flip } from "react-toastify";
 
 class App extends Component {
 	constructor(props) {
@@ -130,7 +130,7 @@ class App extends Component {
 						</Route>
 					</Switch>
 				</BasicLayout>
-				<ToastContainer position="bottom-left" autoClose={5000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+				<ToastContainer limit={1} transition={Flip} position="bottom-left" autoClose={5000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
 			</Router>
 		);
 	}
