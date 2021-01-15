@@ -58,7 +58,7 @@ class Swap extends Component {
         const tokenA = this.state.tokenA;
         const tokenB = this.state.tokenB;
         const amountA = Math.floor(Number(this.state.tokenAAmount) * 1000000);
-        const params = await getLiquidityModuleParams()
+        const params = await getLiquidityModuleParams() // for swap_fee_rate
 
         console.log(params)
 
@@ -117,17 +117,24 @@ class Swap extends Component {
     };
 
     amountChangeHandler = (e) => {
-        let slippage = calculateSlippage(e.target.value * 1000000, this.state.tokenAPoolAmount);
-        if (slippage > 0.997) {
-            slippage = 0.997;
-        }
+        const isReverse = e.target.id === "tokenAAmount" ? false : true
+        const tokenA = isReverse ? this.state.tokenB : this.state.tokenA
+        const tokenB = isReverse ? this.state.tokenA : this.state.tokenB
 
-        let isExceeded = false;
-        if (e.target.value > Number(getMyTokenBalance(this.state.tokenA, this.state.tokenIndexer).split(":")[1].trim())) {
-            isExceeded = true;
-        }
+        const slippage = calculateSlippage(e.target.value * 1000000, this.state.tokenAPoolAmount)
+        const indexer = this.state.tokenIndexer
 
-        const { counterPair, counterPairAmount } = calculateCounterPairAmount(e, this.state, slippage, "swap");
+        const swapAmount = e.target.value
+        const tokenAAmount = getMyTokenBalanceNumber(tokenA, indexer)
+        const tokenBAmount = getMyTokenBalanceNumber(tokenB, indexer)
+        const { counterPair, counterPairAmount } = calculateCounterPairAmount(e, this.state, slippage, "swap")
+
+        let isExceeded = false
+
+        // is exceeded?(좌변에 fee 더해야함)
+        if (swapAmount > tokenAAmount || counterPairAmount > tokenBAmount) {
+            isExceeded = true
+        }
 
         this.setState({
             [e.target.id]: e.target.value,
@@ -135,6 +142,11 @@ class Swap extends Component {
             slippage: slippage,
             isExceeded: isExceeded
         });
+
+        //helper 
+        function getMyTokenBalanceNumber(denom, indexer) {
+            return Number(getMyTokenBalance(denom, indexer).split(":")[1].trim())
+        }
     };
 
     setSlippageColor = (slippage) => {

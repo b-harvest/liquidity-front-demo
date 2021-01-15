@@ -78,7 +78,13 @@ export function calculateCounterPairAmount(e, state, sp, type) {
 }
 
 export function calculateSlippage(swapAmount, poolReserve) {
-    return 2 * swapAmount / poolReserve
+    let slippage = 2 * swapAmount / poolReserve
+
+    if (slippage > 0.997) {
+        slippage = 0.997
+    }
+
+    return slippage
 }
 
 export function getPoolToken(pl, wt) {
