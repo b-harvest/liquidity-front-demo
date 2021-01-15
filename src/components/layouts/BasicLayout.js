@@ -7,7 +7,6 @@ import Wallet from "../Wallet";
 import { GaiaApi } from "@chainapsis/cosmosjs/gaia/api";
 import { chainInfo } from "../../common/config";
 import Axios from "axios";
-import { toast } from "react-toastify";
 
 class BasicLayout extends Component {
 	constructor(props) {
@@ -104,8 +103,8 @@ class BasicLayout extends Component {
 				<HeaderPlaceholder />
 				<Header>
 					<Brand>
-						<img src="/assets/bh-logo.png" alt="Image seems to be missing" />
-						<img src="/assets/amm-demo.png" alt="Image seems to be missing" />
+						<img src="/assets/bh-logo.png" alt="B-Harvest" />
+						<img src="/assets/amm-demo.png" alt="AMM Demo" />
 					</Brand>
 					<NavLink exact to={"/"} activeStyle={this.state.activeStyle}>
 						Pools
