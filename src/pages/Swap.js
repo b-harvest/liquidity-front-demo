@@ -132,7 +132,7 @@ class Swap extends Component {
         let isExceeded = false
 
         // is exceeded?(좌변에 fee 더해야함)
-        if (swapAmount > tokenAAmount || counterPairAmount > tokenBAmount) {
+        if (swapAmount > (isReverse ? tokenBAmount : tokenAAmount)) {
             isExceeded = true
         }
 
