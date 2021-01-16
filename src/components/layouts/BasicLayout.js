@@ -103,7 +103,9 @@ class BasicLayout extends Component {
 				<HeaderPlaceholder />
 				<Header>
 					<Brand>
-						<img src="/assets/bh-logo.png" alt="Image seems to be missing" />
+						<a href="https://bharvest.io/">
+							<img src="/assets/bh-logo.png" alt="Image seems to be missing" />
+						</a>
 						<img src="/assets/amm-demo.png" alt="Image seems to be missing" />
 					</Brand>
 					<NavLink exact to={"/"} activeStyle={this.state.activeStyle}>

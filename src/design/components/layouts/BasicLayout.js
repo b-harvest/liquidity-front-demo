@@ -23,7 +23,7 @@ export const Header = styled.header`
 	height: 100%;
 	background-color: #1e2129;
 
-	a,
+	a:not(:first-child),
 	span {
 		display: inline-block;
 		width: 100%;
@@ -49,7 +49,7 @@ export const Header = styled.header`
 		}
 	}
 
-	a:hover {
+	a:not(:first-child):hover {
 		background-color: #ffaa0d;
 	}
 
@@ -64,14 +64,15 @@ export const Brand = styled.div`
 	width: 100%;
 	text-align: right;
 
-	img {
+	a > img {
 		width: 166px;
-		margin-right: 37px;
+		margin-top: 0;
+	}
 
-		&:last-child {
-			width: 105px;
-			margin-top: 3px;
-		}
+	img {
+		width: 105px;
+		margin-top: 3px;
+		margin-right: 37px;
 	}
 `;
 
