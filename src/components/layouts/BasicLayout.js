@@ -104,9 +104,9 @@ class BasicLayout extends Component {
 				<Header>
 					<Brand>
 						<a href="https://bharvest.io/">
-							<img src="/assets/bh-logo.png" alt="Image seems to be missing" />
+							<img src="/assets/bh-logo.png" alt="B-Harvest" />
 						</a>
-						<img src="/assets/amm-demo.png" alt="Image seems to be missing" />
+						<img src="/assets/amm-demo.png" alt="AMM Demo" />
 					</Brand>
 					<NavLink exact to={"/"} activeStyle={this.state.activeStyle}>
 						Pools

@@ -58,6 +58,12 @@ export const DepositInput = styled.input`
 	text-align: right;
 	outline: none;
 
+	&::-webkit-outer-spin-button,
+	&::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+	}
+
 	::placeholder {
 		color: #c7c8ca;
 	}

@@ -78,7 +78,13 @@ export function calculateCounterPairAmount(e, state, sp, type) {
 }
 
 export function calculateSlippage(swapAmount, poolReserve) {
-    return 2 * swapAmount / poolReserve
+    let slippage = 2 * swapAmount / poolReserve
+
+    if (slippage > 0.997) {
+        slippage = 0.997
+    }
+
+    return slippage
 }
 
 export function getPoolToken(pl, wt) {
@@ -118,7 +124,7 @@ export const toastGenerator = (type = '', msg = '') => {
     switch (type) {
         case "error":
             toastFunc = toast.error(msg, {
-                position: "bottom-left",
+                position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
                 closeOnClick: true,
@@ -129,18 +135,18 @@ export const toastGenerator = (type = '', msg = '') => {
             break;
         case "success":
             toastFunc = toast.success(msg, {
-                position: "bottom-left",
+                position: "top-right",
                 autoClose: 3000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
                 draggable: true,
-                progress: undefined,
+                progress: undefined
             })
             break;
         case "warning":
             toastFunc = toast.warning(msg, {
-                position: "bottom-left",
+                position: "top-right",
                 autoClose: 6000,
                 hideProgressBar: false,
                 closeOnClick: true,
@@ -151,7 +157,7 @@ export const toastGenerator = (type = '', msg = '') => {
             break;
         case "info":
             toastFunc = toast.info(msg, {
-                position: "bottom-left",
+                position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
                 closeOnClick: true,
@@ -162,7 +168,7 @@ export const toastGenerator = (type = '', msg = '') => {
             break;
         case "connect":
             toastFunc = toast.success('👛 Wallet Connected!', {
-                position: "bottom-left",
+                position: "top-right",
                 autoClose: 2500,
                 hideProgressBar: false,
                 closeOnClick: true,
@@ -173,7 +179,7 @@ export const toastGenerator = (type = '', msg = '') => {
             break;
         default:
             toastFunc = toast(msg, {
-                position: "bottom-left",
+                position: "top-right",
                 autoClose: 4300,
                 hideProgressBar: false,
                 closeOnClick: true,

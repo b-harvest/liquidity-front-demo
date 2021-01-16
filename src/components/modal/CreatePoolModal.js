@@ -122,7 +122,7 @@ class CreatePoolModal extends Component {
 				<BlackOverLay modalHandler={this.props.modalHandler} />
 				<Modal>
 					<GoBack>
-						<img src="/assets/arrow-left.svg" onClick={this.props.modalHandler} />
+						<img src="/assets/arrow-left.svg" alt="left arrow" onClick={this.props.modalHandler} />
 					</GoBack>
 
 					<TokenSetter currencies={currencies} leftTitle="Token A" rightTitle={getMyTokenBalance(this.state.tokenA, this.props.data.tokenIndexer)} cssId="A" token={this.state.tokenA} tokenAmount={this.tokenAAmount} selectorHandler={this.tokenSelectorChangeHandler} amountHandler={this.amountChangeHandler} />

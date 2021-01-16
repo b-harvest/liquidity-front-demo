@@ -65,6 +65,7 @@ class TokenSetter extends Component {
 							autoComplete="off"
 							id={`token${this.props.cssId}Amount`}
 							placeholder="0"
+							type="number"
 							value={this.props.tokenAmount}
 							onChange={this.props.amountHandler}
 						></DepositInput>
