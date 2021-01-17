@@ -135,7 +135,6 @@ class Swap extends Component {
         if (isReverse ? counterPairAmount > tokenBAmount : swapAmount > tokenAAmount) {
             isExceeded = true
         }
-        console.log(isReverse)
 
         this.setState({
             [e.target.id]: e.target.value,

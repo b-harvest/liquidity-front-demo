@@ -32,15 +32,10 @@ export function getDepositCoins(denoms, amounts) {
     return { denoms: [denoms[0], denoms[1]], amounts: [amounts[denoms[0]], amounts[denoms[1]]] }
 }
 
-export function calculateCounterPairAmount(e, state, sp, type) {
+export function calculateCounterPairAmount(e, state, type) {
     let price = null
-    let slippage = sp
     let counterPairAmount = 0
     let counterPair = ''
-
-    if (slippage >= 1) {
-        slippage = 0.997
-    }
 
     if (type === 'swap') {
         const swapFeeRatio = 0.9985
