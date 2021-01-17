@@ -69,20 +69,21 @@ class Pools extends Component {
 				const pairs = this.getPoolPairs(item);
 				const secondPairPrice = this.getSecondPairPrice(item);
 				return (
-					<Row key={index}>
-						<div>
-							<CoinImgShower coin={pairs[0]} />
-							{pairs[0]}
-							<span>···</span>
-							<CoinImgShower coin={pairs[1]} />
-							{pairs[1]}
-						</div>
-						<div>
-							{`1 ${pairs[0]} per`}
-							<br />
-							{`${secondPairPrice} ${pairs[1]}`}
-						</div>
-					</Row>
+					isNaN(secondPairPrice) ?
+						'' : <Row key={index}>
+							<div>
+								<CoinImgShower coin={pairs[0]} />
+								{pairs[0]}
+								<span>···</span>
+								<CoinImgShower coin={pairs[1]} />
+								{pairs[1]}
+							</div>
+							<div>
+								{`1 ${pairs[0]} per`}
+								<br />
+								{`${secondPairPrice} ${pairs[1]}`}
+							</div>
+						</Row>
 				);
 			});
 		}
