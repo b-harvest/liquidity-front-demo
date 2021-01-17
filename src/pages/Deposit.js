@@ -95,7 +95,7 @@ class Deposit extends Component {
 	};
 
 	amountChangeHandler = (e) => {
-		const { counterPair, counterPairAmount } = calculateCounterPairAmount(e, this.state, 0, "deposit");
+		const { counterPair, counterPairAmount } = calculateCounterPairAmount(e, this.state, "deposit");
 		let isExceeded = false;
 
 		if (e.target.value > Number(getMyTokenBalance(this.state.tokenA, this.state.tokenIndexer).split(":")[1].trim())) {

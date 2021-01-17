@@ -127,14 +127,15 @@ class Swap extends Component {
         const swapAmount = e.target.value
         const tokenAAmount = getMyTokenBalanceNumber(tokenA, indexer)
         const tokenBAmount = getMyTokenBalanceNumber(tokenB, indexer)
-        const { counterPair, counterPairAmount } = calculateCounterPairAmount(e, this.state, slippage, "swap")
+        const { counterPair, counterPairAmount } = calculateCounterPairAmount(e, this.state, "swap")
 
         let isExceeded = false
 
         // is exceeded?(좌변에 fee 더해야함)
-        if (swapAmount > (isReverse ? tokenBAmount : tokenAAmount)) {
+        if (isReverse ? counterPairAmount > tokenBAmount : swapAmount > tokenAAmount) {
             isExceeded = true
         }
+        console.log(isReverse)
 
         this.setState({
             [e.target.id]: e.target.value,
@@ -149,7 +150,7 @@ class Swap extends Component {
         }
     };
 
-    setSlippageColor = (slippage) => {
+    setPriceImpactRangeColor = (slippage) => {
         let color = "";
         if (slippage <= 1) {
             color = "rgb(39, 174, 96)";
@@ -261,8 +262,8 @@ class Swap extends Component {
                                 <div>{this.getTokenPrice(this.state.tokenAPoolAmount, this.state.tokenBPoolAmount)}</div>
                             </Detail>
                             <Detail>
-                                <div>Estimated Slippage</div>
-                                <div style={this.setSlippageColor(slippage)}>{slippage}%</div>
+                                <div>Price Impact</div>
+                                <div style={this.setPriceImpactRangeColor(slippage)}>{slippage}%</div>
                             </Detail>
                         </BasicButtonCard>
                     </DepositCard>
