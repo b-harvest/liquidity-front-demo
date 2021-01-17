@@ -95,17 +95,45 @@ class Deposit extends Component {
 	};
 
 	amountChangeHandler = (e) => {
-		const { counterPair, counterPairAmount } = calculateCounterPairAmount(e, this.state, "deposit");
-		let isExceeded = false;
+		const isReverse = e.target.id === "tokenAAmount" ? false : true
+		const tokenA = isReverse ? this.state.tokenB : this.state.tokenA
+		const tokenB = isReverse ? this.state.tokenA : this.state.tokenB
 
-		if (e.target.value > Number(getMyTokenBalance(this.state.tokenA, this.state.tokenIndexer).split(":")[1].trim())) {
-			isExceeded = true;
+		const indexer = this.state.tokenIndexer
+
+		const swapAmount = e.target.value
+		const tokenAAmount = getMyTokenBalanceNumber(tokenA, indexer)
+		const tokenBAmount = getMyTokenBalanceNumber(tokenB, indexer)
+		const { counterPair, counterPairAmount } = calculateCounterPairAmount(e, this.state, "deposit")
+
+		let isExceeded = false
+
+		// is exceeded?
+		if (isReverse) {
+			if (counterPairAmount > tokenBAmount || swapAmount > tokenAAmount) {
+				isExceeded = true
+			}
+		} else {
+			console.log('counterPairAmount', counterPairAmount)
+			console.log('tokenBAmount', tokenBAmount)
+			console.log('swapAmount', swapAmount)
+			console.log('tokenAAmount', tokenAAmount)
+			if (counterPairAmount > tokenBAmount || swapAmount > tokenAAmount) {
+				isExceeded = true
+			}
 		}
+		console.log(isReverse)
+
 		this.setState({
 			[e.target.id]: e.target.value,
 			[counterPair]: counterPairAmount,
 			isExceeded: isExceeded
 		});
+
+		//helper 
+		function getMyTokenBalanceNumber(denom, indexer) {
+			return Number(getMyTokenBalance(denom, indexer).split(":")[1].trim())
+		}
 	};
 
 	getTokenPrice = () => {
