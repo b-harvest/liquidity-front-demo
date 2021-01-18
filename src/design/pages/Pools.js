@@ -7,6 +7,10 @@ export const Wrapper = styled.div`
 	width: 660px;
 	padding: 100px 0;
 	margin: 0 auto;
+
+	@media (max-width: 959px) {
+		font-size: 14px;
+	}
 `;
 
 export const SectionHead = styled.div`
@@ -64,6 +68,15 @@ export const TableHeader = styled.div`
 		flex: 1;
 		line-height: 60px;
 	}
+
+	@media (max-width: 959px) {
+		div {
+		flex: 6;
+		&:last-child {
+			flex: 4;
+		}
+	}
+	}
 `;
 
 export const Row = styled.div`
@@ -84,5 +97,13 @@ export const Row = styled.div`
 	span {
 		color: #626469;
 		margin: 0 12px;
+	}
+
+	@media (max-width: 959px) {
+		div {
+		width: 60%;
+		&:last-child {
+			width: 40%;
+		}
 	}
 `;

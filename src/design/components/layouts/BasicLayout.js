@@ -4,12 +4,19 @@ export const Layout = styled.div`
 	display: flex;
 	flex-flow: row nowrap;
 	width: 100%;
+	@media (max-width: 959px) {
+		padding: 0 12px;
+	}
 `;
 
 export const HeaderPlaceholder = styled.div`
 	position: relative;
 	width: 240px;
 	height: 100%;
+	
+	@media (max-width: 959px) {
+		display:none;
+	}
 `;
 
 export const Header = styled.header`
@@ -74,8 +81,8 @@ export const Header = styled.header`
 	span {
 		flex:1;
 		display:block;
-		padding: 23px 0;
-		font-size: 12px;
+		padding: 22px 0;
+		font-size: 14px;
 		font-weight: 700;
 		color: #ffffff;
 		text-align: center;
