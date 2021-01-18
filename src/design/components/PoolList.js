@@ -25,6 +25,10 @@ export const SectionHead = styled.div`
 		font-size: 36px;
 		font-weight: 700;
 		line-height: 46px;
+		
+		@media (max-width: 959px) {
+			font-size: 28px;
+		}
 	}
 `;
 
@@ -55,6 +59,10 @@ export const TableHeader = styled.div`
 
 	div:last-child {
 		width: 25%;
+	}
+
+	@media (max-width: 959px) {
+		font-size: 18px;
 	}
 `;
 

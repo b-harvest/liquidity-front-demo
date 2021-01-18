@@ -25,6 +25,9 @@ export const SectionHead = styled.div`
 		font-size: 36px;
 		font-weight: 700;
 		line-height: 46px;
+		@media (max-width: 959px) {
+			font-size: 28px;
+		}
 	}
 `;
 
@@ -45,6 +48,12 @@ export const GoCreatePool = styled.button`
 
 	&:hover {
 		opacity: 0.7;
+	}
+
+	@media (max-width: 959px) {
+			font-size: 14px;
+			padding: 10px 14px;
+			margin-bottom: 5px;
 	}
 `;
 
@@ -70,11 +79,12 @@ export const TableHeader = styled.div`
 	}
 
 	@media (max-width: 959px) {
+		font-size: 18px;
 		div {
-		flex: 6;
-		&:last-child {
-			flex: 4;
-		}
+			flex: 6;
+			&:last-child {
+				flex: 4;
+			}
 	}
 	}
 `;
