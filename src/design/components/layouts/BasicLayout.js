@@ -13,6 +13,7 @@ export const HeaderPlaceholder = styled.div`
 `;
 
 export const Header = styled.header`
+@media (min-width: 960px) {
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -56,9 +57,50 @@ export const Header = styled.header`
 	span:hover {
 		background-color: #0abf7e;
 	}
+}
+
+@media (max-width: 959px) {
+
+	position: fixed;
+	top: 0;
+	left: 0;
+	display: flex;
+	width: 100%;
+	height: 60px;
+	background-color: #1e2129;
+	border: none;
+
+	a:not(:first-child),
+	span {
+		flex:1;
+		display:block;
+		padding: 23px 0;
+		font-size: 12px;
+		font-weight: 700;
+		color: #ffffff;
+		text-align: center;
+		text-decoration: none;
+		cursor: pointer;
+		transition: all 0.3s ease;
+
+		&:visit {
+			text-decoration: none;
+		}
+	}
+
+	a:not(:first-child):hover {
+		background-color: #ffaa0d;
+	}
+
+	span {
+		display: none;
+	}
+}
 `;
 
 export const Brand = styled.div`
+@media (min-width: 960px) {
+	display:block;
 	position: absolute;
 	top: 60px;
 	width: 100%;
@@ -74,10 +116,14 @@ export const Brand = styled.div`
 		margin-top: 3px;
 		margin-right: 37px;
 	}
+}
+
+display: none;
 `;
 
 export const Connect = styled.div`
-	display: inline-block;
+@media (min-width: 960px) {
+display: inline-block;
 	position: absolute;
 	bottom: 60px;
 	width: 100%;
@@ -95,4 +141,6 @@ export const Connect = styled.div`
 		line-height: 56px;
 		background-color: #66a3f6;
 	}
+}
+	display: none;
 `;
