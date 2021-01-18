@@ -7,6 +7,10 @@ export const Wrapper = styled.div`
 	width: 660px;
 	padding: 100px 0;
 	margin: 0 auto;
+
+	@media (max-width: 959px) {
+		font-size: 14px !important;
+	}
 `;
 
 export const SectionHead = styled.div`
@@ -99,5 +103,11 @@ export const DepositButton = styled.button`
 
 	&:hover {
 		opacity: 0.7;
+	}
+
+	@media (max-width: 959px) {
+		font-size: 14px !important;
+		padding: 7px 18px;
+		margin-bottom: 10px;
 	}
 `;
