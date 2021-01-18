@@ -22,6 +22,7 @@ export const Title = styled.div`
 export const Left = styled.div`
 	text-align: left;
 	height: 60px;
+	min-width: 115px;
 `;
 export const Right = styled(Left)`
 	width: 50%;

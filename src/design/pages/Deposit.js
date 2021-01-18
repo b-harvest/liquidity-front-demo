@@ -9,6 +9,10 @@ export const Wrapper = styled.div`
 	height: 100vh;
 	padding: 100px 0;
 	margin: 0 auto;
+
+	@media (max-width: 959px) {
+		margin-top: 20px;
+	}
 `;
 
 export const DepositCard = styled.div`
@@ -21,6 +25,9 @@ export const DepositCard = styled.div`
 	background-color: #fff;
 	border-radius: 12px;
 	border: 1px solid #bdbdbd;
+	@media (max-width: 959px) {
+	padding: 16px;
+	}
 `;
 
 export const GoBack = styled.div`

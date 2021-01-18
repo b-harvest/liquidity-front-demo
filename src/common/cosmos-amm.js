@@ -1,5 +1,5 @@
 import Axios from "axios";
-import { toastGenerator } from "./global-functions"
+import { toastGenerator, mobileCheck } from "./global-functions"
 const { SigningCosmosClient, coins, coin } = require("cosmjs-amm/launchpad");
 
 export const getPoolList = async () => {
@@ -52,9 +52,15 @@ export const txGenerator = async (
 ) => {
     //check wallet connection
     if (!localStorage.walletAddress) {
-        return Promise.reject(
-            "Please connect your wallet with Keplr extension in order to continue"
-        );
+        if (mobileCheck()) {
+            return Promise.reject(
+                "🙏  functions are available on the desktop"
+            );
+        } else {
+            return Promise.reject(
+                "Please connect your wallet with Keplr extension in order to continue"
+            );
+        }
     }
 
     // set config

@@ -91,6 +91,9 @@ export const Row = styled.div`
 	span {
 		color: #626469;
 		margin: 0 12px;
+		@media (max-width: 959px) {
+			margin: 0 4px;
+		}
 	}
 `;
 

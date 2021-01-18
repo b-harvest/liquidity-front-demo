@@ -1,7 +1,7 @@
 import { Component } from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
-import { toastGenerator } from "../../common/global-functions";
+import { toastGenerator, mobileCheck } from "../../common/global-functions";
 import { Layout, HeaderPlaceholder, Header, Brand, Connect } from "../../design/components/layouts/BasicLayout";
 import Wallet from "../Wallet";
 import { GaiaApi } from "@chainapsis/cosmosjs/gaia/api";
@@ -28,7 +28,11 @@ class BasicLayout extends Component {
 
 	connectWallet = async (isClick) => {
 		if (!window.cosmosJSWalletProvider) {
-			toastGenerator("info", "🙏  Please install the Keplr extension");
+			if (mobileCheck()) {
+				toastGenerator("info", "🙏  functions are available on the desktop");
+			} else {
+				toastGenerator("info", "🙏  Please install the Keplr extension");
+			}
 			return;
 		}
 

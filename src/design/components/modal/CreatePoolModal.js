@@ -15,10 +15,11 @@ export const Modal = styled.div`
 	background-color: #ffffff;
 	border-radius: 8px;
 	@media (max-width: 959px) {
-			width: 90%;
-			left: 45%;
-			transform: translate(-45%, -50%);
-		}
+		padding: 16px;
+		width: 90%;
+		left: 45%;
+		transform: translate(-45%, -50%);
+	}
 `;
 
 export const GoBack = styled.div`

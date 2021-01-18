@@ -36,6 +36,9 @@ export const DepositCard = styled.div`
 	background-color: #fff;
 	border-radius: 12px;
 	border: 1px solid #bdbdbd;
+	@media (max-width: 959px) {
+	padding: 16px;
+	}
 `;
 
 export const Detail = styled.div`
