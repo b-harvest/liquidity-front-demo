@@ -44,6 +44,7 @@ export const TokenSelector = styled.select`
 	line-height: 32px;
 	border: none;
 	outline: none;
+	background-color: #fff;
 `;
 export const DepositInput = styled.input`
 	padding: 0;
