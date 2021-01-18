@@ -41,14 +41,14 @@ code {
 	margin: 36px 0;
 }
 
-@media (max-width: 960px) {
+/* @media (max-width: 960px) {
 	#mobileView {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
 	}
-}
+} */
 
 /* width */
 ::-webkit-scrollbar {
