@@ -23,7 +23,8 @@ class Withdraw extends Component {
 			poolTokenData: null,
 			poolTokenDataIndexer: null,
 			isLoading: false,
-			isExceeded: false
+			isExceeded: false,
+			isSet: false,
 		};
 	}
 
@@ -31,22 +32,35 @@ class Withdraw extends Component {
 		if (localStorage.walletAddress) {
 			this.setPoolToken();
 		} else {
-			toastGenerator("info", "🙏 Please connect your wallet with Keplr extension in order to continue");
-			window.location = "/";
+			this.setPoolToken(false)
 		}
 	}
 
 	componentDidUpdate(prevProps) {
+
 		if (prevProps.data.walletTokenList !== this.props.data.walletTokenList) {
 			this.setPoolToken();
 		}
+		if (!this.state.isSet) {
+			if (localStorage.walletAddress) {
+				this.setPoolToken();
+			} else {
+				this.setPoolToken(false)
+			}
+		}
 	}
 
-	setPoolToken = () => {
+	setPoolToken = (isWallet = true) => {
 		try {
+			if (this.props.data.poolsData !== null) {
+				this.setState({ isSet: true })
+			} else {
+				return ''
+			}
+
 			const poolTokenData = getPoolToken(
 				this.props.data.poolsData,
-				this.props.data.walletTokenList
+				isWallet ? this.props.data.walletTokenList : []
 			);
 			let poolTokenDataIndexer = {};
 			console.log("poolTokenData", poolTokenData);
