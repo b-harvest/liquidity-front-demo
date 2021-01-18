@@ -8,7 +8,6 @@ import {
 
 import { getMyTokenBalance } from "../common/global-functions";
 import { txGenerator } from "../common/cosmos-amm";
-import { toastGenerator } from "../common/global-functions"
 
 import TokenSetter from "../elements/TokenSetter";
 import BasicButtonCard from "../elements/BasicButtonCard";

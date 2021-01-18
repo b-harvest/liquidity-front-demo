@@ -7,8 +7,11 @@ export const Wrapper = styled.div`
 	align-items: center;
 	width: 660px;
 	height: 100vh;
-	padding: 120px 0 150px;
+	padding: 100px 0 150px;
 	margin: 0 auto;
+	@media (max-width: 959px) {
+		width: 100%;
+	}
 `;
 
 export const SectionHead = styled.div`
@@ -23,6 +26,14 @@ export const SectionHead = styled.div`
 		font-size: 36px;
 		font-weight: 700;
 		line-height: 46px;
+	}
+
+	@media (max-width: 959px) {
+		width: 100%;
+		
+		div:first-child {
+		font-size: 28px;
+	}
 	}
 `;
 

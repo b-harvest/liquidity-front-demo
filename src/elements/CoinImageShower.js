@@ -1,8 +1,9 @@
 import { Component } from "react";
+import { mobileCheck } from "../common/global-functions";
 import { CoinImgShower } from "../design/elements/CoinImageShower";
 
 class CoinImageShower extends Component {
-	setTokenName = (name) => {
+	getTokenName = (name) => {
 		if (name.length > 10) {
 			return "pool";
 		} else {
@@ -11,12 +12,15 @@ class CoinImageShower extends Component {
 	};
 
 	render() {
-		return (
-			<CoinImgShower
-				style={this.props.style}
-				src={`/assets/${this.setTokenName(String(this.props.coin))}.png`}
-			/>
-		);
+		const isMobile = mobileCheck()
+		const coinName = this.getTokenName(String(this.props.coin))
+
+		return (isMobile && coinName === "pool" ? '' : <CoinImgShower
+			style={this.props.style}
+			src={`/assets/${coinName}.png`}
+		/>
+		)
+
 	}
 }
 
