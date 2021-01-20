@@ -1,6 +1,7 @@
+import { useEffect, useState } from "react";
 import CreatePoolModal from "../components/modal/CreatePoolModal";
 import CoinImgShower from "../elements/CoinImageShower";
-import { Component } from "react";
+
 import {
 	Wrapper,
 	SectionHead,
@@ -10,48 +11,39 @@ import {
 	GoCreatePool
 } from "../design/pages/Pools";
 
-class Pools extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			poolsData: this.props.data.poolsData,
-			isModal: false,
-			isLoading: false
-		};
-	}
+function Pools(props) {
 
-	componentDidMount() {
-		if (this.props.data.poolsData !== null) {
-			this.setState({ poolsData: this.props.data.poolsData, isLoading: true });
+	const [poolsData, setPoolsData] = useState(props.data.poolsData)
+	const [isModal, setIsModal] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
+
+	useEffect(() => {
+		if (props.data.poolsData !== null) {
+			setPoolsData(props.data.poolsData)
+			setIsLoading(true)
 		}
+	}, [props.data.poolsData])
+
+	function modalHandler() {
+		setIsModal(!isModal)
 	}
 
-	componentDidUpdate(prevProps) {
-		if (prevProps.data.poolsData !== this.props.data.poolsData) {
-			this.setState({ poolsData: this.props.data.poolsData, isLoading: true });
-		}
-	}
-
-	modalHandler = () => {
-		this.setState({ isModal: !this.state.isModal });
-	};
-
-	getPoolPairs(item) {
+	function getPoolPairs(item) {
 		return [
 			item.liquidity_pool.reserve_coin_denoms[0].substr(1).toUpperCase(),
 			item.liquidity_pool.reserve_coin_denoms[1].substr(1).toUpperCase()
 		];
 	}
 
-	getSecondPairPrice(item) {
+	function getSecondPairPrice(item) {
 		const price =
 			Number(item.liquidity_pool_metadata.reserve_coins[1]?.amount) /
 			Number(item.liquidity_pool_metadata.reserve_coins[0]?.amount);
 		return Number(price).toFixed(2);
 	}
 
-	createRows(data) {
-		if (!this.state.isLoading) {
+	function createRows(data) {
+		if (!isLoading) {
 			return <div></div>;
 		}
 		if (data === null || data === undefined || data.length === 0) {
@@ -66,8 +58,8 @@ class Pools extends Component {
 			);
 		} else {
 			return data.map((item, index) => {
-				const pairs = this.getPoolPairs(item);
-				const secondPairPrice = this.getSecondPairPrice(item);
+				const pairs = getPoolPairs(item);
+				const secondPairPrice = getSecondPairPrice(item);
 				return (
 					isNaN(secondPairPrice) ?
 						'' : <Row key={index}>
@@ -89,28 +81,26 @@ class Pools extends Component {
 		}
 	}
 
-	render() {
-		return (
-			<Wrapper>
-				<SectionHead>
-					<div>Pools</div>
-					<GoCreatePool onClick={this.modalHandler}>Create Pool</GoCreatePool>
-				</SectionHead>
-				<PoolTable>
-					<TableHeader>
-						<div>Pool</div>
-						<div>Price</div>
-					</TableHeader>
-					{this.createRows(this.state.poolsData)}
-				</PoolTable>
-				{this.state.isModal ? (
-					<CreatePoolModal modalHandler={this.modalHandler} data={this.props.data} />
-				) : (
-						""
-					)}
-			</Wrapper>
-		);
-	}
+	return (
+		<Wrapper>
+			<SectionHead>
+				<div>Pools</div>
+				<GoCreatePool onClick={modalHandler}>Create Pool</GoCreatePool>
+			</SectionHead>
+			<PoolTable>
+				<TableHeader>
+					<div>Pool</div>
+					<div>Price</div>
+				</TableHeader>
+				{createRows(poolsData)}
+			</PoolTable>
+			{isModal ? (
+				<CreatePoolModal modalHandler={modalHandler} data={props.data} />
+			) : (
+					""
+				)}
+		</Wrapper>
+	);
 }
 
 export default Pools;
