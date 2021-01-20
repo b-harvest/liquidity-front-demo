@@ -54,7 +54,7 @@ export const Detail = styled.div`
 	justify-content: space-between;
 	font-weight: 700;
 
-	&:nth-child(2) {
+	&:not(:first-child) {
 		margin-top: 9px;
 	}
 

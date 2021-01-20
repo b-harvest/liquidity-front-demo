@@ -170,6 +170,23 @@ function Swap(props) {
         }
     };
 
+    function getSwapFees(a, b) {
+        const price = b / a;
+        if (price && price !== Infinity) {
+            return (
+                <span>
+                    {(a * 0.0015).toFixed(8)} {tokenA.substr(1).toUpperCase()} <br /> {(b * 0.0015).toFixed(8)} {tokenB.substr(1).toUpperCase()}
+                </span>
+            );
+        } else {
+            return (
+                <span>
+                    0 {tokenA.substr(1).toUpperCase()} <br /> 0 {tokenB.substr(1).toUpperCase()}
+                </span>
+            );
+        }
+    };
+
     function reset() {
         setTokenAAmount("")
         setTokenBAmount("")
@@ -235,6 +252,10 @@ function Swap(props) {
                         <Detail>
                             <div>Price Impact</div>
                             <div style={setPriceImpactRangeColor((slippage * 100).toFixed(2))}>{(slippage * 100).toFixed(2)}%</div>
+                        </Detail>
+                        <Detail >
+                            <div>Swap Fees</div>
+                            <div>{getSwapFees(tokenAAmount, tokenBAmount)}</div>
                         </Detail>
                     </BasicButtonCard>
                 </DepositCard>
