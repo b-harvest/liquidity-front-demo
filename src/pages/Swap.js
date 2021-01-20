@@ -105,7 +105,7 @@ function Swap(props) {
 
         let isExceeded = false
         let { counterPairAmount } = calculateCounterPairAmount(e, state, "swap")
-        counterPairAmount = Math.abs(Number(counterPairAmount).toFixed(2))
+        counterPairAmount = Math.abs(Number(counterPairAmount).toFixed(4))
 
         // is exceeded?(좌변에 fee 더해야함)
         if (isReverse) {
