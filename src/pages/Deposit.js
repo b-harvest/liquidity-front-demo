@@ -48,7 +48,7 @@ class Deposit extends Component {
 	}
 
 	// 로직 함수 시작
-	createPool = async () => {
+	deposit = async () => {
 		console.log(`From : ${this.state.tokenA} ${this.state.tokenAAmount}`);
 		console.log(`To : ${this.state.tokenB} ${this.state.tokenBAmount}`);
 
@@ -196,7 +196,7 @@ class Deposit extends Component {
 
 						<TokenSetter currencies={currencies} leftTitle="To" rightTitle={getMyTokenBalance(this.state.tokenB, this.state.tokenIndexer)} cssId="B" token={this.state.tokenB} tokenAmount={this.state.tokenBAmount} selectorHandler={this.tokenSelectorChangeHandler} readOnly={true} amountHandler={this.amountChangeHandler} />
 
-						<BasicButtonCard function={this.createPool} buttonName="DEPOSIT" isLoading={this.state.isLoading} isDisabled={this.state.isExceeded}>
+						<BasicButtonCard function={this.deposit} buttonName="DEPOSIT" isLoading={this.state.isLoading} isDisabled={this.state.isExceeded}>
 							<Detail>
 								<div>Pool Price</div>
 								<div>{this.getTokenPrice()}</div>
