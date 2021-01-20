@@ -51,7 +51,7 @@ export function calculateCounterPairAmount(e, state, type) {
             console.log('counterPairAmount', counterPairAmount / 1000000 / 1000000)
         } else {
             const swapPrice = (state.tokenBPoolAmount / 1000000 + 2 * inputAmount) / state.tokenAPoolAmount / 1000000
-            counterPairAmount = inputAmount * swapFeeRatio / swapPrice
+            counterPairAmount = inputAmount * swapFeeRatio / swapPrice / 1000000 / 1000000
 
             console.log('To')
             console.log('swapPrice', swapPrice)
