@@ -97,10 +97,10 @@ function Swap(props) {
     };
 
     function amountChangeHandler(e) {
-        const swapAmount = e.target.value
+        const inputAmount = e.target.value
         const myATokenBalance = getMyTokenBalanceNumber(tokenA, tokenIndexer)
         const isReverse = e.target.id === "tokenAAmount" ? false : true
-        const slippage = calculateSlippage(swapAmount * 1000000, isReverse ? tokenBPoolAmount : tokenAPoolAmount)
+        const slippage = calculateSlippage(inputAmount * 1000000, isReverse ? tokenBPoolAmount : tokenAPoolAmount)
         const state = { tokenAPoolAmount, tokenBPoolAmount }
 
         let isExceeded = false
@@ -110,7 +110,7 @@ function Swap(props) {
         // is exceeded?(좌변에 fee 더해야함)
         if (isReverse) {
             //input from "to"(reverse)
-            setTokenBAmount(swapAmount)
+            setTokenBAmount(inputAmount)
             setTokenAAmount(counterPairAmount)
 
             if (counterPairAmount > myATokenBalance) {
@@ -118,10 +118,10 @@ function Swap(props) {
             }
         } else {
             //input from "from"(normal)
-            setTokenAAmount(swapAmount)
+            setTokenAAmount(inputAmount)
             setTokenBAmount(counterPairAmount)
 
-            if (swapAmount > myATokenBalance) {
+            if (inputAmount > myATokenBalance) {
                 isExceeded = true
             }
         }

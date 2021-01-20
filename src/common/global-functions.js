@@ -33,39 +33,40 @@ export function getDepositCoins(denoms, amounts) {
 }
 
 export function calculateCounterPairAmount(e, state, type) {
+    const inputAmount = e.target.value
+
     let price = null
     let counterPairAmount = 0
     let counterPair = ''
 
     if (type === 'swap') {
-        const swapFeeRatio = 0.9985
-        const constantNumber = state.tokenAPoolAmount / 1000000 * state.tokenBPoolAmount / 1000000
-        if (e.target.id === "tokenAAmount") {
-            console.log('A')
-            price = state.tokenBPoolAmount / state.tokenAPoolAmount
-            counterPair = "tokenBAmount"
-            counterPairAmount = (state.tokenBPoolAmount / 1000000 - (constantNumber / (state.tokenAPoolAmount / 1000000 + Number(e.target.value * swapFeeRatio) * swapFeeRatio)))
-        } else {
-            console.log('B')
-            price = state.tokenAPoolAmount / state.tokenBPoolAmount
-            counterPair = "tokenAAmount"
-            counterPairAmount = (state.tokenAPoolAmount / 1000000 - (constantNumber / (state.tokenBPoolAmount / 1000000 + Number(e.target.value) * 1.001502)))
-        }
+        const swapFeeRatio = 0.9985 // ultimaetly get params
 
-        const swapPrice = (state.tokenBPoolAmount / 1000000 + 2 * e.target.value) / state.tokenAPoolAmount / 1000000
-        const Y = e.target.value / swapPrice
-        console.log('swapPrice', swapPrice)
-        console.log('Y', Y / 1000000 / 1000000)
+        if (e.target.id === "tokenAAmount") {
+            const swapPrice = (state.tokenAPoolAmount / 1000000 + 2 * inputAmount) / state.tokenBPoolAmount / 1000000
+            counterPairAmount = inputAmount * swapFeeRatio / swapPrice / 1000000 / 1000000
+
+            console.log('From')
+            console.log('swapPrice', swapPrice)
+            console.log('counterPairAmount', counterPairAmount / 1000000 / 1000000)
+        } else {
+            const swapPrice = (state.tokenBPoolAmount / 1000000 + 2 * inputAmount) / state.tokenAPoolAmount / 1000000
+            counterPairAmount = inputAmount * swapFeeRatio / swapPrice
+
+            console.log('To')
+            console.log('swapPrice', swapPrice)
+            console.log('counterPairAmount', counterPairAmount / 1000000 / 1000000)
+        }
 
     } else {
         if (e.target.id === "tokenAAmount") {
             price = state.tokenBPoolAmount / state.tokenAPoolAmount
             counterPair = "tokenBAmount"
-            counterPairAmount = e.target.value * price
+            counterPairAmount = inputAmount * price
         } else {
             price = state.tokenAPoolAmount / state.tokenBPoolAmount
             counterPair = "tokenAAmount"
-            counterPairAmount = e.target.value * price
+            counterPairAmount = inputAmount * price
         }
         counterPairAmount = counterPairAmount.toFixed(2)
     }
