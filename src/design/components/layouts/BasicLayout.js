@@ -67,7 +67,7 @@ export const Header = styled.header`
 }
 
 @media (max-width: 959px) {
-
+	z-index: 9;
 	position: fixed;
 	top: 0;
 	left: 0;

@@ -106,5 +106,50 @@ span:first-child {
     }
 	}
 
+    @media (max-width: 959px) {
+		@keyframes swap-left {
+		0% {
+      transform: translate(0, 0);
+    }
+
+    10% {
+         transform: translate(60%, -16px);
+    }
+
+    50% {
+        transform: translate(350%, -20px);
+    }
+
+    90% {
+        transform: translate(540%, -16px);
+    }
+
+    100% {
+      transform: translate(680%, 0);
+    }
+}
+    
+    @keyframes swap-right {
+	0% {
+      transform: translate(0, 0);
+    }
+
+    10% {
+         transform: translate(-60%, 16px);
+    }
+
+    50% {
+        transform: translate(-350%, 20px);
+    }
+
+    90% {
+        transform: translate(-540%, 16px);
+    }
+
+    100% {
+      transform: translate(-680%, 0);
+    }
+	}
+	}
 `
 export default SwapAnimation;
