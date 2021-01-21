@@ -207,6 +207,6 @@ const TokenInfo = styled.div`
 	}
 `;
 
-const EventWrapper = styled(TokenWrapper)``;
+// const EventWrapper = styled(TokenWrapper)``;
 
 export default Wallet;

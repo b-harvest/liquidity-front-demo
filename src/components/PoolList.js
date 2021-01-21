@@ -72,11 +72,17 @@ class PoolList extends Component {
 							<CoinImgShower style={{ marginBottom: "0" }} coin={pairs[1]} />
 							{pairs[1]}
 						</div>
-						<div>
-							{`1 ${pairs[0]} per`}
-							<br />
-							{`${secondPairPrice} ${pairs[1]}`}
-						</div>
+						{secondPairPrice !== "NaN" ? (
+							<div>
+								{`1 ${pairs[0]} per`}
+								<br />
+								{`${secondPairPrice} ${pairs[1]}`}
+							</div>) :
+							(<div>
+								{`1 ${pairs[0]} per`}
+								<br />
+								{`${secondPairPrice} ${pairs[1]}`}
+							</div>)}
 						<div>
 							<DepositButton
 								onClick={() => {
