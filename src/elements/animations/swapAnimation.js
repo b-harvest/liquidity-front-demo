@@ -9,7 +9,7 @@ function SwapAnimation(props) {
     const [isSwap, setIsSwap] = useState(false)
     useEffect(() => {
         console.log(1)
-        if (props.isSwap > 0.5) {
+        if (props.isSwap > 0.6) {
             setIsSwap(true)
             setTimeout(() => {
                 setIsSwap(false)
