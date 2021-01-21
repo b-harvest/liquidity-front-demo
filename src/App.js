@@ -39,14 +39,14 @@ class App extends Component {
 				const poolList = await getPoolList();
 				let walletTokenList = null;
 				let tokenIndexer = null;
+
 				if (localStorage.walletAddress) {
 					walletTokenList = await getWalletTokenList();
 					tokenIndexer = await getTokenIndexer(walletTokenList);
 				}
+
 				if (this.state.prevWalletData !== null) {
 					digest({ message: JSON.stringify(walletTokenList) }).then((hash) => {
-						// console.log(this.state.prevWalletDataHash);
-						// console.log(hash);
 						if (this.state.prevWalletDataHash !== null) {
 							if (hash !== this.state.prevWalletDataHash) {
 								console.log("Wallet Change");
@@ -75,9 +75,11 @@ class App extends Component {
 								}
 							}
 						}
+
 						this.setState({
 							prevWalletData: walletTokenList,
-							prevWalletDataHash: hash
+							prevWalletDataHash: hash,
+							render: false
 						});
 					});
 
@@ -88,7 +90,8 @@ class App extends Component {
 					// })
 				} else {
 					this.setState({
-						prevWalletData: walletTokenList
+						prevWalletData: walletTokenList,
+						render: false
 					});
 				}
 				this.setState({
@@ -96,7 +99,8 @@ class App extends Component {
 						poolsData: poolList,
 						walletTokenList: walletTokenList,
 						tokenIndexer: tokenIndexer
-					}
+					},
+					render: true,
 				});
 			} catch (error) {
 				console.error(error);
@@ -122,6 +126,15 @@ class App extends Component {
 			});
 		}
 	}
+
+	shouldComponentUpdate(nextProps, nextState) {
+		if (nextState.render) {
+			return true
+		} else {
+			return false
+		}
+	}
+
 	walletEventHandler = () => {
 		this.setState({ isWalletEvent: !this.state.isWalletEvent });
 	};

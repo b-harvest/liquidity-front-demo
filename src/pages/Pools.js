@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import CreatePoolModal from "../components/modal/CreatePoolModal";
 import CoinImgShower from "../elements/CoinImageShower";
+import SwapAnimation from "../elements/animations/swapAnimation"
 
 import {
 	Wrapper,
@@ -13,13 +14,11 @@ import {
 
 function Pools(props) {
 
-	const [poolsData, setPoolsData] = useState(props.data.poolsData)
 	const [isModal, setIsModal] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
 
 	useEffect(() => {
-		if (props.data.poolsData !== null) {
-			setPoolsData(props.data.poolsData)
+		if (!isLoading && props.data.poolsData !== null) {
 			setIsLoading(true)
 		}
 	}, [props.data.poolsData])
@@ -63,12 +62,13 @@ function Pools(props) {
 				return (
 					isNaN(secondPairPrice) ?
 						'' : <Row key={index}>
-							<div>
+							<div style={{ position: "relative" }}>
 								<CoinImgShower coin={pairs[0]} />
 								{pairs[0]}
 								<span>···</span>
 								<CoinImgShower coin={pairs[1]} />
 								{pairs[1]}
+								<SwapAnimation coinOne={pairs[0]} coinTwo={pairs[1]} isSwap={Math.random()} />
 							</div>
 							<div>
 								{`1 ${pairs[0]} per`}
@@ -92,7 +92,7 @@ function Pools(props) {
 					<div>Pool</div>
 					<div>Price</div>
 				</TableHeader>
-				{createRows(poolsData)}
+				{createRows(props.data.poolsData)}
 			</PoolTable>
 			{isModal ? (
 				<CreatePoolModal modalHandler={modalHandler} data={props.data} />
