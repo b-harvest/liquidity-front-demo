@@ -17,6 +17,7 @@ function Swap(props) {
     const [tokenBAmount, setTokenBAmount] = useState("")
     const [tokenAPoolAmount, setTokenAPoolAmount] = useState("")
     const [tokenBPoolAmount, setTokenBPoolAmount] = useState("")
+    const [tokenPrice, setTokenPrice] = useState(null)
     const [poolId, setPoolId] = useState("")
     const [poolTypeIndex, setPoolTypeIndex] = useState("")
     const [tokenIndexer, setTokenIndexer] = useState(props.data.tokenIndexer)
@@ -104,7 +105,7 @@ function Swap(props) {
         const state = { tokenAPoolAmount, tokenBPoolAmount }
 
         let isExceeded = false
-        let { counterPairAmount } = calculateCounterPairAmount(e, state, "swap")
+        let { counterPairAmount, price } = calculateCounterPairAmount(e, state, "swap")
         counterPairAmount = Math.abs(Number(counterPairAmount).toFixed(4))
 
         // is exceeded?(좌변에 fee 더해야함)
@@ -128,7 +129,7 @@ function Swap(props) {
 
         setSlippage(slippage)
         setIsExceeded(isExceeded)
-
+        setTokenPrice(price)
         //helper 
         function getMyTokenBalanceNumber(denom, indexer) {
             return Number(getMyTokenBalance(denom, indexer).split(":")[1].trim())
@@ -149,26 +150,27 @@ function Swap(props) {
         return { color: color };
     };
 
-    function getTokenPrice(a, b, reverse = false) {
-        const price = b / a;
-        if (price && price !== Infinity) {
-            if (reverse) {
+    function getTokenPrice(a, b, tokenPrice) {
+        if (tokenPrice === null) {
+            const price = b / a;
+            if (price && price !== Infinity) {
+
                 return (
                     <span>
-                        1 {tokenB.substr(1).toUpperCase()} = {parseFloat(price.toFixed(2))} {tokenA.substr(1).toUpperCase()}
-                    </span>
-                );
-            } else {
-                return (
-                    <span>
-                        1 {tokenA.substr(1).toUpperCase()} = {parseFloat(price.toFixed(2))} {tokenB.substr(1).toUpperCase()}
+                        {parseFloat(price.toFixed(6))} {tokenA.substr(1).toUpperCase()} per {tokenB.substr(1).toUpperCase()}
+
                     </span>
                 );
             }
         } else {
-            return "?";
+            return (<span>
+                {parseFloat(tokenPrice.toFixed(6))} {tokenA.substr(1).toUpperCase()} per {tokenB.substr(1).toUpperCase()}
+            </span>)
+
         }
-    };
+    }
+
+
 
     function getSwapFees(a, b) {
         const price = b / a;
@@ -246,8 +248,8 @@ function Swap(props) {
 
                     <BasicButtonCard function={swap} buttonName="SWAP" isLoading={isLoading} isDisabled={isExceeded}>
                         <Detail>
-                            <div>Pool Price</div>
-                            <div>{getTokenPrice(tokenAPoolAmount, tokenBPoolAmount)}</div>
+                            <div>Price</div>
+                            <div>{getTokenPrice(tokenAPoolAmount, tokenBPoolAmount, tokenPrice)}</div>
                         </Detail>
                         <Detail>
                             <div>Price Impact</div>
