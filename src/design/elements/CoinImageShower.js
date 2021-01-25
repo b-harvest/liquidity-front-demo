@@ -13,4 +13,24 @@ export const CoinImgShower = styled.img`
 		height: 20px;
 		margin-bottom: -5px;
 	}
+	
+	animation-name: ${(props) => props.isSwap ? "zoom-blink" : ""};
+	animation-timing-function:  linear;
+	animation-iteration-count: 1;
+	animation-delay: 0.4s;
+	animation-duration: 0.2s;
+	@keyframes zoom-blink {
+		0% {
+		
+		}
+
+		50% {
+			transform: scale(1.28);
+			opacity: 0.5
+		}
+
+		100% {
+		
+		}
+	}
 `;

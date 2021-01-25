@@ -15,8 +15,10 @@ class CoinImageShower extends Component {
 		const isMobile = mobileCheck()
 		const coinName = this.getTokenName(String(this.props.coin))
 
+
 		return (isMobile && coinName === "pool" ? '' : <CoinImgShower
 			style={this.props.style}
+			isSwap={this.props.isSwap}
 			src={`/assets/${coinName}.png`}
 		/>
 		)

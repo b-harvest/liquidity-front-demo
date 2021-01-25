@@ -21,7 +21,7 @@ function Pools(props) {
 		if (!isLoading && props.data.poolsData !== null) {
 			setIsLoading(true)
 		}
-	}, [props.data.poolsData])
+	}, [props.data.poolsData, isLoading])
 
 	function modalHandler() {
 		setIsModal(!isModal)
@@ -59,16 +59,17 @@ function Pools(props) {
 			return data.map((item, index) => {
 				const pairs = getPoolPairs(item);
 				const secondPairPrice = getSecondPairPrice(item);
+				const test = Math.random() > 0.7
 				return (
 					isNaN(secondPairPrice) ?
 						'' : <Row key={index}>
 							<div style={{ position: "relative" }}>
-								<CoinImgShower coin={pairs[0]} />
+								<CoinImgShower coin={pairs[0]} isSwap={test} />
 								{pairs[0]}
 								<span>···</span>
-								<CoinImgShower coin={pairs[1]} />
+								<CoinImgShower coin={pairs[1]} isSwap={test} />
 								{pairs[1]}
-								<SwapAnimation coinOne={pairs[0]} coinTwo={pairs[1]} isSwap={Math.random()} />
+								<SwapAnimation coinOne={pairs[0]} coinTwo={pairs[1]} isSwap={test} />
 							</div>
 							<div>
 								{`1 ${pairs[0]} per`}
