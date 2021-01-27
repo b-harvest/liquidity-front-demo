@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { useEffect, useState } from "react";
 import {
 	Wrapper,
 	SectionHead,
@@ -9,46 +9,34 @@ import {
 } from "../design/components/PoolList";
 import CoinImgShower from "../elements/CoinImageShower";
 
-class PoolList extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			poolsData: null,
-			updatePool: null
-		};
-	}
+function PoolList(props) {
 
-	componentDidMount() {
-		if (this.props.poolsData !== null) {
-			this.setState({ poolsData: this.props.poolsData });
-		}
-	}
+	const [poolsData, setPoolsData] = useState(null)
 
-	componentDidUpdate(prevProps) {
-		if (prevProps.poolsData !== this.props.poolsData) {
-			this.setState({ poolsData: this.props.poolsData });
-		}
-	}
+	useEffect(() => {
+		setPoolsData(props.poolsData)
+	}, [props.poolsData])
 
-	getPoolPairs(item) {
+
+	function getPoolPairs(item) {
 		return [
 			item.liquidity_pool.reserve_coin_denoms[0].substr(1).toUpperCase(),
 			item.liquidity_pool.reserve_coin_denoms[1].substr(1).toUpperCase()
 		];
 	}
 
-	getSecondPairPrice(item) {
+	function getSecondPairPrice(item) {
 		const price =
 			Number(item.liquidity_pool_metadata.reserve_coins[1]?.amount) /
 			Number(item.liquidity_pool_metadata.reserve_coins[0]?.amount);
 		return Number(price).toFixed(2);
 	}
 
-	selectPool = (pool) => {
-		this.props.selectPool(pool);
+	function selectPool(pool) {
+		props.selectPool(pool);
 	};
 
-	createRows = (data) => {
+	function createRows(data) {
 		if (data === null || data === undefined || data.length === 0) {
 			return (
 				<div
@@ -61,8 +49,8 @@ class PoolList extends Component {
 			);
 		} else {
 			return data.map((item, index) => {
-				const pairs = this.getPoolPairs(item);
-				const secondPairPrice = this.getSecondPairPrice(item);
+				const pairs = getPoolPairs(item);
+				const secondPairPrice = getSecondPairPrice(item);
 				return (
 					<Row key={index}>
 						<div>
@@ -86,10 +74,10 @@ class PoolList extends Component {
 						<div>
 							<DepositButton
 								onClick={() => {
-									this.selectPool(item);
+									selectPool(item);
 								}}
 							>
-								{this.props.actionType}
+								{props.actionType}
 							</DepositButton>
 						</div>
 					</Row>
@@ -98,23 +86,23 @@ class PoolList extends Component {
 		}
 	};
 
-	render() {
-		return (
-			<Wrapper>
-				<SectionHead>
-					<div>{this.props.actionType}</div>
-				</SectionHead>
-				<PoolTable>
-					<TableHeader>
-						<div>Pool</div>
-						<div>Price</div>
-						<div>Select</div>
-					</TableHeader>
-					{this.createRows(this.state.poolsData)}
-				</PoolTable>
-			</Wrapper>
-		);
-	}
+
+	return (
+		<Wrapper>
+			<SectionHead>
+				<div>{props.actionType}</div>
+			</SectionHead>
+			<PoolTable>
+				<TableHeader>
+					<div>Pool</div>
+					<div>Price</div>
+					<div>Select</div>
+				</TableHeader>
+				{createRows(poolsData)}
+			</PoolTable>
+		</Wrapper>
+	);
+
 }
 
 export default PoolList;
