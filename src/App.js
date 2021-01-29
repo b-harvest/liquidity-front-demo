@@ -152,16 +152,16 @@ class App extends Component {
 					<BasicLayout data={this.state.sharedData} isWalletEvent={this.state.isWalletEvent} walletEventHandler={this.walletEventHandler}>
 						<Switch>
 							<Route exact path="/">
-								<Pools data={this.state.sharedData} />
+								<Pools />
+							</Route>
+							<Route exact path="/swap">
+								<Swap data={this.state.sharedData} />
 							</Route>
 							<Route exact path="/deposit">
 								<Deposit data={this.state.sharedData} />
 							</Route>
 							<Route exact path="/withdraw">
 								<Withdraw data={this.state.sharedData} />
-							</Route>
-							<Route exact path="/swap">
-								<Swap data={this.state.sharedData} />
 							</Route>
 						</Switch>
 					</BasicLayout>

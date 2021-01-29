@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { SharedDataContext } from "../context/app/SharedData"
+import { useEffect, useState, useContext } from "react";
 import { Wrapper, Detail, GoBack, DepositCard } from "../design/pages/Swap";
 
 import { currencies } from "../common/config";
@@ -11,6 +12,7 @@ import ChangeButton from "../elements/ChangeButton";
 import BasicButtonCard from "../elements/BasicButtonCard";
 
 function Swap(props) {
+    const SharedData = useContext(SharedDataContext)
     const [tokenA, setTokenA] = useState("")
     const [tokenB, setTokenB] = useState("")
     const [tokenAAmount, setTokenAAmount] = useState("")
@@ -20,21 +22,21 @@ function Swap(props) {
     const [tokenPrice, setTokenPrice] = useState(null)
     const [poolId, setPoolId] = useState("")
     const [poolTypeIndex, setPoolTypeIndex] = useState("")
-    const [tokenIndexer, setTokenIndexer] = useState(props.data.tokenIndexer)
+    const [tokenIndexer, setTokenIndexer] = useState(SharedData.tokenIndexer)
     const [slippage, setSlippage] = useState(0)
     const [isLoading, setIsLoading] = useState(false)
     const [isExceeded, setIsExceeded] = useState(false)
     const [isPoolSelected, setIsPoolSelected] = useState(false)
 
     useEffect(() => {
-        if (props.data.tokenIndexer !== null) {
+        if (SharedData.tokenIndexer !== null) {
             try {
-                setTokenIndexer(props.data.tokenIndexer)
+                setTokenIndexer(SharedData.tokenIndexer)
             } catch (error) {
                 console.error(error);
             }
         }
-    }, [props.data.tokenIndexer])
+    }, [SharedData.tokenIndexer])
 
 
     // 로직 함수 시작
@@ -240,7 +242,7 @@ function Swap(props) {
             <Wrapper>
                 <DepositCard>
                     <GoBack onClick={selectPool}>
-                        <img src="/assets/arrow-left.svg" alt="left arrow" onClick={props.modalHandler} />
+                        <img src="/assets/arrow-left.svg" alt="left arrow" />
                     </GoBack>
                     <TokenSetter currencies={currencies} leftTitle="From" rightTitle={getMyTokenBalance(tokenA, tokenIndexer)} cssId="A" token={tokenA} tokenAmount={tokenAAmount} selectorHandler={tokenSelectorChangeHandler} amountHandler={amountChangeHandler} readOnly={true} />
                     <ChangeButton func={tokenChange} />
@@ -264,7 +266,7 @@ function Swap(props) {
             </Wrapper>
         );
     } else {
-        return <PoolList poolsData={props.data.poolsData} selectPool={selectPool} actionType="Swap" />;
+        return <PoolList poolsData={SharedData.poolsData} selectPool={selectPool} actionType="Swap" />;
     }
 
 }
