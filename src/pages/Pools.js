@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { SharedDataContext } from "../context/app/SharedData"
+import { useState, useContext } from "react";
 import CreatePoolModal from "../components/modal/CreatePoolModal";
 import CoinImgShower from "../elements/CoinImageShower";
 import SwapAnimation from "../elements/animations/swapAnimation"
@@ -12,16 +13,16 @@ import {
 	GoCreatePool
 } from "../design/pages/Pools";
 
-function Pools(props) {
+function Pools() {
 
 	const [isModal, setIsModal] = useState(false)
-	const [isLoading, setIsLoading] = useState(false)
+	const SharedData = useContext(SharedDataContext)
 
-	useEffect(() => {
-		if (!isLoading && props.data.poolsData !== null) {
-			setIsLoading(true)
-		}
-	}, [props.data.poolsData, isLoading])
+	// useEffect(() => {
+	// 	if (!isLoading && SharedData.poolsData !== null) {
+	// 		setIsLoading(true)
+	// 	}
+	// }, [SharedData.poolsData, isLoading])
 
 	function modalHandler() {
 		setIsModal(!isModal)
@@ -42,10 +43,10 @@ function Pools(props) {
 	}
 
 	function createRows(data) {
-		if (!isLoading) {
+		if (data === null) {
 			return <div></div>;
 		}
-		if (data === null || data === undefined || data.length === 0) {
+		if (data === undefined || data.length === 0) {
 			return (
 				<div
 					style={{ color: "#a5a6a9", lineHeight: 1.5, marginBottom: "27px" }}
@@ -93,10 +94,10 @@ function Pools(props) {
 					<div>Pool</div>
 					<div>Price</div>
 				</TableHeader>
-				{createRows(props.data.poolsData)}
+				{createRows(SharedData.poolsData)}
 			</PoolTable>
 			{isModal ? (
-				<CreatePoolModal modalHandler={modalHandler} data={props.data} />
+				<CreatePoolModal modalHandler={modalHandler} data={SharedData} />
 			) : (
 					""
 				)}

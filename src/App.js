@@ -1,6 +1,7 @@
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ReactGA from 'react-ga';
+import { SharedDataContext } from './context/app/SharedData'
 
 import { createBrowserHistory } from 'history';
 import { Component } from "react";
@@ -15,6 +16,7 @@ import Swap from "./pages/Swap";
 
 import { ToastContainer, Flip } from "react-toastify";
 require('dotenv').config()
+
 class App extends Component {
 	constructor(props) {
 		super(props);
@@ -146,22 +148,24 @@ class App extends Component {
 					<img src="/assets/small-screen-sign.png" alt="small screen info"></img>
 					<div>The interface will soon be updated to support mobile and tablet screens. Please access the demo from a desktop in the meantime. Thanks!</div>
 				</div>
-				<BasicLayout data={this.state.sharedData} isWalletEvent={this.state.isWalletEvent} walletEventHandler={this.walletEventHandler}>
-					<Switch>
-						<Route exact path="/">
-							<Pools data={this.state.sharedData} />
-						</Route>
-						<Route exact path="/deposit">
-							<Deposit data={this.state.sharedData} />
-						</Route>
-						<Route exact path="/withdraw">
-							<Withdraw data={this.state.sharedData} />
-						</Route>
-						<Route exact path="/swap">
-							<Swap data={this.state.sharedData} />
-						</Route>
-					</Switch>
-				</BasicLayout>
+				<SharedDataContext.Provider value={this.state.sharedData}>
+					<BasicLayout data={this.state.sharedData} isWalletEvent={this.state.isWalletEvent} walletEventHandler={this.walletEventHandler}>
+						<Switch>
+							<Route exact path="/">
+								<Pools data={this.state.sharedData} />
+							</Route>
+							<Route exact path="/deposit">
+								<Deposit data={this.state.sharedData} />
+							</Route>
+							<Route exact path="/withdraw">
+								<Withdraw data={this.state.sharedData} />
+							</Route>
+							<Route exact path="/swap">
+								<Swap data={this.state.sharedData} />
+							</Route>
+						</Switch>
+					</BasicLayout>
+				</SharedDataContext.Provider>
 				<ToastContainer limit={1} transition={Flip} position="bottom-left" autoClose={5000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
 			</Router>
 		);
