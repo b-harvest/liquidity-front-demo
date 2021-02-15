@@ -1,8 +1,8 @@
-import { SharedDataContext } from "../context/app/SharedData"
+import { SharedDataContext } from "../../context/app/SharedData"
 import { useState, useContext } from "react";
-import CreatePoolModal from "../components/modal/CreatePoolModal";
-import CoinImgShower from "../elements/CoinImageShower";
-import SwapAnimation from "../elements/animations/swapAnimation"
+import CreatePoolModal from "./CreatePoolModal";
+import CoinImgShower from "../../elements/CoinImageShower";
+import SwapAnimation from "../../elements/animations/swapAnimation"
 
 import {
 	Wrapper,
@@ -11,18 +11,12 @@ import {
 	Row,
 	PoolTable,
 	GoCreatePool
-} from "../design/pages/Pools";
+} from "../../design/pages/Pools";
 
 function Pools() {
 
 	const [isModal, setIsModal] = useState(false)
 	const SharedData = useContext(SharedDataContext)
-
-	// useEffect(() => {
-	// 	if (!isLoading && SharedData.poolsData !== null) {
-	// 		setIsLoading(true)
-	// 	}
-	// }, [SharedData.poolsData, isLoading])
 
 	function modalHandler() {
 		setIsModal(!isModal)

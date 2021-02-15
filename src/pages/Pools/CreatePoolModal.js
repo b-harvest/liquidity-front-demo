@@ -5,7 +5,7 @@ import { txGenerator } from "../../common/cosmos-amm";
 import { getMyTokenBalance } from "../../common/global-functions";
 import { currencies } from "../../common/config";
 
-import BlackOverLay from "../overlays/BlackOverLay";
+import BlackOverLay from "../../components/overlays/BlackOverLay";
 import TokenSetter from "../../elements/TokenSetter";
 import BasicButtonCard from "../../elements/BasicButtonCard";
 
