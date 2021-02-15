@@ -54,8 +54,11 @@ function App() {
 
 			if (localStorage.walletAddress) {
 				walletTokenList = await getWalletTokenList();
-				tokenIndexer = await getTokenIndexer(walletTokenList);
+				tokenIndexer = getTokenIndexer(walletTokenList);
 			}
+
+			console.log('prevWalletData', prevWalletData)
+			console.log('prevWalletDataHash', prevWalletDataHash)
 
 			if (prevWalletData !== null) {
 				digest({ message: JSON.stringify(walletTokenList) }).then((hash) => {
