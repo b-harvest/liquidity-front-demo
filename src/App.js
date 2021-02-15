@@ -1,11 +1,10 @@
-
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ReactGA from 'react-ga';
-import { SharedDataContext } from './context/app/SharedData'
-
 import { createBrowserHistory } from 'history';
+
+import { SharedDataContext } from './context/app/SharedData'
 import { useEffect, useMemo, useState } from "react";
-import { getPoolList, getWalletTokenList } from "./common/cosmos-amm";
+import { getWalletTokenList, usePoolListInterval } from "./common/cosmos-amm";
 import { getTokenIndexer, toastGenerator } from "./common/global-functions";
 
 import BasicLayout from "./components/layouts/BasicLayout";
@@ -17,6 +16,7 @@ import Swap from "./pages/Swap";
 import { ToastContainer, Flip } from "react-toastify";
 require('dotenv').config()
 
+
 function App() {
 
 	const [sharedData, setSharedData] = useState({ poolsData: null, walletTokenList: null, tokenIndexer: null })
@@ -25,13 +25,11 @@ function App() {
 	const [isWalletEvent, setIsWalletEvent] = useState(false)
 	// const [walletEvents, setWalletEvents] = useState([])
 
+	const [data, error] = usePoolListInterval()
+
 	useEffect(() => {
-		localStorage.clear()
-		initGetExcData();
-		setInterval(() => {
-			initGetExcData();
-		}, 5000);
-	}, []) // eslint-disable-line react-hooks/exhaustive-deps
+		initGetExcData(data)
+	}, [data]) // eslint-disable-line react-hooks/exhaustive-deps
 
 	//GA
 	if (window.location.host === "swap.bharvest.io") {
@@ -46,10 +44,11 @@ function App() {
 			ReactGA.pageview(location.pathname); // Record a pageview for the given page
 		});
 	}
-	async function initGetExcData() {
+
+	async function initGetExcData(poolListData) {
 		const digest = async ({ algorithm = "SHA-256", message }) => Array.prototype.map.call(new Uint8Array(await crypto.subtle.digest(algorithm, new TextEncoder().encode(message))), (x) => ("0" + x.toString(16)).slice(-2)).join("");
 		try {
-			const poolList = await getPoolList();
+			const poolList = poolListData
 			let walletTokenList = null;
 			let tokenIndexer = null;
 
@@ -97,6 +96,7 @@ function App() {
 
 				//   return ''
 				// })
+
 			} else {
 				setPrevWalletData(walletTokenList)
 			}
@@ -113,11 +113,10 @@ function App() {
 		}
 	};
 
-
 	function walletEventHandler() {
 		setIsWalletEvent(!isWalletEvent)
 	};
-
+	console.log('render')
 	return useMemo(() => {
 		return (<Router>
 			{/* <div id="mobileView">

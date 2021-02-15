@@ -1,19 +1,13 @@
 import Axios from "axios";
+import useSWR from 'swr'
 import { toastGenerator, mobileCheck } from "./global-functions"
 const { SigningCosmosClient, coins, coin } = require("cosmjs-amm/launchpad");
 
-export const getPoolList = async () => {
-    try {
-        const response = await Axios.get(
-            "https://dev.bharvest.io/rest/liquidity/pools"
-        );
-        const poolListData = response.data.pools;
-        // console.log("getPoolList", poolListData);
-        return poolListData;
-    } catch (error) {
-        console.error("getPoolList", error);
-    }
-};
+export function usePoolListInterval(interval = 8000) {
+
+    const { data, error } = useSWR("https://dev.bharvest.io/rest/liquidity/pools", Axios, { refreshInterval: interval })
+    return [data?.data.pools, error]
+}
 
 export const getWalletTokenList = async () => {
     try {

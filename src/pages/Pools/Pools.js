@@ -14,7 +14,6 @@ import {
 } from "../../design/pages/Pools";
 
 function Pools() {
-
 	const [isModal, setIsModal] = useState(false)
 	const SharedData = useContext(SharedDataContext)
 
