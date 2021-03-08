@@ -27,7 +27,7 @@ class BasicLayout extends Component {
 	}
 
 	connectWallet = async (isClick) => {
-		if (!window.cosmosJSWalletProvider) {
+		if (!window.getOfflineSigner || !window.keplr) {
 			if (mobileCheck()) {
 				toastGenerator("info", "🙏  functions are available on the desktop");
 			} else {
@@ -43,21 +43,25 @@ class BasicLayout extends Component {
 
 		await window.keplr.experimentalSuggestChain(chainInfo);
 
-		const cosmosJS = new GaiaApi({
-			chainId: chainInfo.chainId,
-			rpc: chainInfo.rpc,
-			rest: chainInfo.rest,
-			walletProvider: window.cosmosJSWalletProvider
-		});
+		// const cosmosJS = new GaiaApi({
+		// 	chainId: chainInfo.chainId,
+		// 	rpc: chainInfo.rpc,
+		// 	rest: chainInfo.rest,
+		// 	walletProvider: window.cosmosJSWalletProvider
+		// });
 
-		await cosmosJS.enable();
+		await window.keplr.enable(chainInfo.chainId);
+		const offlineSigner = window.getOfflineSigner(chainInfo.chainId);
+		const accounts = await offlineSigner.getAccounts()
+		const address = accounts[0].address
 
-		const keys = await cosmosJS.getKeys();
+		// console.log(keys[0].walletAddress)
+		// // const keys = await cosmosJS.getKeys();
 
-		if (keys.length === 0) {
+		if (address.length === 0) {
 			throw new Error("there is no key");
 		}
-		this.bech32Address = keys[0].bech32Address;
+		this.bech32Address = address;
 		if (!localStorage.walletAddress) {
 			toastGenerator("connect");
 		}
@@ -67,8 +71,7 @@ class BasicLayout extends Component {
 		}
 		localStorage.setItem("walletAddress", this.bech32Address);
 		this.setState({
-			cosmosJS,
-			address: this.bech32Address
+			address: address
 		});
 	};
 
